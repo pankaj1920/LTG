@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "369161057274",
+    "firebase_url": "https://letsgocab.firebaseio.com",
+    "project_id": "letsgocab",
+    "storage_bucket": "letsgocab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369161057274:android:f8f3334571bcea30a86a43",
+        "android_client_info": {
+          "package_name": "com.svgptechnologies.ltg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "369161057274-kfe2s4uk77preaclb60j64672p14s63r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv5uSWdLsAhhVo5p6wAp-2iMc1TBguJDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "369161057274-kfe2s4uk77preaclb60j64672p14s63r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

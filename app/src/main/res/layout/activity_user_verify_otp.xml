@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".User.UserVerifyOtpActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/otpToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize">
+
+            <ImageView
+                android:id="@+id/OtpBackButton"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/back_button" />
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <ImageView
+            android:id="@+id/userOtpLogo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/otp_logo"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/otpToolbar" />
+
+        <TextView
+            android:id="@+id/Otptxt1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginLeft="24dp"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userOtpLogo"
+            android:text="Enter the 4-digit code sent to you at" />
+
+        <TextView
+            android:id="@+id/userOtpMobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="24dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Otptxt1"
+            android:text="08755420120." />
+
+        <TextView
+            android:id="@+id/Otptxt2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="24dp"
+            android:textColor="@color/red"
+            android:textSize="17sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toEndOf="@id/userOtpMobile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Otptxt1"
+            android:text=" Did you enter the correct " />
+
+        <TextView
+            android:id="@+id/Otptxt3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="24dp"
+            android:textColor="@color/red"
+            android:textSize="17sp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toEndOf="@id/userOtpMobile"
+            app:layout_constraintTop_toBottomOf="@id/Otptxt2"
+            android:text="mobile number? " />
+
+        <EditText
+            android:id="@+id/enterUserOtp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter OTP"
+            android:inputType="number"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:textColorHint="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Otptxt3" />
+
+        <TextView
+            android:id="@+id/ResendOtp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:gravity="right"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/user_otp_verify"
+            app:layout_constraintTop_toBottomOf="@id/enterUserOtp"
+            app:layout_constraintEnd_toEndOf="@id/user_otp_verify"
+            android:textAllCaps="true"
+            android:text=" Resend" />
+
+        <TextView
+            android:id="@+id/DisableResendOtp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/Darkgrey"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:gravity="right"
+            app:layout_constraintBottom_toTopOf="@id/user_otp_verify"
+            app:layout_constraintTop_toBottomOf="@id/enterUserOtp"
+            app:layout_constraintEnd_toEndOf="@id/user_otp_verify"
+            android:textAllCaps="true"
+            android:text=" Resend" />
+
+        <TextView
+            android:id="@+id/ResendCountDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:gravity="right"
+            android:layout_marginRight="10dp"
+            app:layout_constraintBottom_toTopOf="@id/user_otp_verify"
+            app:layout_constraintTop_toBottomOf="@id/enterUserOtp"
+            app:layout_constraintEnd_toStartOf="@id/DisableResendOtp"
+            android:textAllCaps="true"
+            android:text="00:00" />
+
+        <Button
+            android:id="@+id/user_otp_verify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/enterUserOtp"
+            android:layout_marginTop="70dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:text="Verify"
+            android:textAllCaps="false"
+            android:background="@drawable/blue_btn_ripple_effect"
+            android:textColor="@color/white" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

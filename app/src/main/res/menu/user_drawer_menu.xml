@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_vie">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/user_setting"
+            android:title="Setting"
+            android:icon="@drawable/setting_ic" />
+
+        <item
+            android:id="@+id/user_share"
+            android:title="Share App"
+            android:icon="@drawable/earn_ic" />
+
+
+        <item
+            android:id="@+id/user_terms"
+            android:title="Terms &amp; Condition"
+            android:icon="@drawable/terms" />
+
+        <item
+            android:id="@+id/user_Contact"
+            android:title="Contact Us"
+            android:icon="@drawable/support" />
+
+
+        <item
+            android:id="@+id/userAbout"
+            android:title="About Us"
+            android:icon="@drawable/about" />
+
+
+    </group>
+
+    <item
+        android:title="Bussiness Patner"
+        android:icon="@drawable/heart">
+        <menu>
+            <item
+                android:id="@+id/Patner"
+                android:title=" Bussiness Patner"
+                android:icon="@drawable/partner" />
+        </menu>
+    </item>
+
+
+    <item
+        android:title="App"
+        android:icon="@drawable/heart">
+        <menu>
+            <item
+                android:id="@+id/userRate"
+                android:title="Rate us on Play Store"
+                android:icon="@drawable/playstore_ic" />
+            <item
+                android:id="@+id/userLogout"
+                android:title="SignOut "
+                android:icon="@drawable/shutdown" />
+
+
+        </menu>
+
+
+    </item>
+
+</menu>

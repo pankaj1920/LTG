@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/userBookingImage"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/fb_profile_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/userBookingName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pankaj Bohra"
+            app:layout_constraintStart_toEndOf="@id/userBookingImage"
+            app:layout_constraintTop_toTopOf="@id/userBookingImage"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/userBookingNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8755420120"
+            app:layout_constraintStart_toEndOf="@id/userBookingImage"
+            app:layout_constraintTop_toBottomOf="@id/userBookingName"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"/>
+
+        <ImageView
+            android:id="@+id/startLocIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_gps"
+            android:tint="@color/blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userBookingImage" />
+
+        <TextView
+            android:id="@+id/myLoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:text="Current Location"
+            app:layout_constraintBottom_toBottomOf="@id/startLocIcon"
+            android:textColor="@color/blue"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/startLocIcon"
+            app:layout_constraintTop_toTopOf="@id/startLocIcon" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="1dp"
+            android:layout_height="55dp"
+            android:background="@color/grey"
+            android:layout_marginTop="5dp"
+            app:layout_constraintBottom_toTopOf="@id/pickupIcon"
+            app:layout_constraintStart_toStartOf="@id/startLocIcon"
+            app:layout_constraintEnd_toEndOf="@id/startLocIcon"
+            app:layout_constraintTop_toBottomOf="@id/startLocIcon"/>
+
+        <TextView
+            android:id="@+id/CurrentLocation"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Electronic City Phase1 "
+            android:maxHeight="42dp"
+            android:textColor="@color/Darkgrey"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/myLoc"
+            app:layout_constraintTop_toBottomOf="@id/startLocIcon" />
+
+        <ImageView
+            android:id="@+id/pickupIcon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_location"
+            android:tint="@color/Dblue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view" />
+
+        <TextView
+            android:id="@+id/pickLoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:text="Pickup Location"
+            app:layout_constraintBottom_toBottomOf="@id/pickupIcon"
+            android:textColor="@color/blue"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/pickupIcon"
+            app:layout_constraintTop_toTopOf="@id/pickupIcon" />
+
+        <TextView
+            android:id="@+id/PickupLocation"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Majyestic"
+            android:maxHeight="42dp"
+            android:textColor="@color/Darkgrey"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/pickLoc"
+            app:layout_constraintTop_toBottomOf="@id/pickLoc" />
+
+
+
+
+        <Button
+            android:id="@+id/acceptBooking"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Accept"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/Dblue"
+            android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/PickupLocation"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2364C0</color>
+    <color name="colorPrimaryDark">#2364C0</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="grey">#A2A1A1</color>
+    <color name="LightGrey">#D6D4D4</color>
+    <color name="Darkgrey">#858383</color>
+    <color name="Darkgreen">#0A6B0E</color>
+    <color name="red">#F71202</color>
+    <color name="DarkBlue">#0928D6</color>
+    <color name="green">#53B501</color>
+    <color name="blue">#3176D7</color>
+    <color name="contactUS">#F3F1F1</color>
+    <color name="Dblue">#673AB7</color>
+    <color name="signupBackground">#D4EDF2</color>
+    <color name="serviceTextBackground">#C4948F8F</color>
+</resources>

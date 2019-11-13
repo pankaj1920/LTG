@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.svgptechnologies.ltg">
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
+        <activity android:name=".User.UserHomePageActivity">
+        </activity>
+        <activity android:name=".Driver.DriverHomePageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".Driver.UpdateAllDriverSetting.DriverUpdateAllSettingSuccessful"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Driver.UpdateAllDriverSetting.DriverUpdateAllSettingOTP"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Driver.UpdateAllDriverSetting.DriverAccountSettingActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Driver.DriverRegistration.VechileDocuments"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Driver.DriverRegistration.SelectServiceTypeActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Driver.DriverRegistration.DriverRigesterActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Driver.DriverForgotPassword.DriverForgetPasswordActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Driver.DriverRegistration.DriverRegistrationSuccessfulActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Driver.DriverRegistration.DriverOtpActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Driver.DriverForgotPassword.DriverForgtPswrdChngSucsfulyActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Driver.DriverForgotPassword.DriverChangePasswordActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Driver.DriverLoginActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Driver.DriverTipHistoryActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.SeachDriver.SearchDriverActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.UpdateUserSetting.UserUploadImageActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.UpdateUserSetting.UpdateUserPasswordActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.UpdateUserSetting.UpdateUserNameActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.UpdateUserSetting.UpdateUserEmailActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.UserForgotPassword.UserForgetPasswordActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.UserForgotPassword.UserChangePasswordActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.UserForgotPassword.ForgotPaswrdChangdSucesfulyActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.AboutUsActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.UserAccountSettingActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.UserLoginActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".User.UserRegisterActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.UserRegistrationSuccessfulActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.UserTermsConditionActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".User.UserVerifyOtpActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".AllowLocationActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".CustomerCareActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".FeedbackSentDialogBox"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ShareAppActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".SplashScreen"
+            android:windowSoftInputMode="stateHidden" >
+
+        </activity>
+    </application>
+
+</manifest>
