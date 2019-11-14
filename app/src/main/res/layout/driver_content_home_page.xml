@@ -25,46 +25,46 @@
         android:id="@+id/driverCurrentLocation"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:maxLines="1"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:layout_marginTop="2dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
         android:layout_marginRight="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/custom_white_btn"
         android:hint="Current Location"
-        android:padding="10dp" />
+        android:inputType="text"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/DriverPickupMarker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/picup_marker"
         app:layout_constraintBottom_toTopOf="@id/DriverButtonLayout"
-        android:src="@drawable/picup_marker" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
         android:id="@+id/driverPickUpLocation"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:maxLines="1"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="1.5dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="1.5dp"
         android:layout_marginRight="10dp"
-        android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@id/driverCurrentLocation"
         android:background="@drawable/custom_white_btn"
         android:hint="PickUp Location"
-        android:padding="10dp" />
+        android:maxLines="1"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/driverCurrentLocation" />
     <!--    <androidx.recyclerview.widget.RecyclerView-->
     <!--        android:id="@+id/VichleCategoryRecycle"-->
     <!--        android:layout_width="match_parent"-->
@@ -79,37 +79,37 @@
         android:id="@+id/DriverButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/DriverCancleTrip"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@color/blue"
             android:text="Cancel"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:background="@color/blue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/DriverCompletBtn" />
+            app:layout_constraintEnd_toStartOf="@id/DriverCompletBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/DriverCompletBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Completed"
-            android:textAllCaps="false"
             android:layout_marginLeft="2dp"
             android:background="@color/blue"
+            android:text="Completed"
+            android:textAllCaps="false"
             android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/DriverCancleTrip" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/DriverCancleTrip"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

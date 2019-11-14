@@ -1,12 +1,12 @@
-package com.svgptechnologies.ltg.Json.DriverJson.CancleBooking;
+package com.svgptechnologies.ltg.Json.DriverJson.BookingStatus;
 
-public class CancleBookingData {
+public class BookingStatusData {
 
     private String status;
     private String trip_status;
     private String did;
 
-    public CancleBookingData(String status, String trip_status, String did) {
+    public BookingStatusData(String status, String trip_status, String did) {
         this.status = status;
         this.trip_status = trip_status;
         this.did = did;

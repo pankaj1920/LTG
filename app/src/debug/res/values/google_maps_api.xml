@@ -20,10 +20,10 @@
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
     -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBNv90KsJbV3Fro6SfD6-_sS2eI-PdLnb4</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyD54Lb7BtuJmvOUaepPNVtlaMxNndKAvLQ</string>
 
     <!-- jyoti = AIzaSyBXK7L6hjtJiE41Jyelx23ir30-4hx1Zsc-->
 
-    <!-- Client AIzaSyA7dqYJXsJpzYQNgDrQfULONGjZEti-DAM-->
+    <!-- Client AIzaSyD54Lb7BtuJmvOUaepPNVtlaMxNndKAvLQ-->
     <!-- My Key AIzaSyBNv90KsJbV3Fro6SfD6-_sS2eI-PdLnb4-->
 </resources>

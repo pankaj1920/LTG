@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -80,13 +81,14 @@ import com.squareup.picasso.Picasso;
 import com.svgptechnologies.ltg.CustomerCareActivity;
 import com.svgptechnologies.ltg.Driver.UpdateAllDriverSetting.DriverAccountSettingActivity;
 import com.svgptechnologies.ltg.Json.BaseClient;
-import com.svgptechnologies.ltg.Json.DriverJson.CancleBooking.CancleBookingResponse;
+import com.svgptechnologies.ltg.Json.DriverJson.BookingStatus.BookingStatusResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.DriverLogin.DriverLoginData;
 import com.svgptechnologies.ltg.Json.DriverJson.GetDriverDetails.GetDriverDetailData;
 import com.svgptechnologies.ltg.Json.DriverJson.GetDriverDetails.GetDriverDetailsResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.GetUserLocation.GetUserLocationData;
 import com.svgptechnologies.ltg.Json.DriverJson.GetUserLocation.GetUserLocationResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.PostDriverCurrentLocation.PostDriverCurrentLocationResponse;
+import com.svgptechnologies.ltg.Json.DriverJson.SendDriverLocation.SendDriverLocationResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.UpdateDriverAvilability.UpdateDriverAviabilityResponse;
 import com.svgptechnologies.ltg.Json.LTGApi;
 import com.svgptechnologies.ltg.R;
@@ -130,6 +132,8 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     PlacesClient placesClient;
     private UiSettings mUiSettings;
     boolean isValid;
+    boolean isAcceptCooking = false;
+    ConstraintLayout DriverButtonLayout;
     ImageView DriverDropMarker, DriverPickupMarker;
     View mapView;
     ArrayList markerPoints = new ArrayList();
@@ -142,6 +146,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     double latitude, longitude;
     LatLng stFrancis = new LatLng(29.0780, 80.1036);
     double userLat, userLang;
+    String Umobile, driverId;
 
     //    Get Updated Current Location related api
     private static final long UPDATE_IN_MILL = 10000;
@@ -162,21 +167,23 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         setContentView(R.layout.activity_driver_home_page);
 
 
-        Toolbar driverHomeToolbar = (Toolbar) findViewById(R.id.driverHomeToolbar);
+        Toolbar driverHomeToolbar = findViewById(R.id.driverHomeToolbar);
         driverHomeToolbar.setTitle(R.string.letGo);
         setSupportActionBar(driverHomeToolbar);
 
-        driverCurrentLocation = (TextView) findViewById(R.id.driverCurrentLocation);
+        driverCurrentLocation = findViewById(R.id.driverCurrentLocation);
 
-        driverPickUpLocation = (TextView) findViewById(R.id.driverPickUpLocation);
+        driverPickUpLocation = findViewById(R.id.driverPickUpLocation);
 
-        DriverPickupMarker = (ImageView) findViewById(R.id.DriverPickupMarker);
+        DriverPickupMarker = findViewById(R.id.DriverPickupMarker);
 
-        DriverCompletBtn = (Button) findViewById(R.id.DriverCompletBtn);
+        DriverCompletBtn = findViewById(R.id.DriverCompletBtn);
 
-        DriverCancleTrip = (Button) findViewById(R.id.DriverCancleTrip);
+        DriverCancleTrip = findViewById(R.id.DriverCancleTrip);
 
-        AvilabiltyBtn = (Switch) findViewById(R.id.AvilabiltyBtn);
+        AvilabiltyBtn = findViewById(R.id.AvilabiltyBtn);
+
+        DriverButtonLayout = findViewById(R.id.DriverButtonLayout);
 
         //mean whenever user will drag the map by default address will change in pickupLocation EditText
         isValid = true;
@@ -201,9 +208,15 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
         // getting nav header so tthat we can change detail of navHeader
         View headerView = navigationView.getHeaderView(0);
-        DNname = (TextView) headerView.findViewById(R.id.DNname);
-        DNnumber = (TextView) headerView.findViewById(R.id.DNnumber);
-        DNaccount_image = (CircleImageView) headerView.findViewById(R.id.DNaccount_image);
+        DNname = headerView.findViewById(R.id.DNname);
+        DNnumber = headerView.findViewById(R.id.DNnumber);
+        DNaccount_image = headerView.findViewById(R.id.DNaccount_image);
+
+
+        //getting Driver Id
+        DriverLoginData loginData = DriverSharePrefManager.getInstance(DriverHomePageActivity.this).getDriverDetail();
+        driverId = loginData.getDriver_id();
+
 
         DNname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,16 +271,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
             @Override
             public void onClick(View view) {
 
-
-                LatLng userLatLang = new LatLng(userLat, userLang);
-
-                String url = getDirectionsUrl(CurrentLatLng, stFrancis);
-
-                DownloadTask downloadTask = new DownloadTask();
-
-                // Start downloading json data from Google Directions API
-                downloadTask.execute(url);
-                //getUserLocation();
+                BookingCompleted();
 
             }
         });
@@ -286,7 +290,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                     //Saving the State of Switch
                     SharedPreferences.Editor editor = getSharedPreferences("switch_pref", MODE_PRIVATE).edit();
                     editor.putBoolean("online", true);
-                    editor.commit();
+                    editor.apply();
 
                     //make Driver Avilable and Online
                     makeDriverOnline();
@@ -300,7 +304,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                     //Saving the State of Switch
                     SharedPreferences.Editor editor = getSharedPreferences("switch_pref", MODE_PRIVATE).edit();
                     editor.putBoolean("online", false);
-                    editor.commit();
+                    editor.apply();
 
                     //make Driver UnAvilabel and Offline
                     makeDriverOffline();
@@ -366,7 +370,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                         Toast.makeText(DriverHomePageActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(DriverHomePageActivity.this, "UnSucess", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DriverHomePageActivity.this, "Driver Nav UnSucess", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -383,6 +387,9 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     @Override
     protected void onStart() {
         super.onStart();
+
+        // hiding tripcancle and tripCompleted buttom
+        DriverButtonLayout.setVisibility(View.GONE);
 
         getUserLocation();
 
@@ -1032,7 +1039,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                 } else {
 
-                    Toast.makeText(DriverHomePageActivity.this, "Unsucess", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DriverHomePageActivity.this, "Make Driver Online Unsucess", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -1065,7 +1072,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                     Toast.makeText(DriverHomePageActivity.this, "Offline", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(DriverHomePageActivity.this, "UnSucess", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DriverHomePageActivity.this, "make Driver offline UnSucess", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -1176,8 +1183,6 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
     private void PostDriverCurrentLocation() {
 
-        DriverLoginData loginData = DriverSharePrefManager.getInstance(DriverHomePageActivity.this).getDriverDetail();
-        String driverId = loginData.getDriver_id();
 
         String latlang = sendDriverLatitude + "," + sendDriverLongitude;
         String lat = String.valueOf(sendDriverLatitude);
@@ -1203,13 +1208,21 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                     String lang = locationResponse.getData().getLongitude();
                     String latlang = locationResponse.getData().getLatlang();
 
+                    // if driver accept the booking it will first send the Post current location and the send the current location
+                    if (isAcceptCooking = true) {
+
+                        //sending driver current location to booked database
+                        sendDriverLocation();
+                        Toast.makeText(DriverHomePageActivity.this, "Driver Accepted the Boking", Toast.LENGTH_SHORT).show();
+                    }
+
                     Toast.makeText(DriverHomePageActivity.this, "number : " + num + " " + "address : " + address + " " + "postalCode : " + postalCode + " " + "latitude : "
                             + lat + " longitude : " + lang + " latLang : " + latlang, Toast.LENGTH_SHORT).show();
 
                     Toast.makeText(DriverHomePageActivity.this, "Post Driver Location Executed Sucessfully", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    Toast.makeText(DriverHomePageActivity.this, "Unsucessfull", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DriverHomePageActivity.this, "Post Driver Location Unsucessfull", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -1231,7 +1244,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         String driverId = loginData.getDriver_id();
         LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
 
-        Call<GetUserLocationResponse> call = ltgApi.getUserLocation("sree4288");
+        Call<GetUserLocationResponse> call = ltgApi.getUserLocation("pank2605");
 
         call.enqueue(new Callback<GetUserLocationResponse>() {
             @Override
@@ -1250,7 +1263,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                         for (GetUserLocationData data : userLocationData) {
 
                             String Uname = data.getUser_name();
-                            String Umobile = data.getUser_mobile();
+                            Umobile = data.getUser_mobile();
                             String Uaddress = data.getUser_address();
                             userLat = Double.parseDouble(data.getUser_lat());
                             userLang = Double.parseDouble(data.getUser_lang());
@@ -1258,18 +1271,20 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                             acceptBookingDialog(Uname, Umobile, Uaddress);
                         }
+                    } else {
+                        Toast.makeText(DriverHomePageActivity.this, "user Data is Null", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
 
-                    Toast.makeText(DriverHomePageActivity.this, "Unsucess", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DriverHomePageActivity.this, "Gert User Location Unsucess", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<GetUserLocationResponse> call, Throwable t) {
 
-                Toast.makeText(DriverHomePageActivity.this, "Sucess", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -1291,19 +1306,19 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         //setting the view of the builder to our custom view that we already inflated
         builder.setView(view);
 
-        ImageView userBookingImage = (ImageView) view.findViewById(R.id.userBookingImage);
+        ImageView userBookingImage = view.findViewById(R.id.userBookingImage);
 
-        TextView userBookingName = (TextView) view.findViewById(R.id.userBookingName);
+        TextView userBookingName = view.findViewById(R.id.userBookingName);
 
-        TextView userBookingNumber = (TextView) view.findViewById(R.id.userBookingNumber);
+        TextView userBookingNumber = view.findViewById(R.id.userBookingNumber);
 
-        TextView PickupLocation = (TextView) view.findViewById(R.id.PickupLocation);
+        TextView PickupLocation = view.findViewById(R.id.PickupLocation);
 
-        TextView CurrentLocation = (TextView) view.findViewById(R.id.CurrentLocation);
+        TextView CurrentLocation = view.findViewById(R.id.CurrentLocation);
 
-        Button acceptBooking = (Button) view.findViewById(R.id.acceptBooking);
+        final Button acceptBooking = view.findViewById(R.id.acceptBooking);
 
-        Button cancleBooking = (Button) view.findViewById(R.id.cancleBooking);
+        Button cancleBooking = view.findViewById(R.id.cancleBooking);
 
         //finally creating the alert dialog and displaying it
         final AlertDialog alertDialog = builder.create();
@@ -1344,8 +1359,12 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         acceptBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Getting URL to the Google Directions API
 
+                isAcceptCooking = true;
+                // send driver current Location to database
+                PostDriverCurrentLocation();
+
+                // Getting URL to the Google Directions API
                 LatLng userLatLang = new LatLng(userLat, userLang);
 
                 String url = getDirectionsUrl(CurrentLatLng, stFrancis);
@@ -1360,6 +1379,9 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                 driverPickUpLocation.setVisibility(View.VISIBLE);
 
                 alertDialog.dismiss();
+
+                // making Cancle and completeed button Visible
+                DriverButtonLayout.setVisibility(View.VISIBLE);
             }
         });
 
@@ -1401,12 +1423,12 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     private void cancleBooking() {
 
         LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
-        Call<CancleBookingResponse> call = ltgApi.cancleBooking("sree4288", "cancelled");
-        call.enqueue(new Callback<CancleBookingResponse>() {
+        Call<BookingStatusResponse> call = ltgApi.cancleBooking("sree4288", "cancelled");
+        call.enqueue(new Callback<BookingStatusResponse>() {
             @Override
-            public void onResponse(Call<CancleBookingResponse> call, Response<CancleBookingResponse> response) {
+            public void onResponse(Call<BookingStatusResponse> call, Response<BookingStatusResponse> response) {
 
-                CancleBookingResponse bookingResponse = response.body();
+                BookingStatusResponse bookingResponse = response.body();
                 String status = bookingResponse.getData().getStatus();
 
                 Toast.makeText(DriverHomePageActivity.this, "Status : " + status, Toast.LENGTH_SHORT).show();
@@ -1420,12 +1442,12 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                 } else {
 
-                    Toast.makeText(DriverHomePageActivity.this, "UnSucessful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DriverHomePageActivity.this, "cancle Booking UnSucessful", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<CancleBookingResponse> call, Throwable t) {
+            public void onFailure(Call<BookingStatusResponse> call, Throwable t) {
 
                 Toast.makeText(DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
                 Toast.makeText(DriverHomePageActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1433,6 +1455,79 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         });
     }
 
+
+    private void BookingCompleted() {
+
+        LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
+        Call<BookingStatusResponse> call = ltgApi.tripCompleted("pank2605", "completed");
+        call.enqueue(new Callback<BookingStatusResponse>() {
+            @Override
+            public void onResponse(Call<BookingStatusResponse> call, Response<BookingStatusResponse> response) {
+
+                BookingStatusResponse bookingResponse = response.body();
+                String status = bookingResponse.getData().getStatus();
+
+                Toast.makeText(DriverHomePageActivity.this, "Status : " + status, Toast.LENGTH_SHORT).show();
+
+                if (response.isSuccessful() && HttpURLConnection.HTTP_OK == response.code() && bookingResponse.getData().getStatus().equals("1")) {
+
+                    Snackbar.make(findViewById(android.R.id.content), "Your Trip is Completed", Snackbar.LENGTH_LONG)
+                            .setAction("OK", null)
+                            .setDuration(5000)
+                            .setActionTextColor(Color.WHITE).show();
+
+                } else {
+
+                    Toast.makeText(DriverHomePageActivity.this, "booking Completed UnSucessful", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookingStatusResponse> call, Throwable t) {
+
+                Toast.makeText(DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DriverHomePageActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void sendDriverLocation() {
+
+        LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
+
+        Call<SendDriverLocationResponse> call = ltgApi.sendDriverLocation("8755420120", "pank2605");
+
+        call.enqueue(new Callback<SendDriverLocationResponse>() {
+            @Override
+            public void onResponse(Call<SendDriverLocationResponse> call, Response<SendDriverLocationResponse> response) {
+
+                if (response.isSuccessful() && HttpURLConnection.HTTP_OK == response.code()) {
+
+                    SendDriverLocationResponse sendDriverLocationResponse = response.body();
+                    String status = sendDriverLocationResponse.getData().getStatus();
+
+                    if (status.equals("1")) {
+
+                        Toast.makeText(DriverHomePageActivity.this, "Sucessfull", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                        Toast.makeText(DriverHomePageActivity.this, "Send Driver location Failed", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(DriverHomePageActivity.this, "Send Driver Location Unsucess", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SendDriverLocationResponse> call, Throwable t) {
+
+                Toast.makeText(DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DriverHomePageActivity.this, "UnSucess", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
     @Override
     protected void onResume() {

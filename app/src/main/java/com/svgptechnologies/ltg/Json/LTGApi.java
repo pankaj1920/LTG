@@ -2,7 +2,7 @@ package com.svgptechnologies.ltg.Json;
 
 import com.svgptechnologies.ltg.Json.CustomerCare.CustomerCareResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.CallClickCount.CallClickCountResponse;
-import com.svgptechnologies.ltg.Json.DriverJson.CancleBooking.CancleBookingResponse;
+import com.svgptechnologies.ltg.Json.DriverJson.BookingStatus.BookingStatusResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.DriverForgetPassword.DriverForgotChangePasswordResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.DriverForgorPasswordResendOTP.DriverForgorPasswordResendOTPResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.DriverLogin.DriverLoginResponse;
@@ -15,6 +15,7 @@ import com.svgptechnologies.ltg.Json.DriverJson.GetDriverDetails.GetDriverDetail
 import com.svgptechnologies.ltg.Json.DriverJson.GetUserLocation.GetUserLocationResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.PostDriverCurrentLocation.PostDriverCurrentLocationResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.SelectServiceType.SelectServiceTypeResponse;
+import com.svgptechnologies.ltg.Json.DriverJson.SendDriverLocation.SendDriverLocationResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.UpdateDriverAllDetail.UpdateAllSettinOTPVerification.UpdateSettingOtpResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.UpdateDriverAllDetail.UpdateDriverAllDetailResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.UpdateDriverAllDetail.UpdateDriverAllSettingImage.UpdateDriverAllSettingImageResponse;
@@ -380,9 +381,25 @@ public interface LTGApi {
 
     @FormUrlEncoded
     @POST("cancelled_trip.php")
-    Call<CancleBookingResponse> cancleBooking(
+    Call<BookingStatusResponse> cancleBooking(
             @Query("did") String did,
             @Field("trip_status") String trip_status
+    );
+
+
+    @FormUrlEncoded
+    @POST("complete_trip.php")
+    Call<BookingStatusResponse> tripCompleted(
+            @Query("did") String did,
+            @Field("trip_status") String trip_status
+    );
+
+
+ @FormUrlEncoded
+    @POST("send_driver_location.php")
+    Call<SendDriverLocationResponse> sendDriverLocation(
+            @Query("uid") String uid,
+            @Field("did") String did
     );
 
 }
