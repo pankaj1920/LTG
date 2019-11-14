@@ -6,6 +6,7 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="grey">#A2A1A1</color>
+    <color name="edtText">#DAE2E1E1</color>
     <color name="LightGrey">#D6D4D4</color>
     <color name="Darkgrey">#858383</color>
     <color name="Darkgreen">#0A6B0E</color>
@@ -17,4 +18,5 @@
     <color name="Dblue">#673AB7</color>
     <color name="signupBackground">#D4EDF2</color>
     <color name="serviceTextBackground">#C4948F8F</color>
+    <color name="cancle_bookink_submitBtn">#FF1D1E</color>
 </resources>

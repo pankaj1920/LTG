@@ -26,7 +26,7 @@
                     android:layout_height="90dp"
                     android:paddingLeft="10sp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/driver_with_car"
+                    android:src="@drawable/fb_profile_logo"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

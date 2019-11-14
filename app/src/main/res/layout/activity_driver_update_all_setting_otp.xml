@@ -75,6 +75,8 @@
             android:layout_marginBottom="40dp"
             android:background="@drawable/blue_btn_ripple_effect"
             android:text="Get OTP"
+            android:maxLines="1"
+            android:inputType="number"
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"

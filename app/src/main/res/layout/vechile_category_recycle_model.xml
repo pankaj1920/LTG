@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/white"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/vichelCategoryLayout"
@@ -18,8 +18,8 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
 
@@ -27,41 +27,39 @@
                 android:id="@+id/vechileImage"
                 android:layout_width="41dp"
                 android:layout_height="41dp"
+                android:background="@drawable/select_vechile_default_color"
                 android:padding="2dp"
                 android:scaleType="fitXY"
-                android:background="@drawable/select_vechile_default_color"
+                android:src="@drawable/ic_micro"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@drawable/ic_micro"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/vechileDot"
                 android:layout_width="6dp"
                 android:layout_height="6dp"
                 android:layout_marginTop="6dp"
-                android:visibility="gone"
                 android:layout_marginRight="8dp"
+                android:src="@drawable/ic_dot"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@id/vechileImage"
-                app:layout_constraintTop_toTopOf="@id/vechileImage"
-                android:src="@drawable/ic_dot"/>
+                app:layout_constraintTop_toTopOf="@id/vechileImage" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
         <TextView
             android:id="@+id/vechileType"
             android:layout_width="65dp"
             android:layout_height="wrap_content"
-            android:text="type"
-            android:textSize="10dp"
-            android:textColor="@color/black"
             android:gravity="center"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="type"
+            android:textColor="@color/black"
+            android:textSize="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/selectVechileLayout"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selectVechileLayout" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

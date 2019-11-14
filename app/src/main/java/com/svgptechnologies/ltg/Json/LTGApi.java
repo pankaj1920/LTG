@@ -2,6 +2,7 @@ package com.svgptechnologies.ltg.Json;
 
 import com.svgptechnologies.ltg.Json.CustomerCare.CustomerCareResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.CallClickCount.CallClickCountResponse;
+import com.svgptechnologies.ltg.Json.DriverJson.CancleBooking.CancleBookingResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.DriverForgetPassword.DriverForgotChangePasswordResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.DriverForgorPasswordResendOTP.DriverForgorPasswordResendOTPResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.DriverLogin.DriverLoginResponse;
@@ -375,6 +376,13 @@ public interface LTGApi {
     @GET("get_user_location.php")
     Call<GetUserLocationResponse> getUserLocation(
             @Query("did") String driverId
+    );
+
+    @FormUrlEncoded
+    @POST("cancelled_trip.php")
+    Call<CancleBookingResponse> cancleBooking(
+            @Query("did") String did,
+            @Field("trip_status") String trip_status
     );
 
 }

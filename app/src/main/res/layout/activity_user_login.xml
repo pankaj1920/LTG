@@ -82,6 +82,7 @@
                 android:background="@drawable/editt_tex_boder"
                 android:drawableLeft="@drawable/ic_lock"
                 android:hint="\tPassword"
+                android:inputType="textPassword"
                 android:maxLines="1"
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"

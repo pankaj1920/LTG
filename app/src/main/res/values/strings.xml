@@ -84,5 +84,17 @@
 
     <string name="goggle_direction_key">AIzaSyAmLNU9X58Y0VgRZ_sgGAgOE3creMtmwHk</string>
     <string name="userPasswordtxt">Password :</string>
+    <string name="myLoc">Current Location</string>
+    <string name="pickLoc">Pickup Location</string>
+    <string name="CustomareContactName">Name</string>
+    <string name="CustomareContatUsNumber">Mobile Number</string>
+    <string name="CustomareContactUsEmail">Email (optional)</string>
+    <string name="CustomareContactUsMessage">Message</string>
+    <string name="allow_location_driver_email_name1">Email</string>
+    <string name="DUEmailEditText">Enter Email</string>
+    <string name="allow_location_address">Address</string>
+    <string name="DUAddressEditText">Enter Address</string>
+    <string name="DUPasswordEditText">Enter Password</string>
+    <string name="DriverAccountUpdateBtn">Update</string>
 
 </resources>

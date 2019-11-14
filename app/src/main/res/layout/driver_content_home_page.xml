@@ -85,10 +85,10 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-            android:id="@+id/DriverBtnBookLater"
+            android:id="@+id/DriverCancleTrip"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Cancle"
+            android:text="Cancel"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:background="@color/blue"
@@ -109,7 +109,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/DriverBtnBookLater" />
+            app:layout_constraintStart_toEndOf="@id/DriverCancleTrip" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

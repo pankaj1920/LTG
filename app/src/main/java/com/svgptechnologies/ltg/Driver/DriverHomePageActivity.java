@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -74,10 +75,12 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import com.svgptechnologies.ltg.CustomerCareActivity;
 import com.svgptechnologies.ltg.Driver.UpdateAllDriverSetting.DriverAccountSettingActivity;
 import com.svgptechnologies.ltg.Json.BaseClient;
+import com.svgptechnologies.ltg.Json.DriverJson.CancleBooking.CancleBookingResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.DriverLogin.DriverLoginData;
 import com.svgptechnologies.ltg.Json.DriverJson.GetDriverDetails.GetDriverDetailData;
 import com.svgptechnologies.ltg.Json.DriverJson.GetDriverDetails.GetDriverDetailsResponse;
@@ -131,7 +134,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     View mapView;
     ArrayList markerPoints = new ArrayList();
     LatLng pickup, CurrentLatLng;
-    Button DriverCompletBtn;
+    Button DriverCompletBtn, DriverCancleTrip;
     TextView DNname, DNnumber;
     CircleImageView DNaccount_image;
     Switch AvilabiltyBtn;
@@ -159,7 +162,6 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         setContentView(R.layout.activity_driver_home_page);
 
 
-
         Toolbar driverHomeToolbar = (Toolbar) findViewById(R.id.driverHomeToolbar);
         driverHomeToolbar.setTitle(R.string.letGo);
         setSupportActionBar(driverHomeToolbar);
@@ -171,6 +173,8 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         DriverPickupMarker = (ImageView) findViewById(R.id.DriverPickupMarker);
 
         DriverCompletBtn = (Button) findViewById(R.id.DriverCompletBtn);
+
+        DriverCancleTrip = (Button) findViewById(R.id.DriverCancleTrip);
 
         AvilabiltyBtn = (Switch) findViewById(R.id.AvilabiltyBtn);
 
@@ -1227,7 +1231,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         String driverId = loginData.getDriver_id();
         LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
 
-        Call<GetUserLocationResponse> call = ltgApi.getUserLocation(driverId);
+        Call<GetUserLocationResponse> call = ltgApi.getUserLocation("sree4288");
 
         call.enqueue(new Callback<GetUserLocationResponse>() {
             @Override
@@ -1299,6 +1303,8 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
         Button acceptBooking = (Button) view.findViewById(R.id.acceptBooking);
 
+        Button cancleBooking = (Button) view.findViewById(R.id.cancleBooking);
+
         //finally creating the alert dialog and displaying it
         final AlertDialog alertDialog = builder.create();
         //add this line to make your dialogbox radius round
@@ -1319,6 +1325,22 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         PickupLocation.setText(userAddress);
         CurrentLocation.setText(address);
 
+        cancleBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancleBooking();
+                alertDialog.dismiss();
+            }
+        });
+
+        DriverCancleTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showCancleTripConfirmationDialog();
+            }
+        });
+
         acceptBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1326,7 +1348,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                 LatLng userLatLang = new LatLng(userLat, userLang);
 
-                String url = getDirectionsUrl(CurrentLatLng, userLatLang);
+                String url = getDirectionsUrl(CurrentLatLng, stFrancis);
 
                 DownloadTask downloadTask = new DownloadTask();
 
@@ -1345,11 +1367,76 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         alertDialog.show();
     }
 
+    private void showCancleTripConfirmationDialog() {
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(DriverHomePageActivity.this);
+        builder1.setTitle("Trip Cancellation");
+        builder1.setMessage("Are you sure you want to cancel the trip?");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        Intent intent = new Intent(DriverHomePageActivity.this, CancleBookingReasonActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+
+    private void cancleBooking() {
+
+        LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
+        Call<CancleBookingResponse> call = ltgApi.cancleBooking("sree4288", "cancelled");
+        call.enqueue(new Callback<CancleBookingResponse>() {
+            @Override
+            public void onResponse(Call<CancleBookingResponse> call, Response<CancleBookingResponse> response) {
+
+                CancleBookingResponse bookingResponse = response.body();
+                String status = bookingResponse.getData().getStatus();
+
+                Toast.makeText(DriverHomePageActivity.this, "Status : " + status, Toast.LENGTH_SHORT).show();
+
+                if (response.isSuccessful() && HttpURLConnection.HTTP_OK == response.code() && bookingResponse.getData().getStatus().equals("1")) {
+
+                    Snackbar.make(findViewById(android.R.id.content), "Your Trip is Cancelled", Snackbar.LENGTH_LONG)
+                            .setAction("OK", null)
+                            .setDuration(5000)
+                            .setActionTextColor(Color.WHITE).show();
+
+                } else {
+
+                    Toast.makeText(DriverHomePageActivity.this, "UnSucessful", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CancleBookingResponse> call, Throwable t) {
+
+                Toast.makeText(DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DriverHomePageActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-
 
 //        Toast.makeText(this, a, Toast.LENGTH_SHORT).show();
 
