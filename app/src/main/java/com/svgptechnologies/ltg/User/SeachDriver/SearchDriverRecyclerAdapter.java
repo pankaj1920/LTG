@@ -22,6 +22,7 @@ import java.util.List;
 public class SearchDriverRecyclerAdapter extends RecyclerView.Adapter<SearchDriverRecyclerAdapter.searchDriver_VH> {
 
 
+
     SearchDriverActivity searchDriverActivity;
     List<SearchDriverData> driverData;
 
@@ -212,7 +213,7 @@ public class SearchDriverRecyclerAdapter extends RecyclerView.Adapter<SearchDriv
 
 
             // here we are passing this onLongClicklistner to SearchDriverActivity
-         //   SearchDriverCardView.setOnLongClickListener(searchDriverActivity);
+            SearchDriverCardView.setOnLongClickListener(searchDriverActivity);
 
             selectMultipleDriverCheckbox.setOnClickListener(new View.OnClickListener() {
                 @Override

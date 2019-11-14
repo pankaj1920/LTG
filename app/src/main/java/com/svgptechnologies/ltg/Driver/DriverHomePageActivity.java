@@ -132,7 +132,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     PlacesClient placesClient;
     private UiSettings mUiSettings;
     boolean isValid;
-    boolean isAcceptCooking = false;
+    boolean isAcceptBooking = false;
     ConstraintLayout DriverButtonLayout;
     ImageView DriverDropMarker, DriverPickupMarker;
     View mapView;
@@ -157,7 +157,6 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     private LocationSettingsRequest locationSettingsRequest;
     private LocationCallback locationCallback;
     private Location currentlocation;
-    private boolean requwestinglocationupdate = true;
 
     double sendDriverLatitude, sendDriverLongitude;
 
@@ -187,6 +186,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
         //mean whenever user will drag the map by default address will change in pickupLocation EditText
         isValid = true;
+
 
         DrawerLayout driver_drawer_layout = findViewById(R.id.driver_drawer_layout);
 
@@ -280,6 +280,8 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         intalizeFusedLocation();
         // when app will open this method will be called which will store current Latitude Longitude
         getCurrentLocation();
+        PostDriverCurrentLocation();
+
 
         AvilabiltyBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -327,6 +329,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
         //to set My Location Button at Botton
         mapView = mapFragment.getView();
+
 
     }
 
@@ -387,6 +390,13 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     @Override
     protected void onStart() {
         super.onStart();
+
+        // here we are calling this method to initalize the FusedLocation Apis to get Updated Current Location
+        intalizeFusedLocation();
+        // when app will open this method will be called which will store current Latitude Longitude
+        getCurrentLocation();
+        PostDriverCurrentLocation();
+
 
         // hiding tripcancle and tripCompleted buttom
         DriverButtonLayout.setVisibility(View.GONE);
@@ -1106,9 +1116,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
             }
         };
 
-        requwestinglocationupdate = false;
-
-//        creating new location request
+        //        creating new location request
         locationRequest = new LocationRequest();
 
 //        setting the updating request interval
@@ -1209,7 +1217,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                     String latlang = locationResponse.getData().getLatlang();
 
                     // if driver accept the booking it will first send the Post current location and the send the current location
-                    if (isAcceptCooking = true) {
+                    if (isAcceptBooking = true) {
 
                         //sending driver current location to booked database
                         sendDriverLocation();
@@ -1244,7 +1252,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         String driverId = loginData.getDriver_id();
         LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
 
-        Call<GetUserLocationResponse> call = ltgApi.getUserLocation("pank2605");
+        Call<GetUserLocationResponse> call = ltgApi.getUserLocation(driverId);
 
         call.enqueue(new Callback<GetUserLocationResponse>() {
             @Override
@@ -1256,7 +1264,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                     List<GetUserLocationData> userLocationData = userLocationResponse.getData();
 
-                    // in onstart when this method will execute  if nobody has sent the request
+                    // in on_start when this method will execute  if nobody has sent the request
                     // then data will be null then this if condition will not work
                     if (userLocationData != null) {
 
@@ -1267,7 +1275,6 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                             String Uaddress = data.getUser_address();
                             userLat = Double.parseDouble(data.getUser_lat());
                             userLang = Double.parseDouble(data.getUser_lang());
-
 
                             acceptBookingDialog(Uname, Umobile, Uaddress);
                         }
@@ -1292,6 +1299,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
 
     public void acceptBookingDialog(String userName, String userMobile, final String userAddress) {
+
 
         //before inflating the custom alert dialog layout, we will get the current activity viewgroup
         ViewGroup viewGroup = findViewById(android.R.id.content);
@@ -1359,8 +1367,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         acceptBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                isAcceptCooking = true;
+                isAcceptBooking = true;
                 // send driver current Location to database
                 PostDriverCurrentLocation();
 
@@ -1388,6 +1395,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
         alertDialog.show();
     }
+
 
     private void showCancleTripConfirmationDialog() {
 
@@ -1423,7 +1431,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     private void cancleBooking() {
 
         LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
-        Call<BookingStatusResponse> call = ltgApi.cancleBooking("sree4288", "cancelled");
+        Call<BookingStatusResponse> call = ltgApi.cancleBooking(driverId, "cancelled");
         call.enqueue(new Callback<BookingStatusResponse>() {
             @Override
             public void onResponse(Call<BookingStatusResponse> call, Response<BookingStatusResponse> response) {
@@ -1459,7 +1467,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     private void BookingCompleted() {
 
         LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
-        Call<BookingStatusResponse> call = ltgApi.tripCompleted("pank2605", "completed");
+        Call<BookingStatusResponse> call = ltgApi.tripCompleted(driverId, "completed");
         call.enqueue(new Callback<BookingStatusResponse>() {
             @Override
             public void onResponse(Call<BookingStatusResponse> call, Response<BookingStatusResponse> response) {
@@ -1496,7 +1504,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
         LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
 
-        Call<SendDriverLocationResponse> call = ltgApi.sendDriverLocation("8755420120", "pank2605");
+        Call<SendDriverLocationResponse> call = ltgApi.sendDriverLocation(Umobile, driverId);
 
         call.enqueue(new Callback<SendDriverLocationResponse>() {
             @Override

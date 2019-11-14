@@ -55,6 +55,7 @@ import retrofit2.Response;
 
 public class SearchDriverActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnLongClickListener {
 
+
     RecyclerView searchDriverRecycle;
     SwipeRefreshLayout searchSwipeRefresh;
     SearchDriverRecyclerAdapter adapter;
@@ -88,12 +89,10 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
     private boolean requwestinglocationupdate = true;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_driver);
-
 
 
         searchDriverRecycle = (RecyclerView) findViewById(R.id.searchDriverRecycle);
