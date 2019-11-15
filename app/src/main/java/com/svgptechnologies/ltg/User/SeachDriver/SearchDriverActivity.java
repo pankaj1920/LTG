@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -57,6 +58,7 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
 
 
     RecyclerView searchDriverRecycle;
+    ShimmerFrameLayout searchDriverSimmer;
     SwipeRefreshLayout searchSwipeRefresh;
     SearchDriverRecyclerAdapter adapter;
     Double CurrentLat, CurrentLong;
@@ -86,7 +88,7 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
     private LocationSettingsRequest locationSettingsRequest;
     private LocationCallback locationCallback;
     private Location currentlocation;
-    private boolean requwestinglocationupdate = true;
+    boolean requwestinglocationupdate = true;
 
 
     @Override
@@ -95,19 +97,21 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
         setContentView(R.layout.activity_search_driver);
 
 
-        searchDriverRecycle = (RecyclerView) findViewById(R.id.searchDriverRecycle);
+        searchDriverRecycle = findViewById(R.id.searchDriverRecycle);
+
+        searchDriverSimmer = findViewById(R.id.searchDriverSimmer);
 
         searchDriverRecycle.setLayoutManager(new LinearLayoutManager(this));
 
-        sorySearchTxt = (TextView) findViewById(R.id.sorySearchTxt);
+        sorySearchTxt = findViewById(R.id.sorySearchTxt);
 
-        SearchToolbarTextView = (TextView) findViewById(R.id.SearchToolbarTextView);
+        SearchToolbarTextView = findViewById(R.id.SearchToolbarTextView);
 
-        sorrySearchLogo = (ImageView) findViewById(R.id.sorrySearchLogo);
+        sorrySearchLogo = findViewById(R.id.sorrySearchLogo);
 
-        searchSwipeRefresh = (SwipeRefreshLayout) findViewById(R.id.searchSwipeRefresh);
+        searchSwipeRefresh = findViewById(R.id.searchSwipeRefresh);
 
-        searchToolbar = (Toolbar) findViewById(R.id.searchToolbar);
+        searchToolbar = findViewById(R.id.searchToolbar);
         setSupportActionBar(searchToolbar);
 
 
@@ -133,6 +137,13 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        searchDriverSimmer.startShimmer();
+        searchDriverSimmer.setVisibility(View.VISIBLE);
+    }
 
     private void searchDriver() {
 
@@ -168,6 +179,11 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
 
                         searchDriverRecycle.setAdapter(adapter);
 
+                        searchDriverSimmer.stopShimmer();
+                        searchDriverSimmer.setVisibility(View.GONE);
+
+                        searchDriverRecycle.setVisibility(View.VISIBLE);
+
 
                         adapter.setOnItemClickListner(new SearchDriverRecyclerAdapter.OnItemClickListner() {
 
@@ -175,9 +191,9 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
                             @Override
                             public void onCallBtnClicked(View itemview, int position) {
 
-                                CallSearchDriver = (ImageView) itemview.findViewById(R.id.CallSearchDriver);
+                                CallSearchDriver = itemview.findViewById(R.id.CallSearchDriver);
 
-                                RequestSearchDriver = (ImageView) itemview.findViewById(R.id.RequestSearchDriver);
+                                RequestSearchDriver = itemview.findViewById(R.id.RequestSearchDriver);
 
 
                                 //   Toast.makeText(SearchDriverActivity.this, User_Token, Toast.LENGTH_SHORT).show();
@@ -309,6 +325,8 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
 
                         sorrySearchLogo.setVisibility(View.VISIBLE);
                         sorySearchTxt.setVisibility(View.VISIBLE);
+
+                        searchDriverSimmer.setVisibility(View.GONE);
                         //      Toast.makeText(SearchDriverActivity.this, "UnSucessfull", Toast.LENGTH_SHORT).show();
                         //Toast.makeText(SearchDriverActivity.this, s, Toast.LENGTH_SHORT).show();
                     }
@@ -330,6 +348,8 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
             searchSwipeRefresh.setRefreshing(false);
 
             //here we are showing servise unavialable in ur area
+            searchDriverSimmer.setVisibility(View.GONE);
+
             sorrySearchLogo.setVisibility(View.VISIBLE);
             sorySearchTxt.setVisibility(View.VISIBLE);
 
@@ -339,6 +359,15 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
 
     @Override
     public void onRefresh() {
+
+        searchDriverSimmer.startShimmer();
+
+        searchDriverSimmer.setVisibility(View.VISIBLE);
+        searchDriverRecycle.setVisibility(View.GONE);
+
+        sorrySearchLogo.setVisibility(View.GONE);
+        sorySearchTxt.setVisibility(View.GONE);
+
         searchDriver();
 
         // whenever the user will refresh the value of count will be 0.
@@ -359,6 +388,14 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
     }
 
     public void onLoadingSwipeRefresh() {
+
+        searchDriverSimmer.startShimmer();
+
+        searchDriverSimmer.setVisibility(View.VISIBLE);
+        searchDriverRecycle.setVisibility(View.GONE);
+
+        sorrySearchLogo.setVisibility(View.GONE);
+        sorySearchTxt.setVisibility(View.GONE);
 
         searchDriver();
 
@@ -505,7 +542,7 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
                     PostUSerCurrentLocationResponse driverResponse = response.body();
 //                   String m = driverResponse.getData().getName();
 
-                    SearchDriverRecyclerAdapter driverRecyclerAdapter = (SearchDriverRecyclerAdapter) adapter;
+                    SearchDriverRecyclerAdapter driverRecyclerAdapter = adapter;
 
                     Toast.makeText(SearchDriverActivity.this, "Sucessfull", Toast.LENGTH_SHORT).show();
                     Toast.makeText(SearchDriverActivity.this, response.message(), Toast.LENGTH_SHORT).show();

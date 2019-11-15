@@ -71,6 +71,9 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
 
+    //shimmer effect
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
 }
 
 

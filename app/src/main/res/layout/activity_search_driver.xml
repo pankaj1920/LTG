@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".User.SeachDriver.SearchDriverActivity">
 
 
@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:background="@color/blue"
         android:minHeight="?attr/actionBarSize"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,9 +29,9 @@
                 android:text="Near by service"
                 android:textColor="@color/white"
                 android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -41,63 +41,101 @@
         android:id="@+id/searchSwipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchToolbar"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchToolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/searchDriverSimmer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/search_driver_simmer_item" />
+
+                    <include layout="@layout/search_driver_simmer_item" />
+
+                    <include layout="@layout/search_driver_simmer_item" />
+
+                    <include layout="@layout/search_driver_simmer_item" />
+
+                    <include layout="@layout/search_driver_simmer_item" />
+
+                    <include layout="@layout/search_driver_simmer_item" />
+
+                    <include layout="@layout/search_driver_simmer_item" />
+
+                    <include layout="@layout/search_driver_simmer_item" />
+
+                    <include layout="@layout/search_driver_simmer_item" />
+
+                    <include layout="@layout/search_driver_simmer_item" />
+
+                    <include layout="@layout/search_driver_simmer_item" />
+
+                    <include layout="@layout/search_driver_simmer_item" />
+                </LinearLayout>
+
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/searchDriverRecycle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <ImageView
                 android:id="@+id/sorrySearchLogo"
                 android:layout_width="180dp"
                 android:layout_height="180dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/sad_face"
                 android:layout_marginBottom="120dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:gravity="center"
-                android:visibility="gone"
+                android:src="@drawable/sad_face"
+                android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/sorySearchTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sorrySearchLogo"
-                android:text="Sorry our Service is not available in \n your area."
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="20dp"
-                android:visibility="gone"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginRight="20dp"
                 android:gravity="center"
-                android:layout_marginTop="30dp"/>
+                android:text="Sorry our Service is not available in \n your area."
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sorrySearchLogo" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

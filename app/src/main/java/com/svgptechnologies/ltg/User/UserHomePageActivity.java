@@ -19,6 +19,8 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -29,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -49,6 +52,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
+import com.svgptechnologies.ltg.CheckInternetConnectionActivity;
 import com.svgptechnologies.ltg.CustomerCareActivity;
 import com.svgptechnologies.ltg.Driver.DriverHomePageActivity;
 import com.svgptechnologies.ltg.Driver.DriverLoginActivity;
@@ -99,6 +103,8 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
     Button UserBtnBookLater, UserBtnBookNow;
     String SelectedVechileName;
 
+    ShimmerFrameLayout veichleCategorySimmer;
+
     String address, Pincode;
 
 
@@ -108,34 +114,38 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
         setContentView(R.layout.activity_user_home_page);
 
 
-        Toolbar userHomeToolbar = (Toolbar) findViewById(R.id.userHomeToolbar);
+        Toolbar userHomeToolbar = findViewById(R.id.userHomeToolbar);
         userHomeToolbar.setTitle(R.string.letGo);
         setSupportActionBar(userHomeToolbar);
 
 
+        veichleCategorySimmer = findViewById(R.id.veichleCategorySimmer);
 
-        UserBtnBookNow = (Button) findViewById(R.id.UserBtnBookNow);
+        UserBtnBookNow = findViewById(R.id.UserBtnBookNow);
 
-        userPickupLocation = (TextView) findViewById(R.id.userPickupLocation);
+        userPickupLocation = findViewById(R.id.userPickupLocation);
 
-        UserPickupMarker = (ImageView) findViewById(R.id.UserPickupMarker);
+        UserPickupMarker = findViewById(R.id.UserPickupMarker);
 
 
-        VichleCategoryRecycle = (RecyclerView) findViewById(R.id.VichleCategoryRecycle);
+        VichleCategoryRecycle = findViewById(R.id.VichleCategoryRecycle);
 
         //Setting the Vechile Category Recycle
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         VichleCategoryRecycle.setLayoutManager(layoutManager);
 
+
+        //checking the inernet connection
+        checkInternetConnection();
+
         // calling Vechile Category method to display vichel category
         vechileCategory();
-
 
 
         //mean whenever user will drag the map by default address will change in pickupLocation EditText
         //isValid = true;
 
-        user_drawer_layout = (DrawerLayout) findViewById(R.id.user_drawer_layout);
+        user_drawer_layout = findViewById(R.id.user_drawer_layout);
 
         //to handel the click event of navigation view we need refrence of navigation view
         NavigationView navigationView = findViewById(R.id.user_nav_view);
@@ -151,17 +161,16 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
         toggle.syncState();
 
 
-
         // getting nav header so tthat we can change detail of navHeader
         View headerView = navigationView.getHeaderView(0);
 
         //Nav Header Name
-        UNname = (TextView) headerView.findViewById(R.id.UNname);
+        UNname = headerView.findViewById(R.id.UNname);
 
         //NavHeader Number
-        UNmobile = (TextView) headerView.findViewById(R.id.UNmobile);
+        UNmobile = headerView.findViewById(R.id.UNmobile);
 
-        UNaccountImage = (CircleImageView) headerView.findViewById(R.id.UNaccountImage);
+        UNaccountImage = headerView.findViewById(R.id.UNaccountImage);
 
 
         //Setting UserNavDetail
@@ -229,8 +238,6 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
         });
 
 
-
-
         userPickupLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -253,10 +260,31 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
 
     }
 
+    public void checkInternetConnection() {
 
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
 
-        private void setNavDetail() {
+        if (activeNetwork != null) {
+
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+
+                Toast.makeText(this, "Wifi Enable", Toast.LENGTH_SHORT).show();
+            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+
+                Toast.makeText(this, "Data Enabled", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+
+            Intent intent = new Intent(UserHomePageActivity.this, CheckInternetConnectionActivity.class);
+            startActivity(intent);
+            finish();
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setNavDetail() {
 
         UserLoginData loginData = UserSharePrefManager.getInstance(this).getUserDetail();
         String mobNum = loginData.getMobile();
@@ -274,7 +302,7 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
 
                     List<GetUserDetailData> userData = userDetailResponse.getData();
 
-                    if (userData != null){
+                    if (userData != null) {
 
                         for (GetUserDetailData data : userData) {
 
@@ -310,11 +338,24 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-        @Override
-        protected void onStart() {
+        checkInternetConnection();
+
+        vechileCategory();
+
+        veichleCategorySimmer.startShimmer();
+        veichleCategorySimmer.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    protected void onStart() {
         super.onStart();
-
+        veichleCategorySimmer.startShimmer();
+        veichleCategorySimmer.setVisibility(View.VISIBLE);
 
         if (!UserSharePrefManager.getInstance(this).UserAlreadyLoggedIn()) {
             Intent intent = new Intent(UserHomePageActivity.this, UserLoginActivity.class);
@@ -324,12 +365,18 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
 
-        //when we open the navigaqtionDrawer and press back button we dont want to leave the activity
-        //we have to close navDrawer
+        veichleCategorySimmer.stopShimmer();
+    }
 
-        @Override
-        public void onBackPressed() {
+    //when we open the navigaqtionDrawer and press back button we dont want to leave the activity
+    //we have to close navDrawer
+
+    @Override
+    public void onBackPressed() {
 
 
         if (user_drawer_layout.isDrawerOpen(GravityCompat.START)) { //here it is start bcz it is in left side if it is in wright side it will ENG
@@ -343,8 +390,8 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
         }
     }
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
         switch (menuItem.getItemId()) {
 
@@ -395,7 +442,7 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
         return true;
     }
 
-        private void checkDrivereAlreadyLogedin() {
+    private void checkDrivereAlreadyLogedin() {
         if (DriverSharePrefManager.getInstance(this).DriverAlreadyLoggedIn()) {
 
             Intent intent = new Intent(UserHomePageActivity.this, DriverHomePageActivity.class);
@@ -409,7 +456,7 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
     }
 
 
-        public void UserSignout() {
+    public void UserSignout() {
         //we are callin Logout Method from SharePrefManager will will delet all user detail from share prefrences
         UserSharePrefManager.getInstance(UserHomePageActivity.this).UserLogout();
         DriverSharePrefManager.getInstance(UserHomePageActivity.this).DriverLogout();
@@ -420,9 +467,9 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
     }
 
 
-        //This is for Setting Map on homePage Fragment
-        @Override
-        public void onMapReady(GoogleMap googleMap) {
+    //This is for Setting Map on homePage Fragment
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
 
@@ -528,7 +575,7 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
         });
     }
 
-        protected synchronized void buildGoogleApiClient() {
+    protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -537,8 +584,8 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
     }
 
 
-        @Override
-        public void onConnected(@Nullable Bundle bundle) {
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
 
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
@@ -552,18 +599,18 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
         }
     }
 
-        @Override
-        public void onConnectionSuspended(int i) {
+    @Override
+    public void onConnectionSuspended(int i) {
 
     }
 
-        @Override
-        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 
-        @Override
-        public void onLocationChanged(Location location) {
+    @Override
+    public void onLocationChanged(Location location) {
 
         mLastLocation = location;
         if (mCurrLocationMarker != null) {
@@ -603,10 +650,10 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
     }
 
 
-        //get LatLang of Map from center of screen
-        // write this in onMapReady    mMap.setOnCameraIdleListener(this);
-        @Override
-        public void onCameraIdle() {
+    //get LatLang of Map from center of screen
+    // write this in onMapReady    mMap.setOnCameraIdleListener(this);
+    @Override
+    public void onCameraIdle() {
 
         LatLng center = mMap.getCameraPosition().target;
         latitude = center.latitude;
@@ -618,8 +665,8 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
     }
 
 
-        // Getting Addtress from Latitude and Longitude
-        public void getAddress(Context context, double LATITUDE, double LONGITUDE) {
+    // Getting Addtress from Latitude and Longitude
+    public void getAddress(Context context, double LATITUDE, double LONGITUDE) {
 
         //Set Address
         try {
@@ -732,7 +779,7 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
 //    }
 
 
-        public void getNavNameFromUpdateName() {
+    public void getNavNameFromUpdateName() {
 
         Bundle bundle = getIntent().getExtras();
 
@@ -746,7 +793,7 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
     }
 
 
-        private void vechileCategory() {
+    private void vechileCategory() {
 
         LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
         Call<VechileCategoryResponse> call = ltgApi.getVechileCategory();
@@ -762,6 +809,11 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
                     adapter = new VechileCategoryAdapter(categoryResponse.getData());
 
                     VichleCategoryRecycle.setAdapter(adapter);
+
+                    //stopping the shimmer effect
+                    veichleCategorySimmer.stopShimmer();
+                    veichleCategorySimmer.setVisibility(View.GONE);
+                    VichleCategoryRecycle.setVisibility(View.VISIBLE);
 
                     // call onstructor of onVechileClickListner Interface
                     adapter.setOnVechileClickListner(new VechileCategoryAdapter.onVechileClickListner() {
@@ -789,4 +841,4 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
 
     }
 
-    }
+}

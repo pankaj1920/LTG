@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -43,59 +42,91 @@
         android:id="@+id/UserPickupMarker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/picup_marker"
         app:layout_constraintBottom_toTopOf="@id/UserButtonLayout"
-        android:src="@drawable/picup_marker" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/veichleCategorySimmer"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        app:layout_constraintBottom_toTopOf="@id/UserButtonLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <include layout="@layout/vechile_category_simmer_item" />
+
+            <include layout="@layout/vechile_category_simmer_item" />
+
+            <include layout="@layout/vechile_category_simmer_item" />
+
+            <include layout="@layout/vechile_category_simmer_item" />
+
+            <include layout="@layout/vechile_category_simmer_item" />
+
+            <include layout="@layout/vechile_category_simmer_item" />
+
+            <include layout="@layout/vechile_category_simmer_item" />
+
+            <include layout="@layout/vechile_category_simmer_item" />
+
+            <include layout="@layout/vechile_category_simmer_item" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/VichleCategoryRecycle"
         android:layout_width="match_parent"
-        android:background="@color/white"
         android:layout_height="68dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/white"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/UserButtonLayout"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/UserButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/UserBtnBookLater"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@color/blue"
             android:text="Book Later"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:background="@color/blue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/UserBtnBookNow" />
-
+            app:layout_constraintEnd_toStartOf="@id/UserBtnBookNow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <Button
             android:id="@+id/UserBtnBookNow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Book Now"
-            android:textAllCaps="false"
             android:layout_marginLeft="2dp"
             android:background="@color/blue"
+            android:text="Book Now"
+            android:textAllCaps="false"
             android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/UserBtnBookLater" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/UserBtnBookLater"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
