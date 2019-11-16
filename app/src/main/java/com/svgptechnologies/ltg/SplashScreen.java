@@ -28,8 +28,16 @@ public class SplashScreen extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash_screen);
 
-        // checkin the internet connection
-        checkInternetConnection();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                // checkin the internet connection
+                checkInternetConnection();
+
+            }
+        }, 2500);
 
 
     }
@@ -43,44 +51,29 @@ public class SplashScreen extends AppCompatActivity {
         if (activeNetwork != null) {
 
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if (UserSharePrefManager.getInstance(SplashScreen.this).UserAlreadyLoggedIn()) {
-                            Intent intent = new Intent(SplashScreen.this, AllowLocationActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Intent intent = new Intent(SplashScreen.this, UserLoginActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-                }, 2500);
+                if (UserSharePrefManager.getInstance(SplashScreen.this).UserAlreadyLoggedIn()) {
+                    Intent intent = new Intent(SplashScreen.this, AllowLocationActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(SplashScreen.this, UserLoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
 
             } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
 
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if (UserSharePrefManager.getInstance(SplashScreen.this).UserAlreadyLoggedIn()) {
-                            Intent intent = new Intent(SplashScreen.this, AllowLocationActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Intent intent = new Intent(SplashScreen.this, UserLoginActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-                }, 2500);
+                if (UserSharePrefManager.getInstance(SplashScreen.this).UserAlreadyLoggedIn()) {
+                    Intent intent = new Intent(SplashScreen.this, AllowLocationActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(SplashScreen.this, UserLoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
 
             }
         } else {

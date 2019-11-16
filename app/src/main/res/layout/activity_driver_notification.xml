@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".Driver.DriverNotificationActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/notificationToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/blue"
+        app:title="Notification"
+        app:titleTextColor="@color/white"
+        />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/noNotificationImage"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/no_notification_screen"
+            android:layout_marginBottom="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/NotiConstLAyout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="110dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/notificationUserImage"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/fb_profile_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/notiUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pankaj Bohra"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/notificationUserImage"/>
+
+        <TextView
+            android:id="@+id/notiUsermobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8755420120"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="12dp"
+            app:layout_constraintTop_toBottomOf="@id/notiUserName"
+            app:layout_constraintStart_toEndOf="@id/notificationUserImage"/>
+
+        <TextView
+            android:id="@+id/notiUserAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Electronic City phase 1 Banglore"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/notiUserAcceptBtn"
+            app:layout_constraintTop_toBottomOf="@id/notiUsermobile"
+            app:layout_constraintStart_toEndOf="@id/notificationUserImage"/>
+
+        <Button
+            android:id="@+id/notiUserCancleBtn"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
+            android:text="@string/cancle"
+            android:textAllCaps="false"
+            android:background="@color/quantum_googred400"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="7dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/notiUserAcceptBtn"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
+            android:text="@string/accept"
+            android:textAllCaps="false"
+            android:background="@color/quantum_googblueA400"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="7dp"
+            app:layout_constraintTop_toBottomOf="@id/notiUserCancleBtn"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

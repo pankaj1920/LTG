@@ -12,6 +12,7 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:contentDescription="@string/imagedescription"
             android:id="@+id/userBookingImage"
             android:layout_width="90dp"
             android:layout_height="90dp"
@@ -48,6 +49,7 @@
             tools:text="8755420120" />
 
         <ImageView
+            android:contentDescription="@string/imagedescription"
             android:id="@+id/startLocIcon"
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -97,6 +99,7 @@
             tools:text="Electronic City Phase1 " />
 
         <ImageView
+            android:contentDescription="@string/imagedescription"
             android:id="@+id/pickupIcon"
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -144,7 +147,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="20dp"
             android:background="@color/blue"
-            android:text="Cancle"
+            android:text="@string/cancle"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/acceptBooking"
@@ -160,7 +163,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:background="@color/Dblue"
-            android:text="Accept"
+            android:text="@string/accept"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

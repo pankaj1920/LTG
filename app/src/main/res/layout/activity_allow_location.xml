@@ -13,6 +13,7 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:contentDescription="@string/imagedescription"
             android:id="@+id/Allowimg"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -84,7 +85,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="20dp"
-            android:backgroundTint="@color/Darkgreen"
+            android:background="@color/Darkgreen"
             app:cardCornerRadius="4dp"
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,13 +95,15 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/allowLocationLayout"
                 android:layout_width="match_parent"
+                android:background="@color/Darkgreen"
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:contentDescription="@string/imagedescription"
                     android:id="@+id/icGps"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
                     android:padding="10dp"
                     android:src="@drawable/ic_gps"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -111,7 +114,7 @@
                     android:id="@+id/GpsTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:text="@string/GpsTxt"
                     android:textColor="@color/white"
                     android:textStyle="bold"

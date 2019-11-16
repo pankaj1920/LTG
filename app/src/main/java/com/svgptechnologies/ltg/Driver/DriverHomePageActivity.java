@@ -136,7 +136,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     ConstraintLayout DriverButtonLayout;
     ImageView DriverDropMarker, DriverPickupMarker;
     View mapView;
-    ArrayList markerPoints = new ArrayList();
+    ArrayList markerPoints = new ArrayList ( );
     LatLng pickup, CurrentLatLng;
     Button DriverCompletBtn, DriverCancleTrip;
     TextView DNname, DNnumber;
@@ -144,7 +144,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     Switch AvilabiltyBtn;
     String address, postalCode;
     double latitude, longitude;
-    LatLng stFrancis = new LatLng(29.0780, 80.1036);
+    LatLng stFrancis = new LatLng ( 29.0780, 80.1036 );
     double userLat, userLang;
     String Umobile, driverId;
 
@@ -161,247 +161,247 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     double sendDriverLatitude, sendDriverLongitude;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver_home_page);
+    protected void onCreate ( Bundle savedInstanceState ) {
+        super.onCreate ( savedInstanceState );
+        setContentView ( R.layout.activity_driver_home_page );
 
 
-        Toolbar driverHomeToolbar = findViewById(R.id.driverHomeToolbar);
-        driverHomeToolbar.setTitle(R.string.letGo);
-        setSupportActionBar(driverHomeToolbar);
+        Toolbar driverHomeToolbar = findViewById ( R.id.driverHomeToolbar );
+        driverHomeToolbar.setTitle ( R.string.letGo );
+        setSupportActionBar ( driverHomeToolbar );
 
-        driverCurrentLocation = findViewById(R.id.driverCurrentLocation);
+        driverCurrentLocation = findViewById ( R.id.driverCurrentLocation );
 
-        driverPickUpLocation = findViewById(R.id.driverPickUpLocation);
+        driverPickUpLocation = findViewById ( R.id.driverPickUpLocation );
 
-        DriverPickupMarker = findViewById(R.id.DriverPickupMarker);
+        DriverPickupMarker = findViewById ( R.id.DriverPickupMarker );
 
-        DriverCompletBtn = findViewById(R.id.DriverCompletBtn);
+        DriverCompletBtn = findViewById ( R.id.DriverCompletBtn );
 
-        DriverCancleTrip = findViewById(R.id.DriverCancleTrip);
+        DriverCancleTrip = findViewById ( R.id.DriverCancleTrip );
 
-        AvilabiltyBtn = findViewById(R.id.AvilabiltyBtn);
+        AvilabiltyBtn = findViewById ( R.id.AvilabiltyBtn );
 
-        DriverButtonLayout = findViewById(R.id.DriverButtonLayout);
+        DriverButtonLayout = findViewById ( R.id.DriverButtonLayout );
 
         //mean whenever user will drag the map by default address will change in pickupLocation EditText
         isValid = true;
 
 
-        DrawerLayout driver_drawer_layout = findViewById(R.id.driver_drawer_layout);
+        DrawerLayout driver_drawer_layout = findViewById ( R.id.driver_drawer_layout );
 
         //to handel the click event of navigation view we need refrence of navigation view
 
-        NavigationView navigationView = findViewById(R.id.driver_nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        NavigationView navigationView = findViewById ( R.id.driver_nav_view );
+        navigationView.setNavigationItemSelectedListener ( this );
 
         //to get drawerIcon to open Nav Drawer
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(DriverHomePageActivity.this,
-                driver_drawer_layout, driverHomeToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle ( DriverHomePageActivity.this,
+                driver_drawer_layout, driverHomeToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
 
         //to change the toggle buttom on nav drawer
-        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
+        toggle.getDrawerArrowDrawable ( ).setColor ( getResources ( ).getColor ( R.color.white ) );
 
-        driver_drawer_layout.addDrawerListener(toggle);
-        toggle.syncState();
+        driver_drawer_layout.addDrawerListener ( toggle );
+        toggle.syncState ( );
 
 
         // getting nav header so tthat we can change detail of navHeader
-        View headerView = navigationView.getHeaderView(0);
-        DNname = headerView.findViewById(R.id.DNname);
-        DNnumber = headerView.findViewById(R.id.DNnumber);
-        DNaccount_image = headerView.findViewById(R.id.DNaccount_image);
+        View headerView = navigationView.getHeaderView ( 0 );
+        DNname = headerView.findViewById ( R.id.DNname );
+        DNnumber = headerView.findViewById ( R.id.DNnumber );
+        DNaccount_image = headerView.findViewById ( R.id.DNaccount_image );
 
 
         //getting Driver Id
-        DriverLoginData loginData = DriverSharePrefManager.getInstance(DriverHomePageActivity.this).getDriverDetail();
-        driverId = loginData.getDriver_id();
+        DriverLoginData loginData = DriverSharePrefManager.getInstance ( DriverHomePageActivity.this ).getDriverDetail ( );
+        driverId = loginData.getDriver_id ( );
 
 
-        DNname.setOnClickListener(new View.OnClickListener() {
+        DNname.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
-            public void onClick(View v) {
+            public void onClick ( View v ) {
 
-                Intent intent = new Intent(DriverHomePageActivity.this, DriverAccountSettingActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent ( DriverHomePageActivity.this, DriverAccountSettingActivity.class );
+                startActivity ( intent );
             }
-        });
+        } );
 
-        DNaccount_image.setOnClickListener(new View.OnClickListener() {
+        DNaccount_image.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
-            public void onClick(View v) {
+            public void onClick ( View v ) {
 
-                Intent intent = new Intent(DriverHomePageActivity.this, DriverAccountSettingActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent ( DriverHomePageActivity.this, DriverAccountSettingActivity.class );
+                startActivity ( intent );
             }
-        });
+        } );
 
 
-        DNnumber.setOnClickListener(new View.OnClickListener() {
+        DNnumber.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
-            public void onClick(View v) {
+            public void onClick ( View v ) {
 
-                Intent intent = new Intent(DriverHomePageActivity.this, DriverAccountSettingActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent ( DriverHomePageActivity.this, DriverAccountSettingActivity.class );
+                startActivity ( intent );
             }
-        });
+        } );
 
 
-        setDriverNavDetail();
-        getDNavNameFromUpdateName();
+        setDriverNavDetail ( );
+        getDNavNameFromUpdateName ( );
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.Drivermap);
-        mapFragment.getMapAsync(this);
+        SupportMapFragment mapFragment = ( SupportMapFragment ) getSupportFragmentManager ( )
+                .findFragmentById ( R.id.Drivermap );
+        mapFragment.getMapAsync ( this );
 
-        driverCurrentLocation.setOnClickListener(new View.OnClickListener() {
+        driverCurrentLocation.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
-            public void onClick(View view) {
+            public void onClick ( View view ) {
 
 //                DriverDropMarker.setVisibility(View.GONE);
-                DriverPickupMarker.setVisibility(View.VISIBLE);
+                DriverPickupMarker.setVisibility ( View.VISIBLE );
                 isValid = true;
             }
-        });
+        } );
 
 
-        DriverCompletBtn.setOnClickListener(new View.OnClickListener() {
+        DriverCompletBtn.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
-            public void onClick(View view) {
+            public void onClick ( View view ) {
 
-                BookingCompleted();
+                BookingCompleted ( );
 
             }
-        });
+        } );
 
         // here we are calling this method to initalize the FusedLocation Apis to get Updated Current Location
-        intalizeFusedLocation();
+        intalizeFusedLocation ( );
         // when app will open this method will be called which will store current Latitude Longitude
-        getCurrentLocation();
-        PostDriverCurrentLocation();
+        getCurrentLocation ( );
+        PostDriverCurrentLocation ( );
 
 
-        AvilabiltyBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        AvilabiltyBtn.setOnCheckedChangeListener ( new CompoundButton.OnCheckedChangeListener ( ) {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged ( CompoundButton buttonView, boolean isChecked ) {
 
-                if (isChecked) {
+                if ( isChecked ) {
 
                     //Saving the State of Switch
-                    SharedPreferences.Editor editor = getSharedPreferences("switch_pref", MODE_PRIVATE).edit();
-                    editor.putBoolean("online", true);
-                    editor.apply();
+                    SharedPreferences.Editor editor = getSharedPreferences ( "switch_pref", MODE_PRIVATE ).edit ( );
+                    editor.putBoolean ( "online", true );
+                    editor.apply ( );
 
                     //make Driver Avilable and Online
-                    makeDriverOnline();
+                    makeDriverOnline ( );
 
                     // when it Avilabilty button is clicke this method is clicked and it will update the current location
-                    getCurrentLocation();
+                    getCurrentLocation ( );
 
 
                 } else {
 
                     //Saving the State of Switch
-                    SharedPreferences.Editor editor = getSharedPreferences("switch_pref", MODE_PRIVATE).edit();
-                    editor.putBoolean("online", false);
-                    editor.apply();
+                    SharedPreferences.Editor editor = getSharedPreferences ( "switch_pref", MODE_PRIVATE ).edit ( );
+                    editor.putBoolean ( "online", false );
+                    editor.apply ( );
 
                     //make Driver UnAvilabel and Offline
-                    makeDriverOffline();
+                    makeDriverOffline ( );
 
                 }
             }
-        });
+        } );
 
         // fetching the saved state of switch and setting in switch
-        SharedPreferences sharedPrefs = getSharedPreferences("switch_pref", MODE_PRIVATE);
-        AvilabiltyBtn.setChecked(sharedPrefs.getBoolean("online", true));
+        SharedPreferences sharedPrefs = getSharedPreferences ( "switch_pref", MODE_PRIVATE );
+        AvilabiltyBtn.setChecked ( sharedPrefs.getBoolean ( "online", true ) );
 
 
-        driverPickUpLocation.setOnClickListener(new View.OnClickListener() {
+        driverPickUpLocation.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
-            public void onClick(View view) {
-                autoCompleteLocation();
+            public void onClick ( View view ) {
+                autoCompleteLocation ( );
             }
-        });
+        } );
 
         //to set My Location Button at Botton
-        mapView = mapFragment.getView();
+        mapView = mapFragment.getView ( );
 
 
     }
 
 
-    private void setDriverNavDetail() {
+    private void setDriverNavDetail ( ) {
 
-        DriverLoginData loginData = DriverSharePrefManager.getInstance(DriverHomePageActivity.this).getDriverDetail();
-        String DriverId = loginData.getDriver_id();
+        DriverLoginData loginData = DriverSharePrefManager.getInstance ( DriverHomePageActivity.this ).getDriverDetail ( );
+        String DriverId = loginData.getDriver_id ( );
 
-        LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
-        Call<GetDriverDetailsResponse> call = ltgApi.getDriverDetail(DriverId);
-        call.enqueue(new Callback<GetDriverDetailsResponse>() {
+        LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
+        Call<GetDriverDetailsResponse> call = ltgApi.getDriverDetail ( DriverId );
+        call.enqueue ( new Callback<GetDriverDetailsResponse> ( ) {
             @Override
-            public void onResponse(Call<GetDriverDetailsResponse> call, Response<GetDriverDetailsResponse> response) {
+            public void onResponse ( Call<GetDriverDetailsResponse> call, Response<GetDriverDetailsResponse> response ) {
 
-                if (response.isSuccessful()) {
+                if ( response.isSuccessful ( ) ) {
 
-                    GetDriverDetailsResponse driverDetailsResponse = response.body();
-                    List<GetDriverDetailData> detailData = driverDetailsResponse.getData();
+                    GetDriverDetailsResponse driverDetailsResponse = response.body ( );
+                    List<GetDriverDetailData> detailData = driverDetailsResponse.getData ( );
 
-                    if (detailData != null) {
+                    if ( detailData != null ) {
                         for (GetDriverDetailData data : detailData) {
 
-                            String Drname = data.getName();
-                            String DrNumber = data.getMobile();
+                            String Drname = data.getName ( );
+                            String DrNumber = data.getMobile ( );
 
-                            DNname.setText(Drname);
-                            DNnumber.setText(DrNumber);
+                            DNname.setText ( Drname );
+                            DNnumber.setText ( DrNumber );
 
-                            if (data.getDriver_image().isEmpty()) {
+                            if ( data.getDriver_image ( ).isEmpty ( ) ) {
 
-                                DNaccount_image.setImageResource(R.drawable.ic_account_circle);
+                                DNaccount_image.setImageResource ( R.drawable.ic_account_circle );
 
                             } else {
 
-                                Picasso.with(DriverHomePageActivity.this).load(data.getDriver_image()).into(DNaccount_image);
+                                Picasso.with ( DriverHomePageActivity.this ).load ( data.getDriver_image ( ) ).into ( DNaccount_image );
                             }
 
 
                         }
 
-                        Toast.makeText(DriverHomePageActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText ( DriverHomePageActivity.this, "Success", Toast.LENGTH_SHORT ).show ( );
                     } else {
-                        Toast.makeText(DriverHomePageActivity.this, "Driver Nav UnSucess", Toast.LENGTH_SHORT).show();
+                        Toast.makeText ( DriverHomePageActivity.this, "Driver Nav UnSucess", Toast.LENGTH_SHORT ).show ( );
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<GetDriverDetailsResponse> call, Throwable t) {
+            public void onFailure ( Call<GetDriverDetailsResponse> call, Throwable t ) {
 
-                Toast.makeText(DriverHomePageActivity.this, "Try Again Later", Toast.LENGTH_SHORT).show();
-                Toast.makeText(DriverHomePageActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText ( DriverHomePageActivity.this, "Try Again Later", Toast.LENGTH_SHORT ).show ( );
+                Toast.makeText ( DriverHomePageActivity.this, t.getMessage ( ), Toast.LENGTH_SHORT ).show ( );
             }
-        });
+        } );
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onStart ( ) {
+        super.onStart ( );
 
         // here we are calling this method to initalize the FusedLocation Apis to get Updated Current Location
-        intalizeFusedLocation();
+        intalizeFusedLocation ( );
         // when app will open this method will be called which will store current Latitude Longitude
-        getCurrentLocation();
-        PostDriverCurrentLocation();
+        getCurrentLocation ( );
+        PostDriverCurrentLocation ( );
 
 
         // hiding tripcancle and tripCompleted buttom
-        DriverButtonLayout.setVisibility(View.GONE);
+        DriverButtonLayout.setVisibility ( View.GONE );
 
-        getUserLocation();
+        getUserLocation ( );
 
 //        if (!DriverSharePrefManager.getInstance(this).DriverAlreadyLoggedIn()) {
 //
@@ -412,47 +412,52 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+    public boolean onNavigationItemSelected ( @NonNull MenuItem menuItem ) {
 
-        switch (menuItem.getItemId()) {
+        switch (menuItem.getItemId ( )) {
 
             case R.id.driver_booking_history:
-                Intent intentUserHistory = new Intent(DriverHomePageActivity.this, DriverTipHistoryActivity.class);
-                startActivity(intentUserHistory);
+                Intent intentDriverHistory = new Intent ( DriverHomePageActivity.this, DriverTipHistoryActivity.class );
+                startActivity ( intentDriverHistory );
+                break;
+
+            case R.id.driverNotification:
+                Intent intentDriverNotification = new Intent ( DriverHomePageActivity.this, DriverNotificationActivity.class );
+                startActivity ( intentDriverNotification );
                 break;
 
             case R.id.driver_setting:
-                Intent intent = new Intent(DriverHomePageActivity.this, DriverAccountSettingActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent ( DriverHomePageActivity.this, DriverAccountSettingActivity.class );
+                startActivity ( intent );
                 break;
 
             case R.id.driver_share:
-                Intent intentDriverShare = new Intent(DriverHomePageActivity.this, ShareAppActivity.class);
-                startActivity(intentDriverShare);
+                Intent intentDriverShare = new Intent ( DriverHomePageActivity.this, ShareAppActivity.class );
+                startActivity ( intentDriverShare );
                 break;
 
             case R.id.driver_Contact:
 
-                Intent intentContactUs = new Intent(DriverHomePageActivity.this, CustomerCareActivity.class);
-                startActivity(intentContactUs);
+                Intent intentContactUs = new Intent ( DriverHomePageActivity.this, CustomerCareActivity.class );
+                startActivity ( intentContactUs );
                 break;
 
             case R.id.driver_terms:
 
-                Intent intentTerms = new Intent(DriverHomePageActivity.this, UserTermsConditionActivity.class);
-                startActivity(intentTerms);
+                Intent intentTerms = new Intent ( DriverHomePageActivity.this, UserTermsConditionActivity.class );
+                startActivity ( intentTerms );
                 break;
 
             case R.id.driverAbout:
-                Intent intentAboutUS = new Intent(DriverHomePageActivity.this, AboutUsActivity.class);
-                startActivity(intentAboutUS);
+                Intent intentAboutUS = new Intent ( DriverHomePageActivity.this, AboutUsActivity.class );
+                startActivity ( intentAboutUS );
 
                 break;
 
 
             case R.id.User:
-                Intent intentUser = new Intent(DriverHomePageActivity.this, UserHomePageActivity.class);
-                startActivity(intentUser);
+                Intent intentUser = new Intent ( DriverHomePageActivity.this, UserHomePageActivity.class );
+                startActivity ( intentUser );
 
                 break;
 
@@ -461,7 +466,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                 break;
 
             case R.id.driverLogout:
-                DriverSignout();
+                DriverSignout ( );
                 break;
 
         }
@@ -469,220 +474,220 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     }
 
 
-    public void DriverSignout() {
+    public void DriverSignout ( ) {
         //we are callin Logout Method from SharePrefManager will will delet all user detail from share prefrences
-        DriverSharePrefManager.getInstance(DriverHomePageActivity.this).DriverLogout();
-        Toast.makeText(this, "SignOut", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(DriverHomePageActivity.this, UserHomePageActivity.class);
-        startActivity(intent);
+        DriverSharePrefManager.getInstance ( DriverHomePageActivity.this ).DriverLogout ( );
+        Toast.makeText ( this, "SignOut", Toast.LENGTH_SHORT ).show ( );
+        Intent intent = new Intent ( DriverHomePageActivity.this, UserHomePageActivity.class );
+        startActivity ( intent );
     }
 
 
     //This is for Setting Map on homePage Fragment
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    public void onConnected ( @Nullable Bundle bundle ) {
 
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1000);
-        mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        mLocationRequest = new LocationRequest ( );
+        mLocationRequest.setInterval ( 1000 );
+        mLocationRequest.setFastestInterval ( 1000 );
+        mLocationRequest.setPriority ( LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY );
+        if ( ContextCompat.checkSelfPermission ( this,
+                Manifest.permission.ACCESS_FINE_LOCATION )
+                == PackageManager.PERMISSION_GRANTED ) {
+            LocationServices.FusedLocationApi.requestLocationUpdates ( mGoogleApiClient, mLocationRequest, this );
         }
 
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
+    public void onConnectionSuspended ( int i ) {
 
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public void onConnectionFailed ( @NonNull ConnectionResult connectionResult ) {
 
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged ( Location location ) {
 
         mLastLocation = location;
-        if (mCurrLocationMarker != null) {
-            mCurrLocationMarker.remove();
+        if ( mCurrLocationMarker != null ) {
+            mCurrLocationMarker.remove ( );
         }
         //Place current location marker
-        CurrentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(CurrentLatLng);
-        markerOptions.title("Current Position");
+        CurrentLatLng = new LatLng ( location.getLatitude ( ), location.getLongitude ( ) );
+        MarkerOptions markerOptions = new MarkerOptions ( );
+        markerOptions.position ( CurrentLatLng );
+        markerOptions.title ( "Current Position" );
 
         //remove below comment to add marker to current location
 //        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 //        mCurrLocationMarker = mMap.addMarker(markerOptions);
 
         //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(CurrentLatLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+        mMap.moveCamera ( CameraUpdateFactory.newLatLng ( CurrentLatLng ) );
+        mMap.animateCamera ( CameraUpdateFactory.zoomTo ( 14 ) );
 
 
-        if (CurrentLatLng.equals(CurrentLatLng)) {
+        if ( CurrentLatLng.equals ( CurrentLatLng ) ) {
 
-            Toast.makeText(this, "My Current Location" + CurrentLatLng.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText ( this, "My Current Location" + CurrentLatLng.toString ( ), Toast.LENGTH_SHORT ).show ( );
         }
 
 
         //Getting lattitude and Longitude and passing to getAddress Method
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        getAddress(this, latitude, longitude);
+        latitude = location.getLatitude ( );
+        longitude = location.getLongitude ( );
+        getAddress ( this, latitude, longitude );
 
         //stop location updates
-        if (mGoogleApiClient != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        if ( mGoogleApiClient != null ) {
+            LocationServices.FusedLocationApi.removeLocationUpdates ( mGoogleApiClient, this );
         }
     }
 
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady ( GoogleMap googleMap ) {
 
         mMap = googleMap;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                buildGoogleApiClient();
-                mMap.setMyLocationEnabled(true);
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
+            if ( ContextCompat.checkSelfPermission ( this,
+                    Manifest.permission.ACCESS_FINE_LOCATION )
+                    == PackageManager.PERMISSION_GRANTED ) {
+                buildGoogleApiClient ( );
+                mMap.setMyLocationEnabled ( true );
             }
         } else {
-            buildGoogleApiClient();
-            mMap.setMyLocationEnabled(true);
+            buildGoogleApiClient ( );
+            mMap.setMyLocationEnabled ( true );
         }
 
         //get LatLang of Center of Map
-        mMap.setOnCameraIdleListener(this);
+        mMap.setOnCameraIdleListener ( this );
 
 
         //Enableling location button for that we must have  location permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+        if ( ContextCompat.checkSelfPermission ( this, Manifest.permission.ACCESS_FINE_LOCATION )
+                == PackageManager.PERMISSION_GRANTED ) {
             //enabling the location button
-            mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.setMyLocationEnabled ( true );
+            mMap.getUiSettings ( ).setMyLocationButtonEnabled ( true );
 
 
             // My loaction button is by default in top - right
             //to make My Location Button in Buttom
-            if (mapView != null && mapView.findViewById(Integer.parseInt("1")) != null) {
+            if ( mapView != null && mapView.findViewById ( Integer.parseInt ( "1" ) ) != null ) {
 
-                View locationButton = ((View) mapView.findViewById(Integer.parseInt("1"))
-                        .getParent()).findViewById(Integer.parseInt("2"));
+                View locationButton = (( View ) mapView.findViewById ( Integer.parseInt ( "1" ) )
+                        .getParent ( )).findViewById ( Integer.parseInt ( "2" ) );
 
                 //we are fetching layoutParam of location Button
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+                RelativeLayout.LayoutParams layoutParams = ( RelativeLayout.LayoutParams ) locationButton.getLayoutParams ( );
 
                 // removing location button from top
-                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+                layoutParams.addRule ( RelativeLayout.ALIGN_PARENT_TOP, 0 );
 
                 //Setting Location button to Bottom
-                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                layoutParams.addRule ( RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE );
 
                 //Setting margin to locationButton
-                layoutParams.setMargins(0, 0, 40, 180);
+                layoutParams.setMargins ( 0, 0, 40, 180 );
             }
 
-            mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            mMap.setOnMyLocationButtonClickListener ( new GoogleMap.OnMyLocationButtonClickListener ( ) {
                 @Override
-                public boolean onMyLocationButtonClick() {
+                public boolean onMyLocationButtonClick ( ) {
                     // true bcz when user click on location button
                     // pickLocation EditText should change to current location
-                    DriverPickupMarker.setVisibility(View.VISIBLE);
+                    DriverPickupMarker.setVisibility ( View.VISIBLE );
 
                     return false;
                 }
-            });
+            } );
         }
 
         // Check if gps is Enabled or not and request user to Enable it
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationRequest locationRequest = LocationRequest.create ( );
+        locationRequest.setInterval ( 10000 );
+        locationRequest.setFastestInterval ( 5000 );
+        locationRequest.setPriority ( LocationRequest.PRIORITY_HIGH_ACCURACY );
 
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder ( )
+                .addLocationRequest ( locationRequest );
 
-        SettingsClient settingsClient = LocationServices.getSettingsClient(DriverHomePageActivity.this);
-        Task<LocationSettingsResponse> task = settingsClient.checkLocationSettings(builder.build());
+        SettingsClient settingsClient = LocationServices.getSettingsClient ( DriverHomePageActivity.this );
+        Task<LocationSettingsResponse> task = settingsClient.checkLocationSettings ( builder.build ( ) );
 
         //this OnSuccessListener is Calle if Gps is already on
-        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+        task.addOnSuccessListener ( this, new OnSuccessListener<LocationSettingsResponse> ( ) {
             @Override
-            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+            public void onSuccess ( LocationSettingsResponse locationSettingsResponse ) {
 
             }
-        });
+        } );
 
         //this OnFailureListner is called wen Gps is not enabled
-        task.addOnFailureListener(this, new OnFailureListener() {
+        task.addOnFailureListener ( this, new OnFailureListener ( ) {
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onFailure ( @NonNull Exception e ) {
 
                 //here we will check if Issue is Resolvable
                 //if it is resolvabe like it turnOff her we will enable the Gps
-                if (e instanceof ResolvableApiException) {
+                if ( e instanceof ResolvableApiException ) {
 
-                    ResolvableApiException resolvable = (ResolvableApiException) e;
+                    ResolvableApiException resolvable = ( ResolvableApiException ) e;
 
                     try {
                         //here in second parameter u can use and number that will use as Request_Code for this starting Activity
                         //Basically this will show user a Dialog Enable the gps in whic he can enable the location or deny
-                        resolvable.startResolutionForResult(DriverHomePageActivity.this, 51);
+                        resolvable.startResolutionForResult ( DriverHomePageActivity.this, 51 );
                     } catch (IntentSender.SendIntentException ex) {
-                        ex.printStackTrace();
+                        ex.printStackTrace ( );
                     }
                 }
 
             }
-        });
+        } );
 
-        mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+        mMap.setOnMyLocationButtonClickListener ( new GoogleMap.OnMyLocationButtonClickListener ( ) {
             @Override
-            public boolean onMyLocationButtonClick() {
+            public boolean onMyLocationButtonClick ( ) {
 
                 //move map camera
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(CurrentLatLng));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+                mMap.moveCamera ( CameraUpdateFactory.newLatLng ( CurrentLatLng ) );
+                mMap.animateCamera ( CameraUpdateFactory.zoomTo ( 14 ) );
 
                 return true;
             }
-        });
+        } );
 
 
     }
 
 
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API).build();
-        mGoogleApiClient.connect();
+    protected synchronized void buildGoogleApiClient ( ) {
+        mGoogleApiClient = new GoogleApiClient.Builder ( this )
+                .addConnectionCallbacks ( this )
+                .addOnConnectionFailedListener ( this )
+                .addApi ( LocationServices.API ).build ( );
+        mGoogleApiClient.connect ( );
     }
 
 
     //get LatLang of Map from center of screen
     // write this in onMapReady    mMap.setOnCameraIdleListener(this);
     @Override
-    public void onCameraIdle() {
+    public void onCameraIdle ( ) {
 
-        LatLng center = mMap.getCameraPosition().target;
+        LatLng center = mMap.getCameraPosition ( ).target;
         double lat = center.latitude;
         double longt = center.longitude;
 
-        getAddress(this, lat, longt);
+        getAddress ( this, lat, longt );
 
         // Toast.makeText(this, String.valueOf(longt), Toast.LENGTH_SHORT).show();
 
@@ -690,68 +695,68 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
 
     // Getting Addtress from Latitude and Longitude
-    public void getAddress(Context context, double LATITUDE, double LONGITUDE) {
+    public void getAddress ( Context context, double LATITUDE, double LONGITUDE ) {
 
         //Set Address
         try {
-            Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
-            if (addresses != null && addresses.size() > 0) {
+            Geocoder geocoder = new Geocoder ( context, Locale.getDefault ( ) );
+            List<Address> addresses = geocoder.getFromLocation ( LATITUDE, LONGITUDE, 1 );
+            if ( addresses != null && addresses.size ( ) > 0 ) {
 
 
-                address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                String city = addresses.get(0).getLocality();
-                String premises = addresses.get(0).getPremises();
-                String subLocality = addresses.get(0).getSubLocality();
-                String state = addresses.get(0).getAdminArea();
-                String country = addresses.get(0).getCountryName();
-                postalCode = addresses.get(0).getPostalCode();
-                String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
+                address = addresses.get ( 0 ).getAddressLine ( 0 ); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                String city = addresses.get ( 0 ).getLocality ( );
+                String premises = addresses.get ( 0 ).getPremises ( );
+                String subLocality = addresses.get ( 0 ).getSubLocality ( );
+                String state = addresses.get ( 0 ).getAdminArea ( );
+                String country = addresses.get ( 0 ).getCountryName ( );
+                postalCode = addresses.get ( 0 ).getPostalCode ( );
+                String knownName = addresses.get ( 0 ).getFeatureName ( ); // Only if available else return NULL
 
 
                 // setting location in driverPickupLocation EditText when driverPickupLocation editext is clicked
-                if (isValid == true) {
+                if ( isValid == true ) {
 
                     //setting current location in driverPickupLocation EditText
-                    driverCurrentLocation.setText(address);
+                    driverCurrentLocation.setText ( address );
 
                     // setting location in driverDropLocation EditText when driverDropLocation editext is clicked
-                } else if (isValid == false) {
+                } else if ( isValid == false ) {
                 }
 
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace ( );
         }
         return;
     }
 
 
     //AutoSuggetion
-    public void autoCompleteLocation() {
+    public void autoCompleteLocation ( ) {
 
-        if ((!Places.isInitialized())) {
+        if ( (! Places.isInitialized ( )) ) {
             //AIzaSyBXK7L6hjtJiE41Jyelx23ir30-4hx1Zsc
 
-            Places.initialize(this, "AIzaSyBXK7L6hjtJiE41Jyelx23ir30-4hx1Zsc");
-            placesClient = Places.createClient(this);
+            Places.initialize ( this, "AIzaSyBXK7L6hjtJiE41Jyelx23ir30-4hx1Zsc" );
+            placesClient = Places.createClient ( this );
 
         } else {
 
             // Set the fields to specify which types of place data to return.
-            List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.ADDRESS,
-                    Place.Field.NAME, Place.Field.LAT_LNG);
+            List<Place.Field> fields = Arrays.asList ( Place.Field.ID, Place.Field.ADDRESS,
+                    Place.Field.NAME, Place.Field.LAT_LNG );
 
             // Start the autocomplete intent.
 
             //Add this line in Import otherWise build will give error
             //import com.google.android.libraries.places.widget.Autocomplete;
 
-            Intent autoComplete = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN,
-                    fields).setCountry("IN")
-                    .build(this);
+            Intent autoComplete = new Autocomplete.IntentBuilder ( AutocompleteActivityMode.FULLSCREEN,
+                    fields ).setCountry ( "IN" )
+                    .build ( this );
 
-            startActivityForResult(autoComplete, AUTOCOMPLETE_REQUEST_CODE);
+            startActivityForResult ( autoComplete, AUTOCOMPLETE_REQUEST_CODE );
         }
     }
 
@@ -762,53 +767,53 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
      */
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult ( int requestCode, int resultCode, @Nullable Intent data ) {
+        super.onActivityResult ( requestCode, resultCode, data );
 
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+        if ( requestCode == AUTOCOMPLETE_REQUEST_CODE ) {
 
-            if (resultCode == RESULT_OK) {
+            if ( resultCode == RESULT_OK ) {
 
-                Place place = Autocomplete.getPlaceFromIntent(data);
+                Place place = Autocomplete.getPlaceFromIntent ( data );
 
-                Toast.makeText(DriverHomePageActivity.this, "Lat Long: " + place.getLatLng(), Toast.LENGTH_LONG).show();
+                Toast.makeText ( DriverHomePageActivity.this, "Lat Long: " + place.getLatLng ( ), Toast.LENGTH_LONG ).show ( );
 
-                pickup = place.getLatLng();
+                pickup = place.getLatLng ( );
 
                 //settin Address in userDropLoctation |TextView
-                driverPickUpLocation.setText(place.getAddress());
+                driverPickUpLocation.setText ( place.getAddress ( ) );
 
 //                DriverDropMarker.setVisibility(View.VISIBLE);
-                DriverPickupMarker.setVisibility(View.GONE);
+                DriverPickupMarker.setVisibility ( View.GONE );
 
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(place.getLatLng());
-                markerOptions.title("Drop Location");
+                MarkerOptions markerOptions = new MarkerOptions ( );
+                markerOptions.position ( place.getLatLng ( ) );
+                markerOptions.title ( "Drop Location" );
 
                 //remove below comment to add marker to current location
                 //  markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                mDropLocationMarker = mMap.addMarker(markerOptions);
+                mDropLocationMarker = mMap.addMarker ( markerOptions );
 
                 //move map camera
-                if (isValid == false) {
+                if ( isValid == false ) {
 
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(place.getLatLng()));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+                    mMap.moveCamera ( CameraUpdateFactory.newLatLng ( place.getLatLng ( ) ) );
+                    mMap.animateCamera ( CameraUpdateFactory.zoomTo ( 14 ) );
                 }
-                String address = place.getAddress();
+                String address = place.getAddress ( );
 
 
                 // do query with address
 
-            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+            } else if ( resultCode == AutocompleteActivity.RESULT_ERROR ) {
 
                 // TODO: Handle the error.
-                Status status = Autocomplete.getStatusFromIntent(data);
+                Status status = Autocomplete.getStatusFromIntent ( data );
 
-                Toast.makeText(this, "Error: " + status.getStatusMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText ( this, "Error: " + status.getStatusMessage ( ), Toast.LENGTH_LONG ).show ( );
                 // Log.i(TAG, status.getStatusMessage());
 
-            } else if (resultCode == RESULT_CANCELED) {
+            } else if ( resultCode == RESULT_CANCELED ) {
 
                 // The user canceled the operation.
 
@@ -823,25 +828,25 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     private class DownloadTask extends AsyncTask<String, Void, String> {
 
         @Override
-        protected String doInBackground(String... url) {
+        protected String doInBackground ( String... url ) {
 
             String data = "";
 
             try {
-                data = downloadUrl(url[0]);
+                data = downloadUrl ( url[ 0 ] );
             } catch (Exception e) {
-                Log.d("Background Task", e.toString());
+                Log.d ( "Background Task", e.toString ( ) );
             }
             return data;
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
+        protected void onPostExecute ( String result ) {
+            super.onPostExecute ( result );
 
-            ParserTask parserTask = new ParserTask();
+            ParserTask parserTask = new ParserTask ( );
 
-            parserTask.execute(result);
+            parserTask.execute ( result );
 
         }
     }
@@ -854,71 +859,71 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
         // Parsing the data in non-ui thread
         @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+        protected List<List<HashMap<String, String>>> doInBackground ( String... jsonData ) {
 
             JSONObject jObject;
             List<List<HashMap<String, String>>> routes = null;
 
             try {
-                jObject = new JSONObject(jsonData[0]);
-                DirectionsJSONParser parser = new DirectionsJSONParser();
+                jObject = new JSONObject ( jsonData[ 0 ] );
+                DirectionsJSONParser parser = new DirectionsJSONParser ( );
 
-                routes = parser.parse(jObject);
+                routes = parser.parse ( jObject );
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace ( );
             }
             return routes;
         }
 
         @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+        protected void onPostExecute ( List<List<HashMap<String, String>>> result ) {
             ArrayList points = null;
             PolylineOptions lineOptions = null;
-            MarkerOptions markerOptions = new MarkerOptions();
+            MarkerOptions markerOptions = new MarkerOptions ( );
 
-            for (int i = 0; i < result.size(); i++) {
-                points = new ArrayList();
-                lineOptions = new PolylineOptions();
+            for (int i = 0; i < result.size ( ); i++) {
+                points = new ArrayList ( );
+                lineOptions = new PolylineOptions ( );
 
-                List<HashMap<String, String>> path = result.get(i);
+                List<HashMap<String, String>> path = result.get ( i );
 
-                for (int j = 0; j < path.size(); j++) {
-                    HashMap<String, String> point = path.get(j);
+                for (int j = 0; j < path.size ( ); j++) {
+                    HashMap<String, String> point = path.get ( j );
 
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
+                    double lat = Double.parseDouble ( point.get ( "lat" ) );
+                    double lng = Double.parseDouble ( point.get ( "lng" ) );
+                    LatLng position = new LatLng ( lat, lng );
 
-                    points.add(position);
+                    points.add ( position );
 
 
                 }
 
-                lineOptions.addAll(points);
-                lineOptions.width(12);
-                lineOptions.color(Color.BLUE);
-                lineOptions.geodesic(true);
+                lineOptions.addAll ( points );
+                lineOptions.width ( 12 );
+                lineOptions.color ( Color.BLUE );
+                lineOptions.geodesic ( true );
 
             }
 
 // Drawing polyline in the Google Map for the i-th route
 
-            mMap.addPolyline(lineOptions);
+            mMap.addPolyline ( lineOptions );
 
-            if (lineOptions != null) {
+            if ( lineOptions != null ) {
 
                 // this zoom method is called when ployline will be drawn between two point
-                zoomRoute(lineOptions.getPoints());
+                zoomRoute ( lineOptions.getPoints ( ) );
 
-                DriverPickupMarker.setVisibility(View.GONE);
+                DriverPickupMarker.setVisibility ( View.GONE );
 //
 //                mMap.addMarker(new MarkerOptions().position(boomMandir)
 //                        .title("Drop Point")
 //                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.drop_marker)));
 
-                mMap.addMarker(new MarkerOptions().position(CurrentLatLng)
-                        .title("Pickup Point")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                mMap.addMarker ( new MarkerOptions ( ).position ( CurrentLatLng )
+                        .title ( "Pickup Point" )
+                        .icon ( BitmapDescriptorFactory.defaultMarker ( BitmapDescriptorFactory.HUE_GREEN ) ) );
 
 
             }
@@ -927,26 +932,26 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
 
     // this is to zoom in polyLine when Driver Accept booking
-    public void zoomRoute(List<LatLng> lstLatLngRoute) {
+    public void zoomRoute ( List<LatLng> lstLatLngRoute ) {
 
-        if (mMap == null || lstLatLngRoute == null || lstLatLngRoute.isEmpty()) return;
+        if ( mMap == null || lstLatLngRoute == null || lstLatLngRoute.isEmpty ( ) ) return;
 
-        LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+        LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder ( );
         for (LatLng latLngPoint : lstLatLngRoute)
-            boundsBuilder.include(latLngPoint);
+            boundsBuilder.include ( latLngPoint );
 
         int routePadding = 200;
-        LatLngBounds latLngBounds = boundsBuilder.build();
+        LatLngBounds latLngBounds = boundsBuilder.build ( );
 
 
-        mMap.animateCamera(
-                CameraUpdateFactory.newLatLngBounds(latLngBounds, routePadding),
+        mMap.animateCamera (
+                CameraUpdateFactory.newLatLngBounds ( latLngBounds, routePadding ),
                 1200,
                 null
         );
     }
 
-    private String getDirectionsUrl(LatLng origin, LatLng dest) {
+    private String getDirectionsUrl ( LatLng origin, LatLng dest ) {
 
         // Origin of route
         String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
@@ -973,581 +978,581 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     /**
      * A method to download json data from url
      */
-    private String downloadUrl(String strUrl) throws IOException {
+    private String downloadUrl ( String strUrl ) throws IOException {
         String data = "";
         InputStream iStream = null;
         HttpURLConnection urlConnection = null;
         try {
-            URL url = new URL(strUrl);
+            URL url = new URL ( strUrl );
 
-            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection = ( HttpURLConnection ) url.openConnection ( );
 
-            urlConnection.connect();
+            urlConnection.connect ( );
 
-            iStream = urlConnection.getInputStream();
+            iStream = urlConnection.getInputStream ( );
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+            BufferedReader br = new BufferedReader ( new InputStreamReader ( iStream ) );
 
-            StringBuffer sb = new StringBuffer();
+            StringBuffer sb = new StringBuffer ( );
 
             String line = "";
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
+            while ((line = br.readLine ( )) != null) {
+                sb.append ( line );
             }
 
-            data = sb.toString();
+            data = sb.toString ( );
 
-            br.close();
+            br.close ( );
 
         } catch (Exception e) {
-            Log.d("Exception", e.toString());
+            Log.d ( "Exception", e.toString ( ) );
         } finally {
-            iStream.close();
-            urlConnection.disconnect();
+            iStream.close ( );
+            urlConnection.disconnect ( );
         }
         return data;
     }
 
 
     // checking that it contain data sended form UpdateUserName Activity
-    public void getDNavNameFromUpdateName() {
+    public void getDNavNameFromUpdateName ( ) {
 
-        Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getIntent ( ).getExtras ( );
 
-        if (getIntent().hasExtra("moblNum")) {
+        if ( getIntent ( ).hasExtra ( "moblNum" ) ) {
 
-            String updateUserName = bundle.getString("userNavName");
+            String updateUserName = bundle.getString ( "userNavName" );
 
-            DNname.setText(updateUserName);
+            DNname.setText ( updateUserName );
         }
 
     }
 
 
     // the Driver click on On Switch it will make Drive Avilable
-    private void makeDriverOnline() {
+    private void makeDriverOnline ( ) {
 
         String avilable = "checked";
 
-        DriverLoginData loginData = DriverSharePrefManager.getInstance(DriverHomePageActivity.this).getDriverDetail();
-        String driver_Id = loginData.getDriver_id();
+        DriverLoginData loginData = DriverSharePrefManager.getInstance ( DriverHomePageActivity.this ).getDriverDetail ( );
+        String driver_Id = loginData.getDriver_id ( );
 
-        LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
-        Call<UpdateDriverAviabilityResponse> call = ltgApi.updateDriverAvilability(driver_Id, avilable);
+        LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
+        Call<UpdateDriverAviabilityResponse> call = ltgApi.updateDriverAvilability ( driver_Id, avilable );
 
-        call.enqueue(new Callback<UpdateDriverAviabilityResponse>() {
+        call.enqueue ( new Callback<UpdateDriverAviabilityResponse> ( ) {
             @Override
-            public void onResponse(Call<UpdateDriverAviabilityResponse> call, Response<UpdateDriverAviabilityResponse> response) {
+            public void onResponse ( Call<UpdateDriverAviabilityResponse> call, Response<UpdateDriverAviabilityResponse> response ) {
 
-                if (response.isSuccessful() && HttpURLConnection.HTTP_OK == response.code()) {
-                    Toast.makeText(DriverHomePageActivity.this, "Online", Toast.LENGTH_SHORT).show();
+                if ( response.isSuccessful ( ) && HttpURLConnection.HTTP_OK == response.code ( ) ) {
+                    Toast.makeText ( DriverHomePageActivity.this, "Online", Toast.LENGTH_SHORT ).show ( );
 
                     // when driver will press online btn then this method will execute
                     // it will save driver current location to database
-                    PostDriverCurrentLocation();
+                    PostDriverCurrentLocation ( );
 
 
                 } else {
 
-                    Toast.makeText(DriverHomePageActivity.this, "Make Driver Online Unsucess", Toast.LENGTH_SHORT).show();
+                    Toast.makeText ( DriverHomePageActivity.this, "Make Driver Online Unsucess", Toast.LENGTH_SHORT ).show ( );
                 }
             }
 
             @Override
-            public void onFailure(Call<UpdateDriverAviabilityResponse> call, Throwable t) {
+            public void onFailure ( Call<UpdateDriverAviabilityResponse> call, Throwable t ) {
 
-                Toast.makeText(DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
-                Toast.makeText(DriverHomePageActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText ( DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT ).show ( );
+                Toast.makeText ( DriverHomePageActivity.this, t.getMessage ( ), Toast.LENGTH_SHORT ).show ( );
             }
-        });
+        } );
     }
 
 
     // the Driver click on On Switch it will make Drive Offline
 
-    private void makeDriverOffline() {
+    private void makeDriverOffline ( ) {
 
         String Notavilable = "unchecked";
 
-        DriverLoginData loginData = DriverSharePrefManager.getInstance(DriverHomePageActivity.this).getDriverDetail();
-        String driver_Id = loginData.getDriver_id();
+        DriverLoginData loginData = DriverSharePrefManager.getInstance ( DriverHomePageActivity.this ).getDriverDetail ( );
+        String driver_Id = loginData.getDriver_id ( );
 
-        LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
-        Call<UpdateDriverAviabilityResponse> call = ltgApi.updateDriverAvilability(driver_Id, Notavilable);
-        call.enqueue(new Callback<UpdateDriverAviabilityResponse>() {
+        LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
+        Call<UpdateDriverAviabilityResponse> call = ltgApi.updateDriverAvilability ( driver_Id, Notavilable );
+        call.enqueue ( new Callback<UpdateDriverAviabilityResponse> ( ) {
             @Override
-            public void onResponse(Call<UpdateDriverAviabilityResponse> call, Response<UpdateDriverAviabilityResponse> response) {
+            public void onResponse ( Call<UpdateDriverAviabilityResponse> call, Response<UpdateDriverAviabilityResponse> response ) {
 
-                if (response.isSuccessful() && HttpURLConnection.HTTP_OK == response.code()) {
+                if ( response.isSuccessful ( ) && HttpURLConnection.HTTP_OK == response.code ( ) ) {
 
-                    Toast.makeText(DriverHomePageActivity.this, "Offline", Toast.LENGTH_SHORT).show();
+                    Toast.makeText ( DriverHomePageActivity.this, "Offline", Toast.LENGTH_SHORT ).show ( );
                 } else {
-                    Toast.makeText(DriverHomePageActivity.this, "make Driver offline UnSucess", Toast.LENGTH_SHORT).show();
+                    Toast.makeText ( DriverHomePageActivity.this, "make Driver offline UnSucess", Toast.LENGTH_SHORT ).show ( );
                 }
             }
 
             @Override
-            public void onFailure(Call<UpdateDriverAviabilityResponse> call, Throwable t) {
+            public void onFailure ( Call<UpdateDriverAviabilityResponse> call, Throwable t ) {
 
-                Toast.makeText(DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
-                Toast.makeText(DriverHomePageActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText ( DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT ).show ( );
+                Toast.makeText ( DriverHomePageActivity.this, t.getMessage ( ), Toast.LENGTH_SHORT ).show ( );
             }
-        });
+        } );
 
     }
 
 
     // starting The location Update
     // here this method is used to initalize the FusedLocation Apis to get Updated Current Location
-    public void intalizeFusedLocation() {
+    public void intalizeFusedLocation ( ) {
 
-        mfusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(DriverHomePageActivity.this);
+        mfusedLocationProviderClient = LocationServices.getFusedLocationProviderClient ( DriverHomePageActivity.this );
 
-        msettingsClient = LocationServices.getSettingsClient(this);
+        msettingsClient = LocationServices.getSettingsClient ( this );
 
-        locationCallback = new LocationCallback() {
+        locationCallback = new LocationCallback ( ) {
 
             @Override
-            public void onLocationResult(LocationResult locationResult) {
-                super.onLocationResult(locationResult);
+            public void onLocationResult ( LocationResult locationResult ) {
+                super.onLocationResult ( locationResult );
 
 
-                currentlocation = locationResult.getLastLocation();
+                currentlocation = locationResult.getLastLocation ( );
             }
         };
 
         //        creating new location request
-        locationRequest = new LocationRequest();
+        locationRequest = new LocationRequest ( );
 
 //        setting the updating request interval
-        locationRequest.setInterval(UPDATE_IN_MILL);
+        locationRequest.setInterval ( UPDATE_IN_MILL );
 
 //        setting the updating request interval
-        locationRequest.setFastestInterval(FAST_IN_MILL);
+        locationRequest.setFastestInterval ( FAST_IN_MILL );
 
 //        setting the location accuracy
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setPriority ( LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY );
 
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder ( );
 
-        builder.addLocationRequest(locationRequest);
-        locationSettingsRequest = builder.build();
+        builder.addLocationRequest ( locationRequest );
+        locationSettingsRequest = builder.build ( );
 
     }
 
-    public void getCurrentLocation() {
+    public void getCurrentLocation ( ) {
 
-        msettingsClient.checkLocationSettings(locationSettingsRequest)
-                .addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+        msettingsClient.checkLocationSettings ( locationSettingsRequest )
+                .addOnSuccessListener ( this, new OnSuccessListener<LocationSettingsResponse> ( ) {
                     @Override
-                    public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                    public void onSuccess ( LocationSettingsResponse locationSettingsResponse ) {
 
-                        mfusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+                        mfusedLocationProviderClient.requestLocationUpdates ( locationRequest, locationCallback, Looper.myLooper ( ) );
 
-                        if (currentlocation != null) {
+                        if ( currentlocation != null ) {
 
                             //txt_show.setText("Lat"+currentlocation.getLatitude()+" " +"Lag"+currentlocation.getLongitude());
 
-                            sendDriverLatitude = currentlocation.getLatitude();
+                            sendDriverLatitude = currentlocation.getLatitude ( );
 
-                            sendDriverLongitude = currentlocation.getLongitude();
+                            sendDriverLongitude = currentlocation.getLongitude ( );
 
-                            getAddress(DriverHomePageActivity.this, currentlocation.getLatitude(), currentlocation.getLongitude());
+                            getAddress ( DriverHomePageActivity.this, currentlocation.getLatitude ( ), currentlocation.getLongitude ( ) );
 
-                            PostDriverCurrentLocation();
+                            PostDriverCurrentLocation ( );
 
-                            Toast.makeText(DriverHomePageActivity.this, sendDriverLatitude + " " + sendDriverLongitude + "", Toast.LENGTH_SHORT).show();
+                            Toast.makeText ( DriverHomePageActivity.this, sendDriverLatitude + " " + sendDriverLongitude + "", Toast.LENGTH_SHORT ).show ( );
                         }
 
                     }
-                }).addOnFailureListener(this, new OnFailureListener() {
+                } ).addOnFailureListener ( this, new OnFailureListener ( ) {
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onFailure ( @NonNull Exception e ) {
 
-                int code = ((ApiException) e).getStatusCode();
+                int code = (( ApiException ) e).getStatusCode ( );
 
                 switch (code) {
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
 
-                        ResolvableApiException eae = (ResolvableApiException) e;
+                        ResolvableApiException eae = ( ResolvableApiException ) e;
 
                         try {
-                            eae.startResolutionForResult(DriverHomePageActivity.this, code);
+                            eae.startResolutionForResult ( DriverHomePageActivity.this, code );
                         } catch (IntentSender.SendIntentException ex) {
-                            ex.printStackTrace();
+                            ex.printStackTrace ( );
                         }
                         break;
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        Toast.makeText(DriverHomePageActivity.this, "check your settings", Toast.LENGTH_SHORT).show();
+                        Toast.makeText ( DriverHomePageActivity.this, "check your settings", Toast.LENGTH_SHORT ).show ( );
                         break;
                 }
             }
-        });
+        } );
 
     }
 
 
     // when driver is click on online button then his current location will be updated in database
 
-    private void PostDriverCurrentLocation() {
+    private void PostDriverCurrentLocation ( ) {
 
 
         String latlang = sendDriverLatitude + "," + sendDriverLongitude;
-        String lat = String.valueOf(sendDriverLatitude);
-        String lang = String.valueOf(sendDriverLongitude);
-        LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
+        String lat = String.valueOf ( sendDriverLatitude );
+        String lang = String.valueOf ( sendDriverLongitude );
+        LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
 //
 //        Toast.makeText(this, "number : " + Number + " " + "address : " + address + " " + "postalCode : " + postalCode + " " + "latitude : "
 //                + lat + " longitude : " + lang + " latLang : " + latlang, Toast.LENGTH_SHORT).show();
 
-        Call<PostDriverCurrentLocationResponse> call = ltgApi.postDriverLocation(driverId, address, postalCode, lat, lang, latlang);
+        Call<PostDriverCurrentLocationResponse> call = ltgApi.postDriverLocation ( driverId, address, postalCode, lat, lang, latlang );
 
-        call.enqueue(new Callback<PostDriverCurrentLocationResponse>() {
+        call.enqueue ( new Callback<PostDriverCurrentLocationResponse> ( ) {
             @Override
-            public void onResponse(Call<PostDriverCurrentLocationResponse> call, Response<PostDriverCurrentLocationResponse> response) {
+            public void onResponse ( Call<PostDriverCurrentLocationResponse> call, Response<PostDriverCurrentLocationResponse> response ) {
 
-                if (response.isSuccessful() && HttpURLConnection.HTTP_OK == response.code()) {
+                if ( response.isSuccessful ( ) && HttpURLConnection.HTTP_OK == response.code ( ) ) {
 
-                    PostDriverCurrentLocationResponse locationResponse = response.body();
-                    String num = locationResponse.getData().getMobile();
-                    String address = locationResponse.getData().getAddress();
-                    String postalCode = locationResponse.getData().getPincode();
-                    String lat = locationResponse.getData().getLattitude();
-                    String lang = locationResponse.getData().getLongitude();
-                    String latlang = locationResponse.getData().getLatlang();
+                    PostDriverCurrentLocationResponse locationResponse = response.body ( );
+                    String num = locationResponse.getData ( ).getMobile ( );
+                    String address = locationResponse.getData ( ).getAddress ( );
+                    String postalCode = locationResponse.getData ( ).getPincode ( );
+                    String lat = locationResponse.getData ( ).getLattitude ( );
+                    String lang = locationResponse.getData ( ).getLongitude ( );
+                    String latlang = locationResponse.getData ( ).getLatlang ( );
 
                     // if driver accept the booking it will first send the Post current location and the send the current location
-                    if (isAcceptBooking = true) {
+                    if ( isAcceptBooking = true ) {
 
                         //sending driver current location to booked database
-                        sendDriverLocation();
-                        Toast.makeText(DriverHomePageActivity.this, "Driver Accepted the Boking", Toast.LENGTH_SHORT).show();
+                        sendDriverLocation ( );
+                        Toast.makeText ( DriverHomePageActivity.this, "Driver Accepted the Boking", Toast.LENGTH_SHORT ).show ( );
                     }
 
-                    Toast.makeText(DriverHomePageActivity.this, "number : " + num + " " + "address : " + address + " " + "postalCode : " + postalCode + " " + "latitude : "
-                            + lat + " longitude : " + lang + " latLang : " + latlang, Toast.LENGTH_SHORT).show();
+                    Toast.makeText ( DriverHomePageActivity.this, "number : " + num + " " + "address : " + address + " " + "postalCode : " + postalCode + " " + "latitude : "
+                            + lat + " longitude : " + lang + " latLang : " + latlang, Toast.LENGTH_SHORT ).show ( );
 
-                    Toast.makeText(DriverHomePageActivity.this, "Post Driver Location Executed Sucessfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText ( DriverHomePageActivity.this, "Post Driver Location Executed Sucessfully", Toast.LENGTH_SHORT ).show ( );
                 } else {
 
-                    Toast.makeText(DriverHomePageActivity.this, "Post Driver Location Unsucessfull", Toast.LENGTH_SHORT).show();
+                    Toast.makeText ( DriverHomePageActivity.this, "Post Driver Location Unsucessfull", Toast.LENGTH_SHORT ).show ( );
                 }
 
             }
 
             @Override
-            public void onFailure(Call<PostDriverCurrentLocationResponse> call, Throwable t) {
+            public void onFailure ( Call<PostDriverCurrentLocationResponse> call, Throwable t ) {
 
-                Toast.makeText(DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
-                Toast.makeText(DriverHomePageActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText ( DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT ).show ( );
+                Toast.makeText ( DriverHomePageActivity.this, t.getMessage ( ), Toast.LENGTH_SHORT ).show ( );
             }
-        });
+        } );
     }
 
 
     //fetch user location and show in Dialog box
-    public void getUserLocation() {
+    public void getUserLocation ( ) {
 
-        DriverLoginData loginData = DriverSharePrefManager.getInstance(DriverHomePageActivity.this).getDriverDetail();
-        String driverId = loginData.getDriver_id();
-        LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
+        DriverLoginData loginData = DriverSharePrefManager.getInstance ( DriverHomePageActivity.this ).getDriverDetail ( );
+        String driverId = loginData.getDriver_id ( );
+        LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
 
-        Call<GetUserLocationResponse> call = ltgApi.getUserLocation(driverId);
+        Call<GetUserLocationResponse> call = ltgApi.getUserLocation ( driverId );
 
-        call.enqueue(new Callback<GetUserLocationResponse>() {
+        call.enqueue ( new Callback<GetUserLocationResponse> ( ) {
             @Override
-            public void onResponse(Call<GetUserLocationResponse> call, Response<GetUserLocationResponse> response) {
+            public void onResponse ( Call<GetUserLocationResponse> call, Response<GetUserLocationResponse> response ) {
 
-                if (response.isSuccessful() && HttpURLConnection.HTTP_OK == response.code()) {
+                if ( response.isSuccessful ( ) && HttpURLConnection.HTTP_OK == response.code ( ) ) {
 
-                    GetUserLocationResponse userLocationResponse = response.body();
+                    GetUserLocationResponse userLocationResponse = response.body ( );
 
-                    List<GetUserLocationData> userLocationData = userLocationResponse.getData();
+                    List<GetUserLocationData> userLocationData = userLocationResponse.getData ( );
 
                     // in on_start when this method will execute  if nobody has sent the request
                     // then data will be null then this if condition will not work
-                    if (userLocationData != null) {
+                    if ( userLocationData != null ) {
 
                         for (GetUserLocationData data : userLocationData) {
 
-                            String Uname = data.getUser_name();
-                            Umobile = data.getUser_mobile();
-                            String Uaddress = data.getUser_address();
-                            userLat = Double.parseDouble(data.getUser_lat());
-                            userLang = Double.parseDouble(data.getUser_lang());
+                            String Uname = data.getUser_name ( );
+                            Umobile = data.getUser_mobile ( );
+                            String Uaddress = data.getUser_address ( );
+                            userLat = Double.parseDouble ( data.getUser_lat ( ) );
+                            userLang = Double.parseDouble ( data.getUser_lang ( ) );
 
-                            acceptBookingDialog(Uname, Umobile, Uaddress);
+                            acceptBookingDialog ( Uname, Umobile, Uaddress );
                         }
                     } else {
-                        Toast.makeText(DriverHomePageActivity.this, "user Data is Null", Toast.LENGTH_SHORT).show();
+                        Toast.makeText ( DriverHomePageActivity.this, "user Data is Null", Toast.LENGTH_SHORT ).show ( );
                     }
 
                 } else {
 
-                    Toast.makeText(DriverHomePageActivity.this, "Gert User Location Unsucess", Toast.LENGTH_SHORT).show();
+                    Toast.makeText ( DriverHomePageActivity.this, "Gert User Location Unsucess", Toast.LENGTH_SHORT ).show ( );
                 }
             }
 
             @Override
-            public void onFailure(Call<GetUserLocationResponse> call, Throwable t) {
+            public void onFailure ( Call<GetUserLocationResponse> call, Throwable t ) {
 
-                Toast.makeText(DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
+                Toast.makeText ( DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT ).show ( );
             }
-        });
+        } );
 
     }
 
 
-    public void acceptBookingDialog(String userName, String userMobile, final String userAddress) {
+    public void acceptBookingDialog ( String userName, String userMobile, final String userAddress ) {
 
 
         //before inflating the custom alert dialog layout, we will get the current activity viewgroup
-        ViewGroup viewGroup = findViewById(android.R.id.content);
+        ViewGroup viewGroup = findViewById ( android.R.id.content );
 
         //then we will inflate the custom alert dialog xml that we created
-        final View view = LayoutInflater.from(this).inflate(R.layout.accept_booking_dialog_box, viewGroup, false);
+        final View view = LayoutInflater.from ( this ).inflate ( R.layout.accept_booking_dialog_box, viewGroup, false );
 
 
         //Now we need an AlertDialog.Builder object
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder ( this );
 
         //setting the view of the builder to our custom view that we already inflated
-        builder.setView(view);
+        builder.setView ( view );
 
-        ImageView userBookingImage = view.findViewById(R.id.userBookingImage);
+        ImageView userBookingImage = view.findViewById ( R.id.userBookingImage );
 
-        TextView userBookingName = view.findViewById(R.id.userBookingName);
+        TextView userBookingName = view.findViewById ( R.id.userBookingName );
 
-        TextView userBookingNumber = view.findViewById(R.id.userBookingNumber);
+        TextView userBookingNumber = view.findViewById ( R.id.userBookingNumber );
 
-        TextView PickupLocation = view.findViewById(R.id.PickupLocation);
+        TextView PickupLocation = view.findViewById ( R.id.PickupLocation );
 
-        TextView CurrentLocation = view.findViewById(R.id.CurrentLocation);
+        TextView CurrentLocation = view.findViewById ( R.id.CurrentLocation );
 
-        final Button acceptBooking = view.findViewById(R.id.acceptBooking);
+        final Button acceptBooking = view.findViewById ( R.id.acceptBooking );
 
-        Button cancleBooking = view.findViewById(R.id.cancleBooking);
+        Button cancleBooking = view.findViewById ( R.id.cancleBooking );
 
         //finally creating the alert dialog and displaying it
-        final AlertDialog alertDialog = builder.create();
+        final AlertDialog alertDialog = builder.create ( );
         //add this line to make your dialogbox radius round
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.getWindow ( ).setBackgroundDrawable ( new ColorDrawable ( Color.TRANSPARENT ) );
 
-        alertDialog.getWindow().setGravity(Gravity.BOTTOM);
+        alertDialog.getWindow ( ).setGravity ( Gravity.BOTTOM );
 
-        WindowManager.LayoutParams layoutParams = alertDialog.getWindow().getAttributes();
+        WindowManager.LayoutParams layoutParams = alertDialog.getWindow ( ).getAttributes ( );
 
         layoutParams.y = 170; // bottom margin
 
-        alertDialog.getWindow().setAttributes(layoutParams);
+        alertDialog.getWindow ( ).setAttributes ( layoutParams );
 
-        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCanceledOnTouchOutside ( false );
 
-        userBookingName.setText(userName);
-        userBookingNumber.setText(userMobile);
-        PickupLocation.setText(userAddress);
-        CurrentLocation.setText(address);
+        userBookingName.setText ( userName );
+        userBookingNumber.setText ( userMobile );
+        PickupLocation.setText ( userAddress );
+        CurrentLocation.setText ( address );
 
-        cancleBooking.setOnClickListener(new View.OnClickListener() {
+        cancleBooking.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
-            public void onClick(View v) {
-                cancleBooking();
-                alertDialog.dismiss();
+            public void onClick ( View v ) {
+                cancleBooking ( );
+                alertDialog.dismiss ( );
             }
-        });
+        } );
 
-        DriverCancleTrip.setOnClickListener(new View.OnClickListener() {
+        DriverCancleTrip.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
-            public void onClick(View v) {
+            public void onClick ( View v ) {
 
-                showCancleTripConfirmationDialog();
+                showCancleTripConfirmationDialog ( );
             }
-        });
+        } );
 
-        acceptBooking.setOnClickListener(new View.OnClickListener() {
+        acceptBooking.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
-            public void onClick(View v) {
+            public void onClick ( View v ) {
                 isAcceptBooking = true;
                 // send driver current Location to database
-                PostDriverCurrentLocation();
+                PostDriverCurrentLocation ( );
 
                 // Getting URL to the Google Directions API
-                LatLng userLatLang = new LatLng(userLat, userLang);
+                LatLng userLatLang = new LatLng ( userLat, userLang );
 
-                String url = getDirectionsUrl(CurrentLatLng, stFrancis);
+                String url = getDirectionsUrl ( CurrentLatLng, stFrancis );
 
-                DownloadTask downloadTask = new DownloadTask();
+                DownloadTask downloadTask = new DownloadTask ( );
 
                 // Start downloading json data from Google Directions API
-                downloadTask.execute(url);
+                downloadTask.execute ( url );
 
-                driverPickUpLocation.setText(userAddress);
+                driverPickUpLocation.setText ( userAddress );
 
-                driverPickUpLocation.setVisibility(View.VISIBLE);
+                driverPickUpLocation.setVisibility ( View.VISIBLE );
 
-                alertDialog.dismiss();
+                alertDialog.dismiss ( );
 
                 // making Cancle and completeed button Visible
-                DriverButtonLayout.setVisibility(View.VISIBLE);
+                DriverButtonLayout.setVisibility ( View.VISIBLE );
             }
-        });
+        } );
 
 
-        alertDialog.show();
+        alertDialog.show ( );
     }
 
 
-    private void showCancleTripConfirmationDialog() {
+    private void showCancleTripConfirmationDialog ( ) {
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(DriverHomePageActivity.this);
-        builder1.setTitle("Trip Cancellation");
-        builder1.setMessage("Are you sure you want to cancel the trip?");
-        builder1.setCancelable(true);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder ( DriverHomePageActivity.this );
+        builder1.setTitle ( "Trip Cancellation" );
+        builder1.setMessage ( "Are you sure you want to cancel the trip?" );
+        builder1.setCancelable ( true );
 
-        builder1.setPositiveButton(
+        builder1.setPositiveButton (
                 "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                new DialogInterface.OnClickListener ( ) {
+                    public void onClick ( DialogInterface dialog, int id ) {
 
-                        Intent intent = new Intent(DriverHomePageActivity.this, CancleBookingReasonActivity.class);
-                        startActivity(intent);
-                        finish();
+                        Intent intent = new Intent ( DriverHomePageActivity.this, CancleBookingReasonActivity.class );
+                        startActivity ( intent );
+                        finish ( );
                     }
-                });
+                } );
 
-        builder1.setNegativeButton(
+        builder1.setNegativeButton (
                 "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                new DialogInterface.OnClickListener ( ) {
+                    public void onClick ( DialogInterface dialog, int id ) {
+                        dialog.cancel ( );
                     }
-                });
+                } );
 
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
+        AlertDialog alert11 = builder1.create ( );
+        alert11.show ( );
     }
 
 
-    private void cancleBooking() {
+    private void cancleBooking ( ) {
 
-        LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
-        Call<BookingStatusResponse> call = ltgApi.cancleBooking(driverId, "cancelled");
-        call.enqueue(new Callback<BookingStatusResponse>() {
+        LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
+        Call<BookingStatusResponse> call = ltgApi.cancleBooking ( driverId, "cancelled" );
+        call.enqueue ( new Callback<BookingStatusResponse> ( ) {
             @Override
-            public void onResponse(Call<BookingStatusResponse> call, Response<BookingStatusResponse> response) {
+            public void onResponse ( Call<BookingStatusResponse> call, Response<BookingStatusResponse> response ) {
 
-                BookingStatusResponse bookingResponse = response.body();
-                String status = bookingResponse.getData().getStatus();
+                BookingStatusResponse bookingResponse = response.body ( );
+                String status = bookingResponse.getData ( ).getStatus ( );
 
-                Toast.makeText(DriverHomePageActivity.this, "Status : " + status, Toast.LENGTH_SHORT).show();
+                Toast.makeText ( DriverHomePageActivity.this, "Status : " + status, Toast.LENGTH_SHORT ).show ( );
 
-                if (response.isSuccessful() && HttpURLConnection.HTTP_OK == response.code() && bookingResponse.getData().getStatus().equals("1")) {
+                if ( response.isSuccessful ( ) && HttpURLConnection.HTTP_OK == response.code ( ) && bookingResponse.getData ( ).getStatus ( ).equals ( "1" ) ) {
 
-                    Snackbar.make(findViewById(android.R.id.content), "Your Trip is Cancelled", Snackbar.LENGTH_LONG)
-                            .setAction("OK", null)
-                            .setDuration(5000)
-                            .setActionTextColor(Color.WHITE).show();
+                    Snackbar.make ( findViewById ( android.R.id.content ), "Your Trip is Cancelled", Snackbar.LENGTH_LONG )
+                            .setAction ( "OK", null )
+                            .setDuration ( 5000 )
+                            .setActionTextColor ( Color.WHITE ).show ( );
 
                 } else {
 
-                    Toast.makeText(DriverHomePageActivity.this, "cancle Booking UnSucessful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText ( DriverHomePageActivity.this, "cancle Booking UnSucessful", Toast.LENGTH_SHORT ).show ( );
                 }
             }
 
             @Override
-            public void onFailure(Call<BookingStatusResponse> call, Throwable t) {
+            public void onFailure ( Call<BookingStatusResponse> call, Throwable t ) {
 
-                Toast.makeText(DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
-                Toast.makeText(DriverHomePageActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText ( DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT ).show ( );
+                Toast.makeText ( DriverHomePageActivity.this, t.getMessage ( ), Toast.LENGTH_SHORT ).show ( );
             }
-        });
+        } );
     }
 
 
-    private void BookingCompleted() {
+    private void BookingCompleted ( ) {
 
-        LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
-        Call<BookingStatusResponse> call = ltgApi.tripCompleted(driverId, "completed");
-        call.enqueue(new Callback<BookingStatusResponse>() {
+        LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
+        Call<BookingStatusResponse> call = ltgApi.tripCompleted ( driverId, "completed" );
+        call.enqueue ( new Callback<BookingStatusResponse> ( ) {
             @Override
-            public void onResponse(Call<BookingStatusResponse> call, Response<BookingStatusResponse> response) {
+            public void onResponse ( Call<BookingStatusResponse> call, Response<BookingStatusResponse> response ) {
 
-                BookingStatusResponse bookingResponse = response.body();
-                String status = bookingResponse.getData().getStatus();
+                BookingStatusResponse bookingResponse = response.body ( );
+                String status = bookingResponse.getData ( ).getStatus ( );
 
-                Toast.makeText(DriverHomePageActivity.this, "Status : " + status, Toast.LENGTH_SHORT).show();
+                Toast.makeText ( DriverHomePageActivity.this, "Status : " + status, Toast.LENGTH_SHORT ).show ( );
 
-                if (response.isSuccessful() && HttpURLConnection.HTTP_OK == response.code() && bookingResponse.getData().getStatus().equals("1")) {
+                if ( response.isSuccessful ( ) && HttpURLConnection.HTTP_OK == response.code ( ) && bookingResponse.getData ( ).getStatus ( ).equals ( "1" ) ) {
 
-                    Snackbar.make(findViewById(android.R.id.content), "Your Trip is Completed", Snackbar.LENGTH_LONG)
-                            .setAction("OK", null)
-                            .setDuration(5000)
-                            .setActionTextColor(Color.WHITE).show();
+                    Snackbar.make ( findViewById ( android.R.id.content ), "Your Trip is Completed", Snackbar.LENGTH_LONG )
+                            .setAction ( "OK", null )
+                            .setDuration ( 5000 )
+                            .setActionTextColor ( Color.WHITE ).show ( );
 
                 } else {
 
-                    Toast.makeText(DriverHomePageActivity.this, "booking Completed UnSucessful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText ( DriverHomePageActivity.this, "booking Completed UnSucessful", Toast.LENGTH_SHORT ).show ( );
                 }
             }
 
             @Override
-            public void onFailure(Call<BookingStatusResponse> call, Throwable t) {
+            public void onFailure ( Call<BookingStatusResponse> call, Throwable t ) {
 
-                Toast.makeText(DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
-                Toast.makeText(DriverHomePageActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText ( DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT ).show ( );
+                Toast.makeText ( DriverHomePageActivity.this, t.getMessage ( ), Toast.LENGTH_SHORT ).show ( );
             }
-        });
+        } );
     }
 
 
-    private void sendDriverLocation() {
+    private void sendDriverLocation ( ) {
 
-        LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
+        LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
 
-        Call<SendDriverLocationResponse> call = ltgApi.sendDriverLocation(Umobile, driverId);
+        Call<SendDriverLocationResponse> call = ltgApi.sendDriverLocation ( Umobile, driverId );
 
-        call.enqueue(new Callback<SendDriverLocationResponse>() {
+        call.enqueue ( new Callback<SendDriverLocationResponse> ( ) {
             @Override
-            public void onResponse(Call<SendDriverLocationResponse> call, Response<SendDriverLocationResponse> response) {
+            public void onResponse ( Call<SendDriverLocationResponse> call, Response<SendDriverLocationResponse> response ) {
 
-                if (response.isSuccessful() && HttpURLConnection.HTTP_OK == response.code()) {
+                if ( response.isSuccessful ( ) && HttpURLConnection.HTTP_OK == response.code ( ) ) {
 
-                    SendDriverLocationResponse sendDriverLocationResponse = response.body();
-                    String status = sendDriverLocationResponse.getData().getStatus();
+                    SendDriverLocationResponse sendDriverLocationResponse = response.body ( );
+                    String status = sendDriverLocationResponse.getData ( ).getStatus ( );
 
-                    if (status.equals("1")) {
+                    if ( status.equals ( "1" ) ) {
 
-                        Toast.makeText(DriverHomePageActivity.this, "Sucessfull", Toast.LENGTH_SHORT).show();
+                        Toast.makeText ( DriverHomePageActivity.this, "Sucessfull", Toast.LENGTH_SHORT ).show ( );
                     } else {
 
-                        Toast.makeText(DriverHomePageActivity.this, "Send Driver location Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText ( DriverHomePageActivity.this, "Send Driver location Failed", Toast.LENGTH_SHORT ).show ( );
                     }
                 } else {
-                    Toast.makeText(DriverHomePageActivity.this, "Send Driver Location Unsucess", Toast.LENGTH_SHORT).show();
+                    Toast.makeText ( DriverHomePageActivity.this, "Send Driver Location Unsucess", Toast.LENGTH_SHORT ).show ( );
                 }
             }
 
             @Override
-            public void onFailure(Call<SendDriverLocationResponse> call, Throwable t) {
+            public void onFailure ( Call<SendDriverLocationResponse> call, Throwable t ) {
 
-                Toast.makeText(DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
-                Toast.makeText(DriverHomePageActivity.this, "UnSucess", Toast.LENGTH_SHORT).show();
+                Toast.makeText ( DriverHomePageActivity.this, "Try Again", Toast.LENGTH_SHORT ).show ( );
+                Toast.makeText ( DriverHomePageActivity.this, "UnSucess", Toast.LENGTH_SHORT ).show ( );
             }
-        });
+        } );
 
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onResume ( ) {
+        super.onResume ( );
 
 //        Toast.makeText(this, a, Toast.LENGTH_SHORT).show();
 
-        if (getIntent().hasExtra("abc")) {
+        if ( getIntent ( ).hasExtra ( "abc" ) ) {
 
-            Bundle bundle = getIntent().getExtras();
+            Bundle bundle = getIntent ( ).getExtras ( );
 
-            String a = bundle.getString("abc");
+            String a = bundle.getString ( "abc" );
 
             //  acceptBookingDialog();
         }

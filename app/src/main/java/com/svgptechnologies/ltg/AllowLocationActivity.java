@@ -22,46 +22,46 @@ public class AllowLocationActivity extends AppCompatActivity {
     ConstraintLayout allowLocationLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_allow_location);
+    protected void onCreate ( Bundle savedInstanceState ) {
+        super.onCreate ( savedInstanceState );
+        setContentView ( R.layout.activity_allow_location );
 
-        allowLocationLayout = (ConstraintLayout) findViewById(R.id.allowLocationLayout);
+        allowLocationLayout = ( ConstraintLayout ) findViewById ( R.id.allowLocationLayout );
 
-        allowLocationLayout.setOnClickListener(new View.OnClickListener() {
+        allowLocationLayout.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
-            public void onClick(View view) {
+            public void onClick ( View view ) {
 
-                requestLocationPermission();
+                requestLocationPermission ( );
             }
-        });
+        } );
     }
 
 
     //here in On start it will check wheather permission is already givien if given then it will directly go to next activity this activy will no open
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onStart ( ) {
+        super.onStart ( );
 
-        if (!UserSharePrefManager.getInstance(this).UserAlreadyLoggedIn()) {
-            Intent intent = new Intent(AllowLocationActivity.this, UserLoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+        if ( ! UserSharePrefManager.getInstance ( this ).UserAlreadyLoggedIn ( ) ) {
+            Intent intent = new Intent ( AllowLocationActivity.this, UserLoginActivity.class );
+            intent.setFlags ( Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+            startActivity ( intent );
+            finish ( );
         }
         //here if permission is already their then it will drictely go to HomPage Activity
-        if (askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1)) {
-            Intent intent = new Intent(AllowLocationActivity.this, UserHomePageActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+        if ( askForPermission ( Manifest.permission.ACCESS_FINE_LOCATION, 1 ) ) {
+            Intent intent = new Intent ( AllowLocationActivity.this, UserHomePageActivity.class );
+            intent.setFlags ( Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+            startActivity ( intent );
+            finish ( );
 
             //if user is already save then directly go to home activity
-        } else if (!UserSharePrefManager.getInstance(this).UserAlreadyLoggedIn()) {
-            Intent intent = new Intent(AllowLocationActivity.this, UserLoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+        } else if ( ! UserSharePrefManager.getInstance ( this ).UserAlreadyLoggedIn ( ) ) {
+            Intent intent = new Intent ( AllowLocationActivity.this, UserLoginActivity.class );
+            intent.setFlags ( Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+            startActivity ( intent );
+            finish ( );
         } else {
             return;
         }
@@ -69,61 +69,61 @@ public class AllowLocationActivity extends AppCompatActivity {
     }
 
 
-    private boolean askForPermission(String permission, Integer requestCode) {
-        if (ContextCompat.checkSelfPermission(AllowLocationActivity.this, permission)
-                != PackageManager.PERMISSION_GRANTED) {
+    private boolean askForPermission ( String permission, Integer requestCode ) {
+        if ( ContextCompat.checkSelfPermission ( AllowLocationActivity.this, permission )
+                != PackageManager.PERMISSION_GRANTED ) {
             return false;
         } else {
-            Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
+            Toast.makeText ( this, "" + permission + " is already granted.", Toast.LENGTH_SHORT ).show ( );
             return true;
         }
     }
 
-    void displayPermission(String permission, Integer requestCode) {
+    void displayPermission ( String permission, Integer requestCode ) {
         // Should we show an explanation?
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                AllowLocationActivity.this, permission)) {
+        if ( ActivityCompat.shouldShowRequestPermissionRationale (
+                AllowLocationActivity.this, permission ) ) {
 
             //This is called if user has denied the permission before
             //In this case I am just asking the permission again
-            ActivityCompat.requestPermissions(AllowLocationActivity.this,
-                    new String[]{permission}, requestCode);
+            ActivityCompat.requestPermissions ( AllowLocationActivity.this,
+                    new String[] { permission }, requestCode );
 
         } else {
 
-            ActivityCompat.requestPermissions(AllowLocationActivity.this,
-                    new String[]{permission}, requestCode);
+            ActivityCompat.requestPermissions ( AllowLocationActivity.this,
+                    new String[] { permission }, requestCode );
         }
     }
 
 
-    private void requestLocationPermission() {
-        if (askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1)) {
-            Intent intent = new Intent(AllowLocationActivity.this, UserHomePageActivity.class);
-            startActivity(intent);
+    private void requestLocationPermission ( ) {
+        if ( askForPermission ( Manifest.permission.ACCESS_FINE_LOCATION, 1 ) ) {
+            Intent intent = new Intent ( AllowLocationActivity.this, UserHomePageActivity.class );
+            startActivity ( intent );
         } else {
-            displayPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
+            displayPermission ( Manifest.permission.ACCESS_FINE_LOCATION, 1 );
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (ActivityCompat.checkSelfPermission(this, permissions[0]) == PackageManager.PERMISSION_GRANTED) {
-            if (requestCode == 1) {
-                requestLocationPermission();
+    public void onRequestPermissionsResult ( int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults ) {
+        if ( ActivityCompat.checkSelfPermission ( this, permissions[ 0 ] ) == PackageManager.PERMISSION_GRANTED ) {
+            if ( requestCode == 1 ) {
+                requestLocationPermission ( );
             }
 
         }
         // this else statment will run wen user click on dont ask again and deined the permission and still click on allow button
         else {
-            Toast.makeText(this, "Enable Location permission from Setting", Toast.LENGTH_SHORT).show();
+            Toast.makeText ( this, "Enable Location permission from Setting", Toast.LENGTH_SHORT ).show ( );
         }
     }
 
     @Override
-    public void onBackPressed() {
-        finish();
-        super.onBackPressed();
+    public void onBackPressed ( ) {
+        finish ( );
+        super.onBackPressed ( );
     }
 }
 

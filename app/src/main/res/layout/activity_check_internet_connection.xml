@@ -9,6 +9,7 @@
 
     <ImageView
         android:id="@+id/interImg"
+        android:contentDescription="@string/imagedescription"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginTop="50dp"
@@ -30,10 +31,10 @@
         android:background="@color/retyButton"
         android:paddingTop="7dp"
         android:paddingBottom="7dp"
-        android:text="Retry"
+        android:text="@string/retry"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -22,4 +22,5 @@
     <color name="serviceTextBackground">#C4948F8F</color>
     <color name="cancle_bookink_submitBtn">#FF1D1E</color>
     <color name="place_holder_background">#dddddd</color>
+    <color name="notificationBg">#F9F9F9</color>
 </resources>
