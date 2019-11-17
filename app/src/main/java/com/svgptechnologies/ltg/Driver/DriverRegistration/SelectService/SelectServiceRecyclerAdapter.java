@@ -1,4 +1,4 @@
-package com.svgptechnologies.ltg.Driver.DriverRegistration;
+package com.svgptechnologies.ltg.Driver.DriverRegistration.SelectService;
 
 import android.view.LayoutInflater;
 import android.view.View;

@@ -33,7 +33,7 @@ import retrofit2.Response;
 public class DriverNotificationActivity extends AppCompatActivity {
 
     double userLat, userLang;
-    String Umobile, driverId;
+    String Umobile, driverId, Uname, Uaddress,getUserTripStatus;
     Button notiUserCancleBtn, notiUserAcceptBtn;
     CircleImageView notificationUserImage;
     TextView notiUserName, notiUsermobile, notiUserAddress;
@@ -46,7 +46,7 @@ public class DriverNotificationActivity extends AppCompatActivity {
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_driver_notification );
 
-        getUserLocation ( );
+
 
         NotiConstLAyout = findViewById ( R.id.NotiConstLAyout );
 
@@ -82,6 +82,14 @@ public class DriverNotificationActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onStart ( ) {
+        super.onStart ( );
+
+        getUserLocation ( );
+    }
+
+    //fetch user location and show in Dialog box
     public void getUserLocation ( ) {
 
         DriverLoginData loginData = DriverSharePrefManager.getInstance ( DriverNotificationActivity.this ).getDriverDetail ( );
@@ -104,45 +112,46 @@ public class DriverNotificationActivity extends AppCompatActivity {
                     // then data will be null then this if condition will not work
                     if ( userLocationData != null ) {
 
-                        // making userDetail layout visible
-                        NotiConstLAyout.setVisibility ( View.VISIBLE );
-
-                        noNotificationImage.setVisibility ( View.GONE );
 
                         for (GetUserLocationData data : userLocationData) {
 
-                            String Uname = data.getUser_name ( );
+                            Uname = data.getUser_name ( );
                             Umobile = data.getUser_mobile ( );
-                            String Uaddress = data.getUser_address ( );
+                            Uaddress = data.getUser_address ( );
                             userLat = Double.parseDouble ( data.getUser_lat ( ) );
                             userLang = Double.parseDouble ( data.getUser_lang ( ) );
+                            getUserTripStatus = data.getTrip_status ( );
 
-                            notiUserName.setText ( Uname );
+                            Toast.makeText ( DriverNotificationActivity.this, "Trip Status" + getUserTripStatus, Toast.LENGTH_SHORT ).show ( );
 
-                            notiUsermobile.setText ( Umobile );
+                            if ( getUserTripStatus.equals ( "requested" ) ) {
 
-                            notiUserAddress.setText ( Uaddress );
+                                NotiConstLAyout.setVisibility ( View.VISIBLE );
+                                noNotificationImage.setVisibility ( View.GONE );
+                            }
+
+
                         }
+
+
                     } else {
                         Toast.makeText ( DriverNotificationActivity.this, "user Data is Null", Toast.LENGTH_SHORT ).show ( );
-                        noNotificationImage.setVisibility ( View.VISIBLE );
                     }
 
                 } else {
-                    noNotificationImage.setVisibility ( View.VISIBLE );
+
                     Toast.makeText ( DriverNotificationActivity.this, "Gert User Location Unsucess", Toast.LENGTH_SHORT ).show ( );
                 }
             }
 
             @Override
             public void onFailure ( Call<GetUserLocationResponse> call, Throwable t ) {
-                noNotificationImage.setVisibility ( View.VISIBLE );
+
                 Toast.makeText ( DriverNotificationActivity.this, "Try Again", Toast.LENGTH_SHORT ).show ( );
             }
         } );
 
     }
-
 
     private void cancleBooking ( ) {
 

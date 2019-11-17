@@ -1,4 +1,4 @@
-package com.svgptechnologies.ltg.Driver.DriverRegistration;
+package com.svgptechnologies.ltg.Driver.DriverRegistration.SelectService;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;

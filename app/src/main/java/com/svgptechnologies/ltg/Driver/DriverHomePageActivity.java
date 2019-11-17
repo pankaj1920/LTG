@@ -146,7 +146,8 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     double latitude, longitude;
     LatLng stFrancis = new LatLng ( 29.0780, 80.1036 );
     double userLat, userLang;
-    String Umobile, driverId;
+    String Umobile, driverId, Uname, Uaddress;
+    String getUserTripStatus;
 
     //    Get Updated Current Location related api
     private static final long UPDATE_IN_MILL = 10000;
@@ -1222,7 +1223,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                     String latlang = locationResponse.getData ( ).getLatlang ( );
 
                     // if driver accept the booking it will first send the Post current location and the send the current location
-                    if ( isAcceptBooking = true ) {
+                    if ( isAcceptBooking ) {
 
                         //sending driver current location to booked database
                         sendDriverLocation ( );
@@ -1273,16 +1274,27 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                     // then data will be null then this if condition will not work
                     if ( userLocationData != null ) {
 
+
                         for (GetUserLocationData data : userLocationData) {
 
-                            String Uname = data.getUser_name ( );
+                            Uname = data.getUser_name ( );
                             Umobile = data.getUser_mobile ( );
-                            String Uaddress = data.getUser_address ( );
+                            Uaddress = data.getUser_address ( );
                             userLat = Double.parseDouble ( data.getUser_lat ( ) );
                             userLang = Double.parseDouble ( data.getUser_lang ( ) );
+                            getUserTripStatus = data.getTrip_status ( );
 
-                            acceptBookingDialog ( Uname, Umobile, Uaddress );
+                            Toast.makeText ( DriverHomePageActivity.this, "Trip Status" + getUserTripStatus, Toast.LENGTH_SHORT ).show ( );
+
+                            if ( getUserTripStatus.equals ( "requested" ) ) {
+
+                                acceptBookingDialog ( Uname, Umobile, Uaddress );
+                            }
+
+
                         }
+
+
                     } else {
                         Toast.makeText ( DriverHomePageActivity.this, "user Data is Null", Toast.LENGTH_SHORT ).show ( );
                     }
@@ -1372,6 +1384,9 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         acceptBooking.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
             public void onClick ( View v ) {
+
+                Toast.makeText ( DriverHomePageActivity.this, "Accept booking button clicked", Toast.LENGTH_SHORT ).show ( );
+
                 isAcceptBooking = true;
                 // send driver current Location to database
                 PostDriverCurrentLocation ( );
@@ -1379,7 +1394,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                 // Getting URL to the Google Directions API
                 LatLng userLatLang = new LatLng ( userLat, userLang );
 
-                String url = getDirectionsUrl ( CurrentLatLng, stFrancis );
+                String url = getDirectionsUrl ( CurrentLatLng, userLatLang );
 
                 DownloadTask downloadTask = new DownloadTask ( );
 
@@ -1541,6 +1556,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         } );
 
     }
+
 
     @Override
     protected void onResume ( ) {

@@ -23,6 +23,7 @@ import com.svgptechnologies.ltg.Json.DriverJson.UpdateDriverAvilability.UpdateDr
 import com.svgptechnologies.ltg.Json.DriverJson.UpdateDriverEmail.DriverUpdateEmailResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.UpdateDriverName.UpdateDriverNameResponse;
 import com.svgptechnologies.ltg.Json.DriverJson.UploadDriverImage.DriverImageUploadResponse;
+import com.svgptechnologies.ltg.Json.DriverJson.VichelDocument.DocumentListResponse;
 import com.svgptechnologies.ltg.Json.UserJson.GetUserDetail.GetUserDetailResponse;
 import com.svgptechnologies.ltg.Json.UserJson.PostUserCurrentLocation.PostUSerCurrentLocationResponse;
 import com.svgptechnologies.ltg.Json.UserJson.SearchDriver.SearchDriverResponse;
@@ -401,5 +402,11 @@ public interface LTGApi {
             @Query("uid") String uid,
             @Field("did") String did
     );
+
+ // GetServiceDocument
+ @GET("document_access.php")
+ Call<DocumentListResponse> getServiceDocument(
+         @Query("service_name") String service_name
+ );
 
 }

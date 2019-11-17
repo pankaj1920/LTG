@@ -100,7 +100,6 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
         searchDriverRecycle = findViewById ( R.id.searchDriverRecycle );
 
         searchDriverSimmer = findViewById ( R.id.searchDriverSimmer );
-
         searchDriverRecycle.setLayoutManager ( new LinearLayoutManager ( this ) );
 
         sorySearchTxt = findViewById ( R.id.sorySearchTxt );
@@ -193,8 +192,6 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
 
 
                         adapter = new SearchDriverRecyclerAdapter ( SearchDriverActivity.this, driverResponse.getData ( ) );
-
-
                         searchDriverRecycle.setAdapter ( adapter );
 
                         searchDriverSimmer.stopShimmer ( );

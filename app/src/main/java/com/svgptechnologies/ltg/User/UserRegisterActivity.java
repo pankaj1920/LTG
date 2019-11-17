@@ -8,12 +8,14 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.svgptechnologies.ltg.Json.BaseClient;
 import com.svgptechnologies.ltg.Json.LTGApi;
 import com.svgptechnologies.ltg.R;
@@ -139,7 +141,11 @@ public class UserRegisterActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(UserRegisterActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(android.R.id.content), "Connection Failed", Snackbar.LENGTH_LONG)
+                        .setAction("OK", null)
+                        .setDuration(5000)
+                        .setActionTextColor( Color.WHITE).show();
+
                 Toast.makeText(UserRegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
