@@ -25,6 +25,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
@@ -148,6 +149,10 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     double userLat, userLang;
     String Umobile, driverId, Uname, Uaddress;
     String getUserTripStatus;
+    private volatile boolean stopthread = false;
+    volatile boolean DriverIsOnline = true;
+    volatile boolean stopUserDetailthread = true;
+    volatile boolean openGetUserDialogBox = true;
 
     //    Get Updated Current Location related api
     private static final long UPDATE_IN_MILL = 10000;
@@ -290,6 +295,8 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                 if ( isChecked ) {
 
+                    DriverIsOnline = true;
+
                     //Saving the State of Switch
                     SharedPreferences.Editor editor = getSharedPreferences ( "switch_pref", MODE_PRIVATE ).edit ( );
                     editor.putBoolean ( "online", true );
@@ -303,6 +310,11 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
 
                 } else {
+
+                    DriverIsOnline = false;
+
+                    //when Driver is offline we have to stop send driver data to user
+                    stopUpdateLocationThread ( );
 
                     //Saving the State of Switch
                     SharedPreferences.Editor editor = getSharedPreferences ( "switch_pref", MODE_PRIVATE ).edit ( );
@@ -394,15 +406,15 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
         // here we are calling this method to initalize the FusedLocation Apis to get Updated Current Location
         intalizeFusedLocation ( );
-        // when app will open this method will be called which will store current Latitude Longitude
-        getCurrentLocation ( );
-        PostDriverCurrentLocation ( );
-
 
         // hiding tripcancle and tripCompleted buttom
         DriverButtonLayout.setVisibility ( View.GONE );
 
-        getUserLocation ( );
+
+        startUpdateLocationThread ( );
+
+
+        startGetUserDetailsThread ();
 
 //        if (!DriverSharePrefManager.getInstance(this).DriverAlreadyLoggedIn()) {
 //
@@ -1035,6 +1047,9 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
         String avilable = "checked";
 
+        // when driver will click on this Online Button then Driver Location will start updating
+        startUpdateLocationThread ( );
+
         DriverLoginData loginData = DriverSharePrefManager.getInstance ( DriverHomePageActivity.this ).getDriverDetail ( );
         String driver_Id = loginData.getDriver_id ( );
 
@@ -1252,7 +1267,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
 
     //fetch user location and show in Dialog box
-    public void getUserLocation ( ) {
+    public void getUserDetails ( ) {
 
         DriverLoginData loginData = DriverSharePrefManager.getInstance ( DriverHomePageActivity.this ).getDriverDetail ( );
         String driverId = loginData.getDriver_id ( );
@@ -1317,6 +1332,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
     public void acceptBookingDialog ( String userName, String userMobile, final String userAddress ) {
 
+        openGetUserDialogBox = false;
 
         //before inflating the custom alert dialog layout, we will get the current activity viewgroup
         ViewGroup viewGroup = findViewById ( android.R.id.content );
@@ -1378,6 +1394,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
             public void onClick ( View v ) {
 
                 showCancleTripConfirmationDialog ( );
+
             }
         } );
 
@@ -1558,6 +1575,110 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     }
 
 
+    public void startUpdateLocationThread ( ) {
+
+        stopthread = false;
+
+        updateLocationThread runnableThread = new updateLocationThread ( );
+        new Thread ( runnableThread ).start ( );
+
+        Toast.makeText ( this, "Update Location Thread Started", Toast.LENGTH_SHORT ).show ( );
+
+    }
+
+    public void stopUpdateLocationThread ( ) {
+
+        stopthread = true;
+
+        Toast.makeText ( this, "Update Location Thread Stopped", Toast.LENGTH_SHORT ).show ( );
+    }
+
+
+    // creating the Thread For sendind user Location to database
+    class updateLocationThread implements Runnable {
+        Handler handler = new Handler ( );
+
+        @Override
+        public void run ( ) {
+
+            final Runnable runnable = new Runnable ( ) {
+                @Override
+                public void run ( ) {
+
+                    if ( stopthread == false ) {
+
+                        //Initiate your API here
+                        handler.postDelayed ( this, 5000 );
+
+                        if ( DriverIsOnline ) {
+
+                            // from get location we have to execute the PostDriver Location
+                            getCurrentLocation ( );
+
+                        }
+
+                    }
+
+                }
+            };
+            handler.postDelayed ( runnable, 5000 );
+        }
+
+
+    }
+
+
+    public void startGetUserDetailsThread ( ) {
+
+        stopUserDetailthread = false;
+
+        GetUserDetailsThread runnableThread = new GetUserDetailsThread ( );
+        new Thread ( runnableThread ).start ( );
+
+        Toast.makeText ( this, "GetUser Detail Thread Started", Toast.LENGTH_SHORT ).show ( );
+
+    }
+
+    public void stopGetUserDetailsThread ( ) {
+
+        stopUserDetailthread = true;
+
+    }
+
+
+    // Creating Thread to GetUserDetail and Show in DialoBox
+
+    class GetUserDetailsThread implements Runnable {
+
+        Handler handler = new Handler ( );
+
+        @Override
+        public void run ( ) {
+
+            final Runnable runnable = new Runnable ( ) {
+                @Override
+                public void run ( ) {
+
+                    if ( stopthread == false ) {
+
+                        //Initiate your API here
+                        handler.postDelayed ( this, 5000 );
+
+                        if ( DriverIsOnline ) {
+
+                            // from get location we have to execute the PostDriver Location
+                            getUserDetails ( );
+                        }
+                    }
+
+                }
+            };
+            handler.postDelayed ( runnable, 5000 );
+        }
+
+    }
+
+
     @Override
     protected void onResume ( ) {
         super.onResume ( );
@@ -1575,5 +1696,13 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     }
 
 
+    @Override
+    protected void onDestroy ( ) {
+        super.onDestroy ( );
+
+        stopUpdateLocationThread ( );
+
+        stopGetUserDetailsThread ();
+    }
 }
 

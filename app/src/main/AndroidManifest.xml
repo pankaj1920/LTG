@@ -36,7 +36,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Driver.DriverNotificationActivity"></activity>
+        <activity android:name=".Driver.SelectPaymentActivity"></activity>
+        <activity android:name=".Driver.DriverNotificationActivity" />
         <activity android:name=".CheckInternetConnectionActivity" />
         <activity
             android:name=".Driver.CancleBookingReasonActivity"
@@ -57,9 +58,7 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".User.UserHomePageActivity" />
-        <activity android:name=".Driver.DriverHomePageActivity" >
-
-        </activity>
+        <activity android:name=".Driver.DriverHomePageActivity"></activity>
         <activity
             android:name=".Driver.UpdateAllDriverSetting.DriverUpdateAllSettingSuccessful"
             android:windowSoftInputMode="stateHidden" />
@@ -71,16 +70,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Driver.DriverRegistration.VichelDocument.ServiceDocumentsActivity"
-            android:windowSoftInputMode="stateHidden" >
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".Driver.DriverRegistration.SelectService.SelectServiceTypeActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -168,6 +158,11 @@
         <activity
             android:name=".SplashScreen"
             android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.svgptechnologies.ltg.Driver.DriverRegistration.VichelDocument.ServiceDocumentsActivity;
 import com.svgptechnologies.ltg.Json.BaseClient;
 import com.svgptechnologies.ltg.Json.DriverJson.DriverRegistration.DriverRegistrationResponse;
 import com.svgptechnologies.ltg.Json.LTGApi;
@@ -31,6 +32,8 @@ public class DriverRigesterActivity extends AppCompatActivity {
 
     EditText DR_Name, DR_mobile, DR_Email, DL_Password, DL_Confirm_Password;
 
+    String ServiceName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,10 @@ public class DriverRigesterActivity extends AppCompatActivity {
         DR_Email = (EditText) findViewById(R.id.DR_Email);
         DL_Password = (EditText) findViewById(R.id.DL_Password);
         DL_Confirm_Password = (EditText) findViewById(R.id.DL_Confirm_Password);
+
+
+        Bundle bundle = getIntent ().getExtras ();
+        ServiceName = bundle.getString ( "service_name" );
 
 
         DriverRegisterBtn.setOnClickListener(new View.OnClickListener() {
@@ -118,12 +125,13 @@ public class DriverRigesterActivity extends AppCompatActivity {
                     String DriverId = registrationResponse.getDriver_id();
 
 
-                    Intent intent = new Intent(DriverRigesterActivity.this, DriverOtpActivity.class);
+                    Intent intent = new Intent(DriverRigesterActivity.this, ServiceDocumentsActivity.class);
 
                     //sending mobile number to Enter OTP Activity so that we can display that number their
                     Bundle bundle = new Bundle();
                     bundle.putString("DriverId", DriverId);
                     bundle.putString("Dmobile", Dmobile);
+                    bundle.putString("serviceName", ServiceName);
                     intent.putExtras(bundle);
                     startActivity(intent);
 

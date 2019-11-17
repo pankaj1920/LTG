@@ -6,11 +6,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.svgptechnologies.ltg.Driver.DriverRegistration.DriverOtpActivity;
 import com.svgptechnologies.ltg.Json.BaseClient;
 import com.svgptechnologies.ltg.Json.DriverJson.VichelDocument.DocumentListResponse;
 import com.svgptechnologies.ltg.Json.LTGApi;
@@ -29,6 +31,7 @@ public class ServiceDocumentsActivity extends AppCompatActivity {
     ServiceDocumentRecyclerAdapter adapter;
     Button uploadVechileDocumentBtn;
     ConstraintLayout serviceDocumentLayout;
+    String Driverid, DriverMobile, ServiceName;
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
@@ -44,7 +47,28 @@ public class ServiceDocumentsActivity extends AppCompatActivity {
 
         serviceDocumentLayout.setVisibility ( View.GONE );
 
+        //Getting data fromDriverRegisterActivity
+        Bundle bundle = getIntent ( ).getExtras ( );
+        Driverid = bundle.getString ( "DriverId" );
+        DriverMobile = bundle.getString ( "Dmobile" );
+        ServiceName = bundle.getString ( "serviceName" );
+
         GetServiceDocument ( );
+
+        uploadVechileDocumentBtn.setOnClickListener ( new View.OnClickListener ( ) {
+            @Override
+            public void onClick ( View v ) {
+
+                Intent intent = new Intent ( ServiceDocumentsActivity.this, DriverOtpActivity.class );
+
+                Bundle bundle1 = new Bundle ( );
+                bundle1.putString ( "DriverId", Driverid );
+                bundle1.putString ( "Dmobile", DriverMobile );
+                intent.putExtras ( bundle1 );
+
+                startActivity ( intent );
+            }
+        } );
 
     }
 
@@ -52,7 +76,7 @@ public class ServiceDocumentsActivity extends AppCompatActivity {
 
         LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
 
-        Call<DocumentListResponse> call = ltgApi.getServiceDocument ( "bike" );
+        Call<DocumentListResponse> call = ltgApi.getServiceDocument ( ServiceName );
 
         call.enqueue ( new Callback<DocumentListResponse> ( ) {
             @Override

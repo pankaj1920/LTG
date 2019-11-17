@@ -15,6 +15,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.svgptechnologies.ltg.Driver.DriverForgotPassword.DriverForgetPasswordActivity;
 import com.svgptechnologies.ltg.Driver.DriverRegistration.DriverRigesterActivity;
+import com.svgptechnologies.ltg.Driver.DriverRegistration.SelectService.SelectServiceTypeActivity;
 import com.svgptechnologies.ltg.Json.BaseClient;
 import com.svgptechnologies.ltg.Json.DriverJson.DriverLogin.DriverLoginResponse;
 import com.svgptechnologies.ltg.Json.LTGApi;
@@ -61,8 +62,9 @@ public class DriverLoginActivity extends AppCompatActivity {
         DRegisterTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DriverLoginActivity.this, DriverRigesterActivity.class);
+                Intent intent = new Intent(DriverLoginActivity.this, SelectServiceTypeActivity.class);
                 startActivity(intent);
+
             }
         });
 
