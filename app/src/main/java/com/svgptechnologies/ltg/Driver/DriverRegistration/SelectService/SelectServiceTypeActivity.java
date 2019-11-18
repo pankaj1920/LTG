@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.svgptechnologies.ltg.Driver.DriverRegistration.DriverRigesterActivity;
+import com.svgptechnologies.ltg.Driver.SelectPaymentActivity;
 import com.svgptechnologies.ltg.Json.BaseClient;
 import com.svgptechnologies.ltg.Json.DriverJson.SelectServiceType.SelectServiceTypeResponse;
 import com.svgptechnologies.ltg.Json.LTGApi;
@@ -26,12 +28,17 @@ public class SelectServiceTypeActivity extends AppCompatActivity {
     RecyclerView serviceListRecyclerView;
     SelectServiceRecyclerAdapter adapter;
     String SerViceName;
+    ShimmerFrameLayout selectServiceSimmer;
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_select_service_type );
 
+
+        selectServiceSimmer =  findViewById ( R.id.selectServiceSimmer );
+
+        selectServiceSimmer.startShimmer ();
 
         serviceListRecyclerView = ( RecyclerView ) findViewById ( R.id.serviceListRecyclerView );
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager ( this, 2 );
@@ -54,6 +61,10 @@ public class SelectServiceTypeActivity extends AppCompatActivity {
 
                 if ( response.isSuccessful ( ) && HttpURLConnection.HTTP_OK == response.code ( ) && response.body ( ).getStatus ( ).equals ( "1" ) ) {
 
+                    selectServiceSimmer.stopShimmer ();
+                    selectServiceSimmer.setVisibility ( View.GONE );
+                    serviceListRecyclerView.setVisibility ( View.VISIBLE );
+
                     adapter = new SelectServiceRecyclerAdapter ( SelectServiceTypeActivity.this, serviceTypeResponse.getData ( ) );
                     serviceListRecyclerView.setAdapter ( adapter );
 
@@ -65,7 +76,7 @@ public class SelectServiceTypeActivity extends AppCompatActivity {
 
                             Toast.makeText ( SelectServiceTypeActivity.this, SerViceName, Toast.LENGTH_SHORT ).show ( );
 
-                            Intent intent = new Intent ( SelectServiceTypeActivity.this, DriverRigesterActivity.class );
+                            Intent intent = new Intent ( SelectServiceTypeActivity.this, SelectPaymentActivity.class );
 
                             Bundle bundle = new Bundle ( );
                             bundle.putString ( "service_name", SerViceName );

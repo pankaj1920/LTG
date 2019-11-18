@@ -12,8 +12,9 @@
         android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/ThreeMonthCaredView"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             app:cardUseCompatPadding="true"
             app:cardCornerRadius="4dp"
             android:layout_marginStart="10dp"
@@ -32,14 +33,278 @@
                     android:id="@+id/threeMonthRadio"
                     android:layout_width="30dp"
                     android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/threeInr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/inr"
+                    android:textAllCaps="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/threeMonthRadio"
+                    app:layout_constraintTop_toTopOf="@id/threeMonthRadio"
+                    app:layout_constraintBottom_toBottomOf="@id/threeMonthRadio"/>
+
+                <TextView
+                    android:id="@+id/threeMonthPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="300"
+                    android:textAllCaps="true"
+                    android:textSize="27sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/threeInr"
+                    app:layout_constraintTop_toTopOf="@id/threeInr"
+                    app:layout_constraintBottom_toBottomOf="@id/threeInr"/>
+
+                <TextView
+                    android:id="@+id/threeTiem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="For 3 month"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/threeMonthPrice"
+                    app:layout_constraintTop_toTopOf="@id/threeMonthPrice"
+                    app:layout_constraintBottom_toBottomOf="@id/threeMonthPrice"/>
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/SixMonthCaredView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="4dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="7dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ThreeMonthCaredView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/SixMonthRadio"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/SixInr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/inr"
+                    android:textAllCaps="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/SixMonthRadio"
+                    app:layout_constraintTop_toTopOf="@id/SixMonthRadio"
+                    app:layout_constraintBottom_toBottomOf="@id/SixMonthRadio"/>
+
+                <TextView
+                    android:id="@+id/SixMonthPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="600"
+                    android:textAllCaps="true"
+                    android:textSize="27sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/SixInr"
+                    app:layout_constraintTop_toTopOf="@id/SixInr"
+                    app:layout_constraintBottom_toBottomOf="@id/SixInr"/>
+
+                <TextView
+                    android:id="@+id/SixTiem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="For 6 month"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/SixMonthPrice"
+                    app:layout_constraintTop_toTopOf="@id/SixMonthPrice"
+                    app:layout_constraintBottom_toBottomOf="@id/SixMonthPrice"/>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/NineMonthCaredView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="4dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="7dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/SixMonthCaredView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/NineMonthRadio"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/NineInr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/inr"
+                    android:textAllCaps="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/NineMonthRadio"
+                    app:layout_constraintTop_toTopOf="@id/NineMonthRadio"
+                    app:layout_constraintBottom_toBottomOf="@id/NineMonthRadio"/>
+
+                <TextView
+                    android:id="@+id/NineMonthPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="900"
+                    android:textAllCaps="true"
+                    android:textSize="27sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/NineInr"
+                    app:layout_constraintTop_toTopOf="@id/NineInr"
+                    app:layout_constraintBottom_toBottomOf="@id/NineInr"/>
+
+                <TextView
+                    android:id="@+id/NineTiem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="For 9 month"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/NineMonthPrice"
+                    app:layout_constraintTop_toTopOf="@id/NineMonthPrice"
+                    app:layout_constraintBottom_toBottomOf="@id/NineMonthPrice"/>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/OneYearCaredView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="4dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="7dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/NineMonthCaredView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/OneYearRadio"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/OneYearInr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/inr"
+                    android:textAllCaps="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/OneYearRadio"
+                    app:layout_constraintTop_toTopOf="@id/OneYearRadio"
+                    app:layout_constraintBottom_toBottomOf="@id/OneYearRadio"/>
+
+                <TextView
+                    android:id="@+id/OneYearPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1200"
+                    android:textAllCaps="true"
+                    android:textSize="27sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/OneYearInr"
+                    app:layout_constraintTop_toTopOf="@id/OneYearInr"
+                    app:layout_constraintBottom_toBottomOf="@id/OneYearInr"/>
+
+                <TextView
+                    android:id="@+id/OneYearTiem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="For 1 year"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/OneYearPrice"
+                    app:layout_constraintTop_toTopOf="@id/OneYearPrice"
+                    app:layout_constraintBottom_toBottomOf="@id/OneYearPrice"/>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/paymentProcedeBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="PROCEED"
+            android:textAllCaps="false"
+            android:background="@drawable/blue_btn_ripple_effect"
+            android:textColor="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -19,55 +19,93 @@
         app:title="Documents"
         app:titleTextColor="@color/white" />
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/selectDocummentSimmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/serviceceListToolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/service_documents_simmer" />
+
+            <include layout="@layout/service_documents_simmer" />
+
+            <include layout="@layout/service_documents_simmer" />
+
+            <include layout="@layout/service_documents_simmer" />
+
+            <include layout="@layout/service_documents_simmer" />
+
+            <include layout="@layout/service_documents_simmer" />
+
+            <include layout="@layout/service_documents_simmer" />
+
+            <include layout="@layout/service_documents_simmer" />
+
+            <include layout="@layout/service_documents_simmer" />
+
+            <include layout="@layout/service_documents_simmer" />
+
+        </LinearLayout>
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/serviceDocumentLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/serviceDocumentRecyclerView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/serviceDocumentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/uploadVechileDocumentBtn"
-             />
-        <Button
-            android:id="@+id/uploadVechileDocumentBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/blue_btn_ripple_effect"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
-            android:text="Upload"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@id/serviceDocumentRecyclerView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:visibility="gone">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="7dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/uploadVechileDocumentBtn"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/serviceDocumentRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/uploadVechileDocumentBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/uploadVechileDocumentBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/blue_btn_ripple_effect"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="Upload"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/serviceDocumentRecyclerView" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="7dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/uploadVechileDocumentBtn" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 

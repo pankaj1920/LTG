@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ServiceDocumentRecyclerAdapter extends RecyclerView.Adapter<ServiceDocumentRecyclerAdapter.vechiledoc_VH> {
 
-    List<DocumentListData>documentListData;
+    List<DocumentListData> documentListData;
     ServiceDocumentsActivity serviceDocumentsActivity;
 
     public ServiceDocumentRecyclerAdapter ( ServiceDocumentsActivity serviceDocumentsActivity, List<DocumentListData> documentListData ) {
@@ -41,22 +41,49 @@ public class ServiceDocumentRecyclerAdapter extends RecyclerView.Adapter<Service
 
     @Override
     public int getItemCount ( ) {
-        return documentListData.size ();
+        return documentListData.size ( );
     }
 
+
+    private OnItemClickListner onItemClickListner;
+
+    public void setOnItemClickListner ( OnItemClickListner onItemClickListner ) {
+
+        this.onItemClickListner = onItemClickListner;
+    }
 
     class vechiledoc_VH extends RecyclerView.ViewHolder {
 
         ImageView DocumentImage, PickDocument;
         TextView documentName;
 
-        public vechiledoc_VH ( @NonNull View itemView ) {
+        public vechiledoc_VH ( @NonNull final View itemView ) {
             super ( itemView );
 
             DocumentImage = itemView.findViewById ( R.id.DocumentImage );
             PickDocument = itemView.findViewById ( R.id.PickDocument );
             documentName = itemView.findViewById ( R.id.documentName );
+
+            PickDocument.setOnClickListener ( new View.OnClickListener ( ) {
+                @Override
+                public void onClick ( View v ) {
+
+                    if ( onItemClickListner != null ) {
+
+                        int position = getAdapterPosition ( );
+                        if ( position != RecyclerView.NO_POSITION ) {
+
+                            onItemClickListner.onPickDocumentClickListner ( itemView, position );
+                        }
+                    }
+                }
+            } );
         }
+    }
+
+    public interface OnItemClickListner {
+
+        void onPickDocumentClickListner ( View view, int position );
     }
 
 }

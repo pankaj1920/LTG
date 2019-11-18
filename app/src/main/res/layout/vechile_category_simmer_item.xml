@@ -31,7 +31,6 @@
                 android:background="@color/place_holder_background"
                 android:padding="2dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_micro"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +42,6 @@
                 android:layout_height="6dp"
                 android:layout_marginTop="6dp"
                 android:layout_marginRight="8dp"
-                android:src="@drawable/ic_dot"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@id/vechileImage"
                 app:layout_constraintTop_toTopOf="@id/vechileImage" />
@@ -55,7 +53,6 @@
             android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="type"
             android:background="@color/place_holder_background"
             android:textColor="@color/black"
             android:textSize="10dp"

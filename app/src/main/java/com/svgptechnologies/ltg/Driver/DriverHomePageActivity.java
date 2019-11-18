@@ -80,6 +80,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import com.svgptechnologies.ltg.CustomerCareActivity;
+import com.svgptechnologies.ltg.Driver.DriverTripHistory.DriverTipHistoryActivity;
 import com.svgptechnologies.ltg.Driver.UpdateAllDriverSetting.DriverAccountSettingActivity;
 import com.svgptechnologies.ltg.Json.BaseClient;
 import com.svgptechnologies.ltg.Json.DriverJson.BookingStatus.BookingStatusResponse;
@@ -279,8 +280,25 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                 BookingCompleted ( );
 
+                // if driver click on completed button we will start to startGetUserDetailsThread to search of new user
+                openGetUserDialogBox = true;
+                startGetUserDetailsThread ( );
+
+
             }
         } );
+
+
+        DriverCancleTrip.setOnClickListener ( new View.OnClickListener ( ) {
+            @Override
+            public void onClick ( View v ) {
+
+                showCancleTripConfirmationDialog ( );
+
+
+            }
+        } );
+
 
         // here we are calling this method to initalize the FusedLocation Apis to get Updated Current Location
         intalizeFusedLocation ( );
@@ -414,7 +432,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         startUpdateLocationThread ( );
 
 
-        startGetUserDetailsThread ();
+        startGetUserDetailsThread ( );
 
 //        if (!DriverSharePrefManager.getInstance(this).DriverAlreadyLoggedIn()) {
 //
@@ -1177,7 +1195,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                             PostDriverCurrentLocation ( );
 
-                            Toast.makeText ( DriverHomePageActivity.this, sendDriverLatitude + " " + sendDriverLongitude + "", Toast.LENGTH_SHORT ).show ( );
+                            //  Toast.makeText ( DriverHomePageActivity.this, sendDriverLatitude + " " + sendDriverLongitude + "", Toast.LENGTH_SHORT ).show ( );
                         }
 
                     }
@@ -1244,11 +1262,12 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                         sendDriverLocation ( );
                         Toast.makeText ( DriverHomePageActivity.this, "Driver Accepted the Boking", Toast.LENGTH_SHORT ).show ( );
                     }
-
-                    Toast.makeText ( DriverHomePageActivity.this, "number : " + num + " " + "address : " + address + " " + "postalCode : " + postalCode + " " + "latitude : "
-                            + lat + " longitude : " + lang + " latLang : " + latlang, Toast.LENGTH_SHORT ).show ( );
-
-                    Toast.makeText ( DriverHomePageActivity.this, "Post Driver Location Executed Sucessfully", Toast.LENGTH_SHORT ).show ( );
+//
+//                    Toast.makeText ( DriverHomePageActivity.this, "number : " + num + " " + "address : " + address + " " + "postalCode : " + postalCode + " " + "latitude : "
+//                            + lat + " longitude : " + lang + " latLang : " + latlang, Toast.LENGTH_SHORT ).show ( );
+//
+//
+//                    Toast.makeText ( DriverHomePageActivity.this, "Post Driver Location Executed Sucessfully", Toast.LENGTH_SHORT ).show ( );
                 } else {
 
                     Toast.makeText ( DriverHomePageActivity.this, "Post Driver Location Unsucessfull", Toast.LENGTH_SHORT ).show ( );
@@ -1302,6 +1321,8 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                             Toast.makeText ( DriverHomePageActivity.this, "Trip Status" + getUserTripStatus, Toast.LENGTH_SHORT ).show ( );
 
                             if ( getUserTripStatus.equals ( "requested" ) ) {
+
+                                startGetUserDetailsThread ( );
 
                                 acceptBookingDialog ( Uname, Umobile, Uaddress );
                             }
@@ -1384,17 +1405,15 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         cancleBooking.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
             public void onClick ( View v ) {
+
                 cancleBooking ( );
                 alertDialog.dismiss ( );
-            }
-        } );
 
-        DriverCancleTrip.setOnClickListener ( new View.OnClickListener ( ) {
-            @Override
-            public void onClick ( View v ) {
+                // if driver click on cancle button we will start to startGetUserDetailsThread to search of new user
+                openGetUserDialogBox = true;
+                startGetUserDetailsThread ( );
 
-                showCancleTripConfirmationDialog ( );
-
+                Toast.makeText ( DriverHomePageActivity.this, " stopUserDetailthread = false", Toast.LENGTH_SHORT ).show ( );
             }
         } );
 
@@ -1405,6 +1424,13 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                 Toast.makeText ( DriverHomePageActivity.this, "Accept booking button clicked", Toast.LENGTH_SHORT ).show ( );
 
                 isAcceptBooking = true;
+
+
+                openGetUserDialogBox = false;
+                stopGetUserDetailsThread ( );
+
+                Toast.makeText ( DriverHomePageActivity.this, " openGetUserDialogBox = false", Toast.LENGTH_SHORT ).show ( );
+
                 // send driver current Location to database
                 PostDriverCurrentLocation ( );
 
@@ -1422,10 +1448,12 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                 driverPickUpLocation.setVisibility ( View.VISIBLE );
 
-                alertDialog.dismiss ( );
-
                 // making Cancle and completeed button Visible
                 DriverButtonLayout.setVisibility ( View.VISIBLE );
+
+                alertDialog.dismiss ( );
+
+
             }
         } );
 
@@ -1445,6 +1473,14 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                 "Yes",
                 new DialogInterface.OnClickListener ( ) {
                     public void onClick ( DialogInterface dialog, int id ) {
+
+                        // if driver click on cancle button we will start to startGetUserDetailsThread to search of new user
+                        openGetUserDialogBox = true;
+                        startGetUserDetailsThread ( );
+                        driverPickUpLocation.setVisibility ( View.GONE );
+
+                        // making Cancle and completeed button Visible
+                        DriverButtonLayout.setVisibility ( View.GONE );
 
                         Intent intent = new Intent ( DriverHomePageActivity.this, CancleBookingReasonActivity.class );
                         startActivity ( intent );
@@ -1521,6 +1557,11 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                             .setDuration ( 5000 )
                             .setActionTextColor ( Color.WHITE ).show ( );
 
+                    driverPickUpLocation.setVisibility ( View.GONE );
+
+                    // making Cancle and completeed button Visible
+                    DriverButtonLayout.setVisibility ( View.GONE );
+
                 } else {
 
                     Toast.makeText ( DriverHomePageActivity.this, "booking Completed UnSucessful", Toast.LENGTH_SHORT ).show ( );
@@ -1575,6 +1616,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     }
 
 
+    //
     public void startUpdateLocationThread ( ) {
 
         stopthread = false;
@@ -1582,7 +1624,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         updateLocationThread runnableThread = new updateLocationThread ( );
         new Thread ( runnableThread ).start ( );
 
-        Toast.makeText ( this, "Update Location Thread Started", Toast.LENGTH_SHORT ).show ( );
+        //    Toast.makeText ( this, "Update Location Thread Started", Toast.LENGTH_SHORT ).show ( );
 
     }
 
@@ -1590,7 +1632,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
         stopthread = true;
 
-        Toast.makeText ( this, "Update Location Thread Stopped", Toast.LENGTH_SHORT ).show ( );
+        //    Toast.makeText ( this, "Update Location Thread Stopped", Toast.LENGTH_SHORT ).show ( );
     }
 
 
@@ -1628,9 +1670,10 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     }
 
 
+    // Get UserDetail Thread
     public void startGetUserDetailsThread ( ) {
 
-        stopUserDetailthread = false;
+        stopUserDetailthread = true;
 
         GetUserDetailsThread runnableThread = new GetUserDetailsThread ( );
         new Thread ( runnableThread ).start ( );
@@ -1641,7 +1684,8 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
     public void stopGetUserDetailsThread ( ) {
 
-        stopUserDetailthread = true;
+        stopUserDetailthread = false;
+        Toast.makeText ( this, "GetUser Detail Thread Stopped", Toast.LENGTH_SHORT ).show ( );
 
     }
 
@@ -1661,13 +1705,13 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                     if ( stopthread == false ) {
 
-                        //Initiate your API here
                         handler.postDelayed ( this, 5000 );
 
-                        if ( DriverIsOnline ) {
+                        if ( DriverIsOnline && openGetUserDialogBox == true ) {
 
                             // from get location we have to execute the PostDriver Location
                             getUserDetails ( );
+                            Toast.makeText ( DriverHomePageActivity.this, "GetDetail Thread Working", Toast.LENGTH_SHORT ).show ( );
                         }
                     }
 
@@ -1683,8 +1727,6 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     protected void onResume ( ) {
         super.onResume ( );
 
-//        Toast.makeText(this, a, Toast.LENGTH_SHORT).show();
-
         if ( getIntent ( ).hasExtra ( "abc" ) ) {
 
             Bundle bundle = getIntent ( ).getExtras ( );
@@ -1695,14 +1737,13 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         }
     }
 
-
     @Override
     protected void onDestroy ( ) {
         super.onDestroy ( );
 
         stopUpdateLocationThread ( );
 
-        stopGetUserDetailsThread ();
+        stopGetUserDetailsThread ( );
     }
 }
 
