@@ -362,8 +362,8 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
     protected void onResume ( ) {
         super.onResume ( );
 
-        stopthread = false;
-
+//        stopthread = false;
+//        startGetDriverLocationThread ();
 
         checkInternetConnection ( );
 
@@ -395,8 +395,8 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
     protected void onPause ( ) {
         super.onPause ( );
 
-        stopthread = true;
-        stopGetDriverLocationThread ();
+//        stopthread = true;
+//        stopGetDriverLocationThread ();
 
         veichleCategorySimmer.stopShimmer ( );
     }
@@ -849,7 +849,7 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
 
                             if ( DriverMarker != null ) {
                                 DriverMarker.remove ( );
-                                markerOptions.icon ( BitmapDescriptorFactory.fromResource ( R.drawable.car_anim ));
+                                markerOptions.icon ( BitmapDescriptorFactory.fromResource ( R.drawable.car_anim ) );
                                 DriverMarker = mMap.addMarker ( markerOptions );
 
                             } else {
@@ -867,8 +867,12 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
                             UserPickupMarker.setVisibility ( View.VISIBLE );
                             userPickupLocation.setVisibility ( View.VISIBLE );
 
-                            DriverMarker.remove ( );
-                            stopthread = true;
+                            if ( DriverMarker != null ) {
+                                DriverMarker.remove ( );
+                                stopthread = true;
+                            }
+
+
                             stopGetDriverLocationThread ( );
                         }
 
@@ -984,9 +988,10 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
                         //Initiate your API here
                         handler.postDelayed ( this, 5000 );
 
-
                         // from get location we have to execute the PostDriver Location
                         getDriverLocation ( );
+
+                        Toast.makeText ( UserHomePageActivity.this, "Thread Is Runnung", Toast.LENGTH_SHORT ).show ( );
 
                     }
 
@@ -997,7 +1002,6 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
 
 
     }
-
 
 
     @Override

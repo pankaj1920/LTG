@@ -150,10 +150,13 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     double userLat, userLang;
     String Umobile, driverId, Uname, Uaddress;
     String getUserTripStatus;
-    private volatile boolean stopthread = false;
-    volatile boolean DriverIsOnline = true;
-    volatile boolean stopUserDetailthread = true;
-    volatile boolean openGetUserDialogBox = true;
+
+    private volatile boolean DriverIsOnline = true;
+    private volatile boolean openGetUserDialogBox = true;
+
+    private volatile boolean stopGetUserRequestthread = false;
+    private volatile boolean stopGetUserLocationupdatethread = false;
+
 
     //    Get Updated Current Location related api
     private static final long UPDATE_IN_MILL = 10000;
@@ -278,11 +281,11 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
             @Override
             public void onClick ( View view ) {
 
+                Toast.makeText ( DriverHomePageActivity.this, "Coomplete Clicked", Toast.LENGTH_SHORT ).show ( );
+
                 BookingCompleted ( );
 
-                // if driver click on completed button we will start to startGetUserDetailsThread to search of new user
-                openGetUserDialogBox = true;
-                startGetUserDetailsThread ( );
+//
 
 
             }
@@ -292,7 +295,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         DriverCancleTrip.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
             public void onClick ( View v ) {
-
+                openGetUserDialogBox = true;
                 showCancleTripConfirmationDialog ( );
 
 
@@ -315,6 +318,15 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                     DriverIsOnline = true;
 
+                    // if driver click on OnlieButton then we have to start GetUserRequest thread
+                    stopGetUserRequestthread = false;
+                    startGetUserRequestThread ( );
+
+                    //if DriverClick onlineButton we have to start updatedLocationThread
+                    stopGetUserLocationupdatethread = false;
+                    startUpdateLocationThread ( );
+
+
                     //Saving the State of Switch
                     SharedPreferences.Editor editor = getSharedPreferences ( "switch_pref", MODE_PRIVATE ).edit ( );
                     editor.putBoolean ( "online", true );
@@ -326,13 +338,22 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                     // when it Avilabilty button is clicke this method is clicked and it will update the current location
                     getCurrentLocation ( );
 
+                    //
+                    // startGetUserDetailsThread ( );
+
 
                 } else {
 
                     DriverIsOnline = false;
+                    isAcceptBooking = false;
+
+                    // when driver click on online button the we have to stop thread
+                    stopGetUserRequestthread = true;
+                    stopGetUserRequestThread ( );
 
                     //when Driver is offline we have to stop send driver data to user
                     stopUpdateLocationThread ( );
+
 
                     //Saving the State of Switch
                     SharedPreferences.Editor editor = getSharedPreferences ( "switch_pref", MODE_PRIVATE ).edit ( );
@@ -429,10 +450,12 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         DriverButtonLayout.setVisibility ( View.GONE );
 
 
+        // Starting the GetUserRequestThread
+        startGetUserRequestThread ( );
+
+        //starting the send uer locationthread
         startUpdateLocationThread ( );
 
-
-        startGetUserDetailsThread ( );
 
 //        if (!DriverSharePrefManager.getInstance(this).DriverAlreadyLoggedIn()) {
 //
@@ -1066,7 +1089,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         String avilable = "checked";
 
         // when driver will click on this Online Button then Driver Location will start updating
-        startUpdateLocationThread ( );
+        //startUpdateLocationThread ( );
 
         DriverLoginData loginData = DriverSharePrefManager.getInstance ( DriverHomePageActivity.this ).getDriverDetail ( );
         String driver_Id = loginData.getDriver_id ( );
@@ -1235,11 +1258,8 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         String lat = String.valueOf ( sendDriverLatitude );
         String lang = String.valueOf ( sendDriverLongitude );
         LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
-//
-//        Toast.makeText(this, "number : " + Number + " " + "address : " + address + " " + "postalCode : " + postalCode + " " + "latitude : "
-//                + lat + " longitude : " + lang + " latLang : " + latlang, Toast.LENGTH_SHORT).show();
 
-        Call<PostDriverCurrentLocationResponse> call = ltgApi.postDriverLocation ( driverId, address, postalCode, lat, lang, latlang );
+        Call<PostDriverCurrentLocationResponse> call = ltgApi.postDriverLocation ( "pank9380", address, postalCode, lat, lang, latlang );
 
         call.enqueue ( new Callback<PostDriverCurrentLocationResponse> ( ) {
             @Override
@@ -1256,18 +1276,18 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                     String latlang = locationResponse.getData ( ).getLatlang ( );
 
                     // if driver accept the booking it will first send the Post current location and the send the current location
-                    if ( isAcceptBooking ) {
+                    if ( isAcceptBooking == true ) {
 
                         //sending driver current location to booked database
                         sendDriverLocation ( );
                         Toast.makeText ( DriverHomePageActivity.this, "Driver Accepted the Boking", Toast.LENGTH_SHORT ).show ( );
                     }
-//
-//                    Toast.makeText ( DriverHomePageActivity.this, "number : " + num + " " + "address : " + address + " " + "postalCode : " + postalCode + " " + "latitude : "
-//                            + lat + " longitude : " + lang + " latLang : " + latlang, Toast.LENGTH_SHORT ).show ( );
-//
-//
-//                    Toast.makeText ( DriverHomePageActivity.this, "Post Driver Location Executed Sucessfully", Toast.LENGTH_SHORT ).show ( );
+
+                    Toast.makeText ( DriverHomePageActivity.this, "number : " + num + " " + "address : " + address + " " + "postalCode : " + postalCode + " " + "latitude : "
+                            + lat + " longitude : " + lang + " latLang : " + latlang, Toast.LENGTH_SHORT ).show ( );
+
+
+                    //      Toast.makeText ( DriverHomePageActivity.this, "Post Driver Location Executed Sucessfully", Toast.LENGTH_SHORT ).show ( );
                 } else {
 
                     Toast.makeText ( DriverHomePageActivity.this, "Post Driver Location Unsucessfull", Toast.LENGTH_SHORT ).show ( );
@@ -1292,7 +1312,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         String driverId = loginData.getDriver_id ( );
         LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
 
-        Call<GetUserLocationResponse> call = ltgApi.getUserLocation ( driverId );
+        Call<GetUserLocationResponse> call = ltgApi.getUserLocation ( "pank9380" );
 
         call.enqueue ( new Callback<GetUserLocationResponse> ( ) {
             @Override
@@ -1318,13 +1338,19 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                             userLang = Double.parseDouble ( data.getUser_lang ( ) );
                             getUserTripStatus = data.getTrip_status ( );
 
-                            Toast.makeText ( DriverHomePageActivity.this, "Trip Status" + getUserTripStatus, Toast.LENGTH_SHORT ).show ( );
+                            //      Toast.makeText ( DriverHomePageActivity.this, "Trip Status" + getUserTripStatus, Toast.LENGTH_SHORT ).show ( );
 
                             if ( getUserTripStatus.equals ( "requested" ) ) {
 
-                                startGetUserDetailsThread ( );
 
                                 acceptBookingDialog ( Uname, Umobile, Uaddress );
+                            }
+                            if ( getUserTripStatus.equals ( "on-going" ) ) {
+
+                                DriverButtonLayout.setVisibility ( View.VISIBLE );
+
+                            } else {
+                                DriverButtonLayout.setVisibility ( View.GONE );
                             }
 
 
@@ -1411,7 +1437,9 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                 // if driver click on cancle button we will start to startGetUserDetailsThread to search of new user
                 openGetUserDialogBox = true;
-                startGetUserDetailsThread ( );
+                // making is Accept booking false so that location shold not update in booked location table
+                isAcceptBooking = false;
+                //    startGetUserDetailsThread ( );
 
                 Toast.makeText ( DriverHomePageActivity.this, " stopUserDetailthread = false", Toast.LENGTH_SHORT ).show ( );
             }
@@ -1422,17 +1450,16 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
             public void onClick ( View v ) {
 
                 Toast.makeText ( DriverHomePageActivity.this, "Accept booking button clicked", Toast.LENGTH_SHORT ).show ( );
-
+                // making is Accept booking true so that location should  update in booked location table
                 isAcceptBooking = true;
 
 
                 openGetUserDialogBox = false;
-                stopGetUserDetailsThread ( );
 
                 Toast.makeText ( DriverHomePageActivity.this, " openGetUserDialogBox = false", Toast.LENGTH_SHORT ).show ( );
 
                 // send driver current Location to database
-                PostDriverCurrentLocation ( );
+                getCurrentLocation ( );
 
                 // Getting URL to the Google Directions API
                 LatLng userLatLang = new LatLng ( userLat, userLang );
@@ -1476,7 +1503,11 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
                         // if driver click on cancle button we will start to startGetUserDetailsThread to search of new user
                         openGetUserDialogBox = true;
-                        startGetUserDetailsThread ( );
+
+
+                        //startGetUserDetailsThread ( );
+
+
                         driverPickUpLocation.setVisibility ( View.GONE );
 
                         // making Cancle and completeed button Visible
@@ -1504,7 +1535,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     private void cancleBooking ( ) {
 
         LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
-        Call<BookingStatusResponse> call = ltgApi.cancleBooking ( driverId, "cancelled" );
+        Call<BookingStatusResponse> call = ltgApi.cancleBooking ( "pank9380", "cancelled" );
         call.enqueue ( new Callback<BookingStatusResponse> ( ) {
             @Override
             public void onResponse ( Call<BookingStatusResponse> call, Response<BookingStatusResponse> response ) {
@@ -1540,7 +1571,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     private void BookingCompleted ( ) {
 
         LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
-        Call<BookingStatusResponse> call = ltgApi.tripCompleted ( driverId, "completed" );
+        Call<BookingStatusResponse> call = ltgApi.tripCompleted ( "pank9380", "completed" );
         call.enqueue ( new Callback<BookingStatusResponse> ( ) {
             @Override
             public void onResponse ( Call<BookingStatusResponse> call, Response<BookingStatusResponse> response ) {
@@ -1556,6 +1587,14 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                             .setAction ( "OK", null )
                             .setDuration ( 5000 )
                             .setActionTextColor ( Color.WHITE ).show ( );
+
+                    // when user will click completed button we making OpenGetUserDialogbox true so he can get new request
+                    openGetUserDialogBox = true;
+                    
+                    // making is Accept booking false so that location shold not update in booked location table
+                    isAcceptBooking = false;
+
+                    mMap.clear ( );
 
                     driverPickUpLocation.setVisibility ( View.GONE );
 
@@ -1582,7 +1621,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
         LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
 
-        Call<SendDriverLocationResponse> call = ltgApi.sendDriverLocation ( Umobile, driverId );
+        Call<SendDriverLocationResponse> call = ltgApi.sendDriverLocation ( "8755420120", "pank9380" );
 
         call.enqueue ( new Callback<SendDriverLocationResponse> ( ) {
             @Override
@@ -1616,10 +1655,12 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     }
 
 
-    //
+    //------------------------------Sending Driver Current location To Database-----------------//
+
+
     public void startUpdateLocationThread ( ) {
 
-        stopthread = false;
+        stopGetUserLocationupdatethread = false;
 
         updateLocationThread runnableThread = new updateLocationThread ( );
         new Thread ( runnableThread ).start ( );
@@ -1630,7 +1671,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
     public void stopUpdateLocationThread ( ) {
 
-        stopthread = true;
+        stopGetUserLocationupdatethread = true;
 
         //    Toast.makeText ( this, "Update Location Thread Stopped", Toast.LENGTH_SHORT ).show ( );
     }
@@ -1647,7 +1688,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                 @Override
                 public void run ( ) {
 
-                    if ( stopthread == false ) {
+                    if ( stopGetUserLocationupdatethread == false ) {
 
                         //Initiate your API here
                         handler.postDelayed ( this, 5000 );
@@ -1657,6 +1698,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                             // from get location we have to execute the PostDriver Location
                             getCurrentLocation ( );
 
+                            Toast.makeText ( DriverHomePageActivity.this, "SendDriverLocation Thread Working", Toast.LENGTH_SHORT ).show ( );
                         }
 
                     }
@@ -1670,21 +1712,27 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     }
 
 
+    //---------------XXX-------------Sending Driver Current location To Database--------XXX------//
+
+
+    //----------------------GetUserRequestThread------------------------------//
+
+
     // Get UserDetail Thread
-    public void startGetUserDetailsThread ( ) {
+    public void startGetUserRequestThread ( ) {
 
-        stopUserDetailthread = true;
+        stopGetUserRequestthread = false;
 
-        GetUserDetailsThread runnableThread = new GetUserDetailsThread ( );
+        GetUserRequestThread runnableThread = new GetUserRequestThread ( );
         new Thread ( runnableThread ).start ( );
 
         Toast.makeText ( this, "GetUser Detail Thread Started", Toast.LENGTH_SHORT ).show ( );
 
     }
 
-    public void stopGetUserDetailsThread ( ) {
+    public void stopGetUserRequestThread ( ) {
 
-        stopUserDetailthread = false;
+        stopGetUserRequestthread = true;
         Toast.makeText ( this, "GetUser Detail Thread Stopped", Toast.LENGTH_SHORT ).show ( );
 
     }
@@ -1692,7 +1740,7 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
 
     // Creating Thread to GetUserDetail and Show in DialoBox
 
-    class GetUserDetailsThread implements Runnable {
+    class GetUserRequestThread implements Runnable {
 
         Handler handler = new Handler ( );
 
@@ -1703,15 +1751,16 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
                 @Override
                 public void run ( ) {
 
-                    if ( stopthread == false ) {
+                    if ( stopGetUserRequestthread == false ) {
 
                         handler.postDelayed ( this, 5000 );
 
+                        // when  driver is onlone then  only this method will execute
                         if ( DriverIsOnline && openGetUserDialogBox == true ) {
 
                             // from get location we have to execute the PostDriver Location
                             getUserDetails ( );
-                            Toast.makeText ( DriverHomePageActivity.this, "GetDetail Thread Working", Toast.LENGTH_SHORT ).show ( );
+                            //        Toast.makeText ( DriverHomePageActivity.this, "GetDetail Thread Working", Toast.LENGTH_SHORT ).show ( );
                         }
                     }
 
@@ -1721,6 +1770,9 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
         }
 
     }
+
+
+    //------------XXXX----------GetUserRequestThread-------------XXXX-----------------//
 
 
     @Override
@@ -1741,9 +1793,13 @@ public class DriverHomePageActivity extends AppCompatActivity implements Navigat
     protected void onDestroy ( ) {
         super.onDestroy ( );
 
-        stopUpdateLocationThread ( );
+//        stopUpdateLocationThread ( );
 
-        stopGetUserDetailsThread ( );
+        // stop the GetUserRequestThread
+        stopGetUserRequestThread ( );
+
+        //stoping the location update
+        stopUpdateLocationThread ( );
     }
 }
 

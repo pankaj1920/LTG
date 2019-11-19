@@ -62,6 +62,12 @@
         <activity android:name=".User.UserHomePageActivity" />
         <activity android:name=".Driver.DriverHomePageActivity">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".Driver.UpdateAllDriverSetting.DriverUpdateAllSettingSuccessful"
@@ -168,11 +174,6 @@
         <activity
             android:name=".SplashScreen"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
     </application>
