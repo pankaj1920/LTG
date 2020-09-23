@@ -11,9 +11,8 @@ public class UserSharePrefManager {
     private static UserSharePrefManager sharePrefMamager;
     //to handle we need Context object
     private Context context;
+
     //Create Constructor
-
-
     public UserSharePrefManager(Context context) {
         this.context = context;
     }

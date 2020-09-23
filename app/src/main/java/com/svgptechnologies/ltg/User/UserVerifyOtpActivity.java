@@ -61,17 +61,17 @@ public class UserVerifyOtpActivity extends AppCompatActivity {
 
 
 
-        user_otp_verify = (Button) findViewById(R.id.user_otp_verify);
+        user_otp_verify = findViewById(R.id.user_otp_verify);
 
-        enterUserOtp = (EditText) findViewById(R.id.enterUserOtp);
+        enterUserOtp = findViewById(R.id.enterUserOtp);
 
-        ResendOtp = (TextView) findViewById(R.id.ResendOtp);
+        ResendOtp = findViewById(R.id.ResendOtp);
 
-        DisableResendOtp = (TextView) findViewById(R.id.DisableResendOtp);
+        DisableResendOtp = findViewById(R.id.DisableResendOtp);
 
-        ResendCountDown = (TextView) findViewById(R.id.ResendCountDown);
+        ResendCountDown = findViewById(R.id.ResendCountDown);
 
-        userOtpMobile = (TextView) findViewById(R.id.userOtpMobile);
+        userOtpMobile = findViewById(R.id.userOtpMobile);
 
         userOtpMobile.setText(UMobileNum);
 

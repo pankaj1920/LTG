@@ -38,7 +38,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/NotiConstLAyout"
         android:layout_width="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_height="103dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

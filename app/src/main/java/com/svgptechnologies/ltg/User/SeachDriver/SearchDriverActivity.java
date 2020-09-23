@@ -3,12 +3,15 @@ package com.svgptechnologies.ltg.User.SeachDriver;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -69,11 +72,11 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
     Toolbar searchToolbar;
     ImageView sorrySearchLogo;
     TextView sorySearchTxt, SearchToolbarTextView;
-    LatLng latLng = new LatLng ( latitude, longitude );
+    LatLng latLng = new LatLng(latitude, longitude);
     ImageView SearchDriverLogo, CallSearchDriver, RequestSearchDriver, RequestSentSucessfully, messageSearchDriver;
     String count = "1";
 
-    ArrayList<String> selectedItem = new ArrayList<> ( );
+    ArrayList<String> selectedItem = new ArrayList<>();
     int Count = 0;
     String getSelectedDriverNum;
     private static final long UPDATE_IN_MILL = 10000;
@@ -92,64 +95,64 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
 
 
     @Override
-    protected void onCreate ( Bundle savedInstanceState ) {
-        super.onCreate ( savedInstanceState );
-        setContentView ( R.layout.activity_search_driver );
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_driver);
 
 
-        searchDriverRecycle = findViewById ( R.id.searchDriverRecycle );
+        searchDriverRecycle = findViewById(R.id.searchDriverRecycle);
 
-        searchDriverSimmer = findViewById ( R.id.searchDriverSimmer );
-        searchDriverRecycle.setLayoutManager ( new LinearLayoutManager ( this ) );
+        searchDriverSimmer = findViewById(R.id.searchDriverSimmer);
+        searchDriverRecycle.setLayoutManager(new LinearLayoutManager(this));
 
-        sorySearchTxt = findViewById ( R.id.sorySearchTxt );
+        sorySearchTxt = findViewById(R.id.sorySearchTxt);
 
-        SearchToolbarTextView = findViewById ( R.id.SearchToolbarTextView );
+        SearchToolbarTextView = findViewById(R.id.SearchToolbarTextView);
 
-        sorrySearchLogo = findViewById ( R.id.sorrySearchLogo );
+        sorrySearchLogo = findViewById(R.id.sorrySearchLogo);
 
-        searchSwipeRefresh = findViewById ( R.id.searchSwipeRefresh );
+        searchSwipeRefresh = findViewById(R.id.searchSwipeRefresh);
 
-        searchToolbar = findViewById ( R.id.searchToolbar );
-        setSupportActionBar ( searchToolbar );
+        searchToolbar = findViewById(R.id.searchToolbar);
+        setSupportActionBar(searchToolbar);
 
 
-        searchSwipeRefresh.setColorSchemeResources ( R.color.colorAccent );
+        searchSwipeRefresh.setColorSchemeResources(R.color.colorAccent);
 
-        searchSwipeRefresh.setOnRefreshListener ( this );
+        searchSwipeRefresh.setOnRefreshListener(this);
 
         //here we are Loading driver list after refreshing
-        onLoadingSwipeRefresh ( );
+        onLoadingSwipeRefresh();
 
 
-        searchDriverSimmer.startShimmer ( );
+        searchDriverSimmer.startShimmer();
 
-        searchDriverSimmer.setVisibility ( View.VISIBLE );
-        searchDriverRecycle.setVisibility ( View.GONE );
+        searchDriverSimmer.setVisibility(View.VISIBLE);
+        searchDriverRecycle.setVisibility(View.GONE);
 
-        sorrySearchLogo.setVisibility ( View.GONE );
-        sorySearchTxt.setVisibility ( View.GONE );
+        sorrySearchLogo.setVisibility(View.GONE);
+        sorySearchTxt.setVisibility(View.GONE);
 
-        searchDriver ( );
+        searchDriver();
 
 
-        Bundle bundle = getIntent ( ).getExtras ( );
+        Bundle bundle = getIntent().getExtras();
 
-        latitude = bundle.getDouble ( "latitude" );
-        longitude = bundle.getDouble ( "longitude" );
-        address = bundle.getString ( "address" );
+        latitude = bundle.getDouble("latitude");
+        longitude = bundle.getDouble("longitude");
+        address = bundle.getString("address");
         //   pincode = bundle.getString("pincode");
 
 // calling and intalizing set location method
-        initial ( );
-        setlocation ( );
+        initial();
+//        setlocation();
 
 
     }
 
     @Override
-    protected void onStart ( ) {
-        super.onStart ( );
+    protected void onStart() {
+        super.onStart();
 
 //        searchDriverSimmer.startShimmer();
 //
@@ -162,104 +165,104 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
 //        searchDriver();
     }
 
-    private void searchDriver ( ) {
+    private void searchDriver() {
 
-        searchSwipeRefresh.setRefreshing ( true );
+        searchSwipeRefresh.setRefreshing(true);
 
-        Bundle bundle = getIntent ( ).getExtras ( );
-        String PinCode = bundle.getString ( "pincode" );
+        Bundle bundle = getIntent().getExtras();
+        String PinCode = bundle.getString("pincode");
 //        String PinCode = "262309";
-        final String vechile = bundle.getString ( "selectedVecgileName" );
+        final String vechile = bundle.getString("selectedVecgileName");
 //        final String vechile = "car";
 
-        if ( PinCode != null ) {
+        if (PinCode != null) {
 
 
-            LTGApi ltgApi = BaseClient.getBaseClient ( ).create ( LTGApi.class );
+            LTGApi ltgApi = BaseClient.getBaseClient().create(LTGApi.class);
 
-            Call<SearchDriverResponse> call = ltgApi.searchDriver ( PinCode, vechile, "available" );
+            Call<SearchDriverResponse> call = ltgApi.searchDriver(PinCode, vechile, "available");
 
-            call.enqueue ( new Callback<SearchDriverResponse> ( ) {
+            call.enqueue(new Callback<SearchDriverResponse>() {
                 @Override
-                public void onResponse ( Call<SearchDriverResponse> call, Response<SearchDriverResponse> response ) {
+                public void onResponse(Call<SearchDriverResponse> call, Response<SearchDriverResponse> response) {
 
-                    final SearchDriverResponse driverResponse = response.body ( );
+                    final SearchDriverResponse driverResponse = response.body();
 
-                    if ( response.isSuccessful ( ) && HttpURLConnection.HTTP_OK == response.code ( ) && driverResponse.getData ( ) != null ) {
-
-
-                        Toast.makeText ( SearchDriverActivity.this, "vichel Name : " + vechile, Toast.LENGTH_SHORT ).show ( );
+                    if (response.isSuccessful() && HttpURLConnection.HTTP_OK == response.code() && driverResponse.getData() != null) {
 
 
-                        adapter = new SearchDriverRecyclerAdapter ( SearchDriverActivity.this, driverResponse.getData ( ) );
-                        searchDriverRecycle.setAdapter ( adapter );
-
-                        searchDriverSimmer.stopShimmer ( );
-                        searchDriverSimmer.setVisibility ( View.GONE );
-
-                        searchDriverRecycle.setVisibility ( View.VISIBLE );
+                        Toast.makeText(SearchDriverActivity.this, "vichel Name : " + vechile, Toast.LENGTH_SHORT).show();
 
 
-                        adapter.setOnItemClickListner ( new SearchDriverRecyclerAdapter.OnItemClickListner ( ) {
+                        adapter = new SearchDriverRecyclerAdapter(SearchDriverActivity.this, driverResponse.getData());
+                        searchDriverRecycle.setAdapter(adapter);
+
+                        searchDriverSimmer.stopShimmer();
+                        searchDriverSimmer.setVisibility(View.GONE);
+
+                        searchDriverRecycle.setVisibility(View.VISIBLE);
+
+
+                        adapter.setOnItemClickListner(new SearchDriverRecyclerAdapter.OnItemClickListner() {
 
 
                             @Override
-                            public void onCallBtnClicked ( View itemview, int position ) {
+                            public void onCallBtnClicked(View itemview, int position) {
 
-                                CallSearchDriver = itemview.findViewById ( R.id.CallSearchDriver );
+                                CallSearchDriver = itemview.findViewById(R.id.CallSearchDriver);
 
-                                RequestSearchDriver = itemview.findViewById ( R.id.RequestSearchDriver );
+                                RequestSearchDriver = itemview.findViewById(R.id.RequestSearchDriver);
 
 
                                 //   Toast.makeText(SearchDriverActivity.this, User_Token, Toast.LENGTH_SHORT).show();
 
 
                                 // Getting Current Location Latitude and Longtitude
-                                setlocation ( );
+//                                setlocation();
 
-                                Handler handler = new Handler ( );
-                                handler.postDelayed ( new Runnable ( ) {
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
                                     @Override
-                                    public void run ( ) {
+                                    public void run() {
 
-                                        CallSearchDriver.setVisibility ( View.GONE );
-                                        RequestSearchDriver.setVisibility ( View.VISIBLE );
+                                        CallSearchDriver.setVisibility(View.GONE);
+                                        RequestSearchDriver.setVisibility(View.VISIBLE);
 
                                     }
-                                }, 7000 );
+                                }, 7000);
 
 
-                                String number = driverResponse.getData ( ).get ( position ).getMobile ( );
-                                DriverId = driverResponse.getData ( ).get ( position ).getId ( );
+                                String number = driverResponse.getData().get(position).getMobile();
+                                DriverId = driverResponse.getData().get(position).getId();
 
                                 // this method to count the Click the Count on Call btn Clicked
-                                CallClickCount ( DriverId );
+                                CallClickCount(DriverId);
 
                                 //Opening DialPad When User Will Click Call btn
                                 try {
 
-                                    Intent intent = new Intent ( Intent.ACTION_DIAL );
-                                    intent.setData ( Uri.parse ( "tel:" + number ) );
-                                    startActivity ( intent );
+                                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                                    intent.setData(Uri.parse("tel:" + number));
+                                    startActivity(intent);
                                 } catch (Exception e) {
-                                    Toast.makeText ( getBaseContext ( ), e.getMessage ( ),
-                                            Toast.LENGTH_LONG ).show ( );
+                                    Toast.makeText(getBaseContext(), e.getMessage(),
+                                            Toast.LENGTH_LONG).show();
                                 }
 
                             }
 
                             // This method is called when user click in send button
                             @Override
-                            public void onsendMessageClicked ( View itemview, int position ) {
+                            public void onsendMessageClicked(View itemview, int position) {
 
 
-                                String number = driverResponse.getData ( ).get ( position ).getMobile ( );
+                                String number = driverResponse.getData().get(position).getMobile();
 
 
-                                Intent intent = new Intent ( Intent.ACTION_SENDTO, Uri.parse ( "sms:" + number ) );
+                                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:" + number));
 
                                 //      intent.putExtra("sms_body", "remember to buy bread and milk");
-                                startActivity ( intent );
+                                startActivity(intent);
 
 
                                 // to send  sms to multiple user
@@ -272,169 +275,169 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
 
 
                             @Override
-                            public void onSendRequestToDriver ( View itemview, int position ) {
+                            public void onSendRequestToDriver(View itemview, int position) {
 
-                                String DriverId = driverResponse.getData ( ).get ( position ).getId ( );
+                                String DriverId = driverResponse.getData().get(position).getId();
                                 // this method is for to count the click of Send Request Button
-                                SendRequestClickCount ( DriverId );
+                                SendRequestClickCount(DriverId);
 
                                 // this method is for send user location to databse
                                 // and here we are passing driver number to this method
 
-                                postUserLocation ( DriverId );
+                                postUserLocation(DriverId);
                             }
 
                             @Override
-                            public void onCheckboxSelected ( View itemview, int position ) {
+                            public void onCheckboxSelected(View itemview, int position) {
 
 
                                 // here if user select the checkbox we have to store n arrayList and
                                 // if user unChecked the Checkbox the we have to remove item from array lsit
 
                                 // here we have to check wheateher user select or unSelect hte check box
-                                CheckBox selectMultipleDriverCheckbox = itemview.findViewById ( R.id.selectMultipleDriverCheckbox );
+                                CheckBox selectMultipleDriverCheckbox = itemview.findViewById(R.id.selectMultipleDriverCheckbox);
 
-                                if ( selectMultipleDriverCheckbox.isChecked ( ) ) {
+                                if (selectMultipleDriverCheckbox.isChecked()) {
 
                                     //if user select the checkBox in that case we have to save the selection to arrayList
 
                                     //get driver current selected number
-                                    getSelectedDriverNum = driverResponse.getData ( ).get ( position ).getMobile ( );
+                                    getSelectedDriverNum = driverResponse.getData().get(position).getMobile();
 
                                     // here we are add selected driver number in ArrayList
-                                    selectedItem.add ( getSelectedDriverNum );
+                                    selectedItem.add(getSelectedDriverNum);
 
-                                    Toast.makeText ( SearchDriverActivity.this, selectedItem.toString ( ), Toast.LENGTH_SHORT ).show ( );
+                                    Toast.makeText(SearchDriverActivity.this, selectedItem.toString(), Toast.LENGTH_SHORT).show();
 
                                     Count = Count + 1;
-                                    updateCounter ( Count );
+                                    updateCounter(Count);
 
                                 } else {
 
                                     // if user unSelect the item from checkbox we have to remove item from array list
 
                                     // get user unselected number
-                                    String unSelectedDriverNum = driverResponse.getData ( ).get ( position ).getMobile ( );
+                                    String unSelectedDriverNum = driverResponse.getData().get(position).getMobile();
 
                                     //removing unselected number present in selectedItem arrayList
-                                    selectedItem.remove ( unSelectedDriverNum );
+                                    selectedItem.remove(unSelectedDriverNum);
 
-                                    Toast.makeText ( SearchDriverActivity.this, selectedItem.toString ( ), Toast.LENGTH_SHORT ).show ( );
+                                    Toast.makeText(SearchDriverActivity.this, selectedItem.toString(), Toast.LENGTH_SHORT).show();
 
                                     // now we have to update Count
                                     Count = Count - 1;
-                                    updateCounter ( Count );
+                                    updateCounter(Count);
                                 }
 
 //                                Toast.makeText(SearchDriverActivity.this, CheckboxSelectedNumber.toString(), Toast.LENGTH_SHORT).show();
                             }
 
 
-                        } );
+                        });
 
-                        searchSwipeRefresh.setRefreshing ( false );
+                        searchSwipeRefresh.setRefreshing(false);
 
                     } else {
 
-                        searchSwipeRefresh.setRefreshing ( false );
+                        searchSwipeRefresh.setRefreshing(false);
 
-                        sorrySearchLogo.setVisibility ( View.VISIBLE );
-                        sorySearchTxt.setVisibility ( View.VISIBLE );
+                        sorrySearchLogo.setVisibility(View.VISIBLE);
+                        sorySearchTxt.setVisibility(View.VISIBLE);
 
-                        searchDriverSimmer.setVisibility ( View.GONE );
+                        searchDriverSimmer.setVisibility(View.GONE);
                         //      Toast.makeText(SearchDriverActivity.this, "UnSucessfull", Toast.LENGTH_SHORT).show();
                         //Toast.makeText(SearchDriverActivity.this, s, Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
-                public void onFailure ( Call<SearchDriverResponse> call, Throwable t ) {
+                public void onFailure(Call<SearchDriverResponse> call, Throwable t) {
 
 
-                    searchSwipeRefresh.setRefreshing ( false );
+                    searchSwipeRefresh.setRefreshing(false);
 
-                    Toast.makeText ( SearchDriverActivity.this, "Try Again", Toast.LENGTH_SHORT ).show ( );
+                    Toast.makeText(SearchDriverActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
                 }
-            } );
+            });
 
             // if pincode is null this block will execute
         } else {
 
-            searchSwipeRefresh.setRefreshing ( false );
+            searchSwipeRefresh.setRefreshing(false);
 
             //here we are showing servise unavialable in ur area
-            searchDriverSimmer.setVisibility ( View.GONE );
+            searchDriverSimmer.setVisibility(View.GONE);
 
-            sorrySearchLogo.setVisibility ( View.VISIBLE );
-            sorySearchTxt.setVisibility ( View.VISIBLE );
+            sorrySearchLogo.setVisibility(View.VISIBLE);
+            sorySearchTxt.setVisibility(View.VISIBLE);
 
         }
     }
 
 
     @Override
-    public void onRefresh ( ) {
+    public void onRefresh() {
 
-        searchDriverSimmer.startShimmer ( );
+        searchDriverSimmer.startShimmer();
 
-        searchDriverSimmer.setVisibility ( View.VISIBLE );
-        searchDriverRecycle.setVisibility ( View.GONE );
+        searchDriverSimmer.setVisibility(View.VISIBLE);
+        searchDriverRecycle.setVisibility(View.GONE);
 
-        sorrySearchLogo.setVisibility ( View.GONE );
-        sorySearchTxt.setVisibility ( View.GONE );
+        sorrySearchLogo.setVisibility(View.GONE);
+        sorySearchTxt.setVisibility(View.GONE);
 
-        searchDriver ( );
+        searchDriver();
 
         // whenever the user will refresh the value of count will be 0.
         Count = 0;
 
         // if  user is in selectMultipleDriver Mode and he click refresh
         // the toolbar textView will become ("0 item is Selected") and the arrayList Contain the numer will be empty
-        if ( is_in_Action_mode == true ) {
+        if (is_in_Action_mode == true) {
 
             // changeing the textView when user Click refresh
-            SearchToolbarTextView.setText ( "0 item is Selected" );
+            SearchToolbarTextView.setText("0 item is Selected");
 
             // removing all the number in list when user click refresh
-            selectedItem.clear ( );
+            selectedItem.clear();
         }
 
-        Toast.makeText ( this, selectedItem.toString ( ), Toast.LENGTH_SHORT ).show ( );
+        Toast.makeText(this, selectedItem.toString(), Toast.LENGTH_SHORT).show();
     }
 
-    public void onLoadingSwipeRefresh ( ) {
+    public void onLoadingSwipeRefresh() {
 
-        searchDriverSimmer.startShimmer ( );
+        searchDriverSimmer.startShimmer();
 
-        searchDriverSimmer.setVisibility ( View.VISIBLE );
-        searchDriverRecycle.setVisibility ( View.GONE );
+        searchDriverSimmer.setVisibility(View.VISIBLE);
+        searchDriverRecycle.setVisibility(View.GONE);
 
-        sorrySearchLogo.setVisibility ( View.GONE );
-        sorySearchTxt.setVisibility ( View.GONE );
+        sorrySearchLogo.setVisibility(View.GONE);
+        sorySearchTxt.setVisibility(View.GONE);
 
-        searchDriver ( );
+        searchDriver();
 
     }
 
 
     @Override
-    public void onBackPressed ( ) {
+    public void onBackPressed() {
 
 
         // if Contextual action mode is enable and back is pressed then Contetual ActionMode is closed
-        if ( is_in_Action_mode ) {
+        if (is_in_Action_mode) {
 
-            clearActionMode ( );
-            adapter.notifyDataSetChanged ( );
+            clearActionMode();
+            adapter.notifyDataSetChanged();
 
         } else {
 
             // if Contextual action bar is not enable and back is pressed then app will exit
-            Intent intent = new Intent ( SearchDriverActivity.this, UserHomePageActivity.class );
-            startActivity ( intent );
-            finish ( );
+            Intent intent = new Intent(SearchDriverActivity.this, UserHomePageActivity.class);
+            startActivity(intent);
+            finish();
 
-            super.onBackPressed ( );
+            super.onBackPressed();
         }
 
     }
@@ -442,49 +445,59 @@ public class SearchDriverActivity extends AppCompatActivity implements SwipeRefr
 
     // Getting Current Location
 
-    public void setlocation ( ) {
-
-        msettingsClient.checkLocationSettings ( locationSettingsRequest )
-                .addOnSuccessListener ( this, new OnSuccessListener<LocationSettingsResponse> ( ) {
-                    @Override
-                    public void onSuccess ( LocationSettingsResponse locationSettingsResponse ) {
-
-                        mfusedLocationProviderClient.requestLocationUpdates ( locationRequest, locationCallback, Looper.myLooper ( ) );
-
-                        if ( currentlocation != null ) {
-
-                            CurrentLong = currentlocation.getLatitude ( );
-                            CurrentLat = currentlocation.getLongitude ( );
-
-
-                        }
-
-                    }
-                } ).addOnFailureListener ( this, new OnFailureListener ( ) {
-            @Override
-            public void onFailure ( @NonNull Exception e ) {
-
-                int code = (( ApiException ) e).getStatusCode ( );
-
-                switch (code) {
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-
-                        ResolvableApiException eae = ( ResolvableApiException ) e;
-
-                        try {
-                            eae.startResolutionForResult ( SearchDriverActivity.this, code );
-                        } catch (IntentSender.SendIntentException ex) {
-                            ex.printStackTrace ( );
-                        }
-                        break;
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        //  Toast.makeText(SearchDriverActivity.this, "check your settings", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        } );
-
-    }
+//    public void setlocation() {
+//
+//        msettingsClient.checkLocationSettings(locationSettingsRequest)
+//                .addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+//                    @Override
+//                    public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+//
+//                        if (ActivityCompat.checkSelfPermission(SearchDriverActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                            // TODO: Consider calling
+//                            //    ActivityCompat#requestPermissions
+//                            // here to request the missing permissions, and then overriding
+//                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                            //                                             int[] grantResults)
+//                            // to handle the case where the user grants the permission. See the documentation
+//                            // for ActivityCompat#requestPermissions for more details.
+//                            return;
+//                        }
+//                        mfusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+//
+//                        if ( currentlocation != null ) {
+//
+//                            CurrentLong = currentlocation.getLatitude ( );
+//                            CurrentLat = currentlocation.getLongitude ( );
+//
+//
+//                        }
+//
+//                    }
+//                } ).addOnFailureListener ( this, new OnFailureListener ( ) {
+//            @Override
+//            public void onFailure ( @NonNull Exception e ) {
+//
+//                int code = (( ApiException ) e).getStatusCode ( );
+//
+//                switch (code) {
+//                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+//
+//                        ResolvableApiException eae = ( ResolvableApiException ) e;
+//
+//                        try {
+//                            eae.startResolutionForResult ( SearchDriverActivity.this, code );
+//                        } catch (IntentSender.SendIntentException ex) {
+//                            ex.printStackTrace ( );
+//                        }
+//                        break;
+//                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+//                        //  Toast.makeText(SearchDriverActivity.this, "check your settings", Toast.LENGTH_SHORT).show();
+//                        break;
+//                }
+//            }
+//        } );
+//
+//    }
 
 
     public void initial ( ) {

@@ -108,7 +108,7 @@ public class UserUploadImageActivity extends AppCompatActivity {
                 Uri selectedImage = data.getData();
 
 
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                String[] filePathColumn = null;
 
                 Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                 assert cursor != null;
@@ -191,6 +191,9 @@ public class UserUploadImageActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 
 
     //Runtime Permission so that it can AutoVerify The Otp in EnterOtpActivity

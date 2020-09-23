@@ -59,14 +59,16 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".User.UserHomePageActivity" />
-        <activity android:name=".Driver.DriverHomePageActivity">
-
+        <activity android:name=".User.UserHomePageActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".Driver.DriverHomePageActivity">
+
 
         </activity>
         <activity

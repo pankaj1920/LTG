@@ -143,139 +143,139 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager ( this, LinearLayoutManager.HORIZONTAL, false );
         VichleCategoryRecycle.setLayoutManager ( layoutManager );
 
-
-        //checking the inernet connection
-        checkInternetConnection ( );
-
-        // calling Vechile Category method to display vichel category
-        vechileCategory ( );
-
-
-        //mean whenever user will drag the map by default address will change in pickupLocation EditText
-        //isValid = true;
-
-        user_drawer_layout = findViewById ( R.id.user_drawer_layout );
-
-        //to handel the click event of navigation view we need refrence of navigation view
-        NavigationView navigationView = findViewById ( R.id.user_nav_view );
-        navigationView.setNavigationItemSelectedListener ( this );
-
-        //to get drawerIcon to open Nav Drawer
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle ( UserHomePageActivity.this,
-                user_drawer_layout, userHomeToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
-
-        //to change the toggle buttom on nav drawer
-        toggle.getDrawerArrowDrawable ( ).setColor ( getResources ( ).getColor ( R.color.white ) );
-        user_drawer_layout.addDrawerListener ( toggle );
-        toggle.syncState ( );
-
-
-        // getting nav header so tthat we can change detail of navHeader
-        View headerView = navigationView.getHeaderView ( 0 );
-
-        //Nav Header Name
-        UNname = headerView.findViewById ( R.id.UNname );
-
-        //NavHeader Number
-        UNmobile = headerView.findViewById ( R.id.UNmobile );
-
-        UNaccountImage = headerView.findViewById ( R.id.UNaccountImage );
-
-
-        //Setting UserNavDetail
-        setNavDetail ( );
-        getNavNameFromUpdateName ( );
-
-        //Strating the GetDriverLocationThread
-        startGetDriverLocationThread ( );
-
-
-        UNname.setOnClickListener ( new View.OnClickListener ( ) {
-            @Override
-            public void onClick ( View v ) {
-
-                Intent intent = new Intent ( UserHomePageActivity.this, UserAccountSettingActivity.class );
-                startActivity ( intent );
-
-            }
-        } );
-
-        UNmobile.setOnClickListener ( new View.OnClickListener ( ) {
-            @Override
-            public void onClick ( View v ) {
-
-                Intent intent = new Intent ( UserHomePageActivity.this, UserAccountSettingActivity.class );
-                startActivity ( intent );
-            }
-        } );
-
-        UNaccountImage.setOnClickListener ( new View.OnClickListener ( ) {
-            @Override
-            public void onClick ( View v ) {
-
-                Intent intent = new Intent ( UserHomePageActivity.this, UserAccountSettingActivity.class );
-                startActivity ( intent );
-            }
-        } );
-
-
-        UserBtnBookNow.setOnClickListener ( new View.OnClickListener ( ) {
-            @Override
-            public void onClick ( View v ) {
-
-                Intent intent = new Intent ( UserHomePageActivity.this, SearchDriverActivity.class );
-
-                Bundle bundle = new Bundle ( );
-
-                bundle.putDouble ( "latitude", latitude );
-                bundle.putDouble ( "longitude", longitude );
-                bundle.putString ( "address", address );
-                bundle.putString ( "pincode", Pincode );
-                bundle.putString ( "selectedVecgileName", SelectedVechileName );
-                intent.putExtras ( bundle );
-
-                // when vechile is not null mean vichel is selected then it will go to SearchDriverActivity
-                if ( SelectedVechileName != null ) {
-
-                    startActivity ( intent );
-                } else {
-
-                    // when vechile is not selected and it is null then this toast will come
-                    Toast.makeText ( UserHomePageActivity.this, "Select Service Type", Toast.LENGTH_SHORT ).show ( );
-                    return;
-                }
-
-
-            }
-        } );
-
-        UserBtnBookLater.setOnClickListener ( new View.OnClickListener ( ) {
-            @Override
-            public void onClick ( View v ) {
-
-                getDriverLocation ( );
-            }
-        } );
-
-
-        userPickupLocation.setOnClickListener ( new View.OnClickListener ( ) {
-            @Override
-            public void onClick ( View view ) {
-
-                UserPickupMarker.setVisibility ( View.VISIBLE );
-//                UserDropMarker.setVisibility(View.GONE);
-
-                //   isValid = false;
-            }
-        } );
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = ( SupportMapFragment ) getSupportFragmentManager ( )
-                .findFragmentById ( R.id.Usermap );
-        mapFragment.getMapAsync ( this );
-
-        //to set My Location Button at Botton
-        mapView = mapFragment.getView ( );
+//
+//        //checking the inernet connection
+////        checkInternetConnection ( );
+//
+//        // calling Vechile Category method to display vichel category
+////        vechileCategory ( );
+//
+//
+//        //mean whenever user will drag the map by default address will change in pickupLocation EditText
+//        //isValid = true;
+//
+//        user_drawer_layout = findViewById ( R.id.user_drawer_layout );
+//
+//        //to handel the click event of navigation view we need refrence of navigation view
+//        NavigationView navigationView = findViewById ( R.id.user_nav_view );
+//        navigationView.setNavigationItemSelectedListener ( this );
+//
+//        //to get drawerIcon to open Nav Drawer
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle ( UserHomePageActivity.this,
+//                user_drawer_layout, userHomeToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
+//
+//        //to change the toggle buttom on nav drawer
+//        toggle.getDrawerArrowDrawable ( ).setColor ( getResources ( ).getColor ( R.color.white ) );
+//        user_drawer_layout.addDrawerListener ( toggle );
+//        toggle.syncState ( );
+//
+//
+//        // getting nav header so tthat we can change detail of navHeader
+//        View headerView = navigationView.getHeaderView ( 0 );
+//
+//        //Nav Header Name
+//        UNname = headerView.findViewById ( R.id.UNname );
+//
+//        //NavHeader Number
+//        UNmobile = headerView.findViewById ( R.id.UNmobile );
+//
+//        UNaccountImage = headerView.findViewById ( R.id.UNaccountImage );
+//
+//
+////        //Setting UserNavDetail
+////        setNavDetail ( );
+////        getNavNameFromUpdateName ( );
+////
+////        //Strating the GetDriverLocationThread
+////        startGetDriverLocationThread ( );
+//
+//
+//        UNname.setOnClickListener ( new View.OnClickListener ( ) {
+//            @Override
+//            public void onClick ( View v ) {
+//
+//                Intent intent = new Intent ( UserHomePageActivity.this, UserAccountSettingActivity.class );
+//                startActivity ( intent );
+//
+//            }
+//        } );
+//
+//        UNmobile.setOnClickListener ( new View.OnClickListener ( ) {
+//            @Override
+//            public void onClick ( View v ) {
+//
+//                Intent intent = new Intent ( UserHomePageActivity.this, UserAccountSettingActivity.class );
+//                startActivity ( intent );
+//            }
+//        } );
+//
+//        UNaccountImage.setOnClickListener ( new View.OnClickListener ( ) {
+//            @Override
+//            public void onClick ( View v ) {
+//
+//                Intent intent = new Intent ( UserHomePageActivity.this, UserAccountSettingActivity.class );
+//                startActivity ( intent );
+//            }
+//        } );
+//
+//
+//        UserBtnBookNow.setOnClickListener ( new View.OnClickListener ( ) {
+//            @Override
+//            public void onClick ( View v ) {
+//
+//                Intent intent = new Intent ( UserHomePageActivity.this, SearchDriverActivity.class );
+//
+//                Bundle bundle = new Bundle ( );
+//
+//                bundle.putDouble ( "latitude", latitude );
+//                bundle.putDouble ( "longitude", longitude );
+//                bundle.putString ( "address", address );
+//                bundle.putString ( "pincode", Pincode );
+//                bundle.putString ( "selectedVecgileName", SelectedVechileName );
+//                intent.putExtras ( bundle );
+//
+//                // when vechile is not null mean vichel is selected then it will go to SearchDriverActivity
+//                if ( SelectedVechileName != null ) {
+//
+//                    startActivity ( intent );
+//                } else {
+//
+//                    // when vechile is not selected and it is null then this toast will come
+//                    Toast.makeText ( UserHomePageActivity.this, "Select Service Type", Toast.LENGTH_SHORT ).show ( );
+//                    return;
+//                }
+//
+//
+//            }
+//        } );
+//
+//        UserBtnBookLater.setOnClickListener ( new View.OnClickListener ( ) {
+//            @Override
+//            public void onClick ( View v ) {
+//
+//                getDriverLocation ( );
+//            }
+//        } );
+//
+//
+//        userPickupLocation.setOnClickListener ( new View.OnClickListener ( ) {
+//            @Override
+//            public void onClick ( View view ) {
+//
+//                UserPickupMarker.setVisibility ( View.VISIBLE );
+////                UserDropMarker.setVisibility(View.GONE);
+//
+//                //   isValid = false;
+//            }
+//        } );
+//
+////        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+////        SupportMapFragment mapFragment = ( SupportMapFragment ) getSupportFragmentManager ( )
+////                .findFragmentById ( R.id.Usermap );
+////        mapFragment.getMapAsync ( this );
+////
+////        //to set My Location Button at Botton
+////        mapView = mapFragment.getView ( );
 
 
     }
@@ -374,22 +374,22 @@ public class UserHomePageActivity extends AppCompatActivity implements Navigatio
 
     }
 
-    @Override
-    protected void onStart ( ) {
-        super.onStart ( );
-
-        startGetDriverLocationThread ( );
-
-        veichleCategorySimmer.startShimmer ( );
-        veichleCategorySimmer.setVisibility ( View.VISIBLE );
-
-        if ( ! UserSharePrefManager.getInstance ( this ).UserAlreadyLoggedIn ( ) ) {
-            Intent intent = new Intent ( UserHomePageActivity.this, UserLoginActivity.class );
-            intent.setFlags ( Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
-            startActivity ( intent );
-            finish ( );
-        }
-    }
+//    @Override
+//    protected void onStart ( ) {
+//        super.onStart ( );
+//
+////        startGetDriverLocationThread ( );
+//
+//        veichleCategorySimmer.startShimmer ( );
+//        veichleCategorySimmer.setVisibility ( View.VISIBLE );
+//
+//        if ( ! UserSharePrefManager.getInstance ( this ).UserAlreadyLoggedIn ( ) ) {
+//            Intent intent = new Intent ( UserHomePageActivity.this, UserLoginActivity.class );
+//            intent.setFlags ( Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+//            startActivity ( intent );
+//            finish ( );
+//        }
+//    }
 
     @Override
     protected void onPause ( ) {
